@@ -1,17 +1,13 @@
 create table if not exists authorities
 (
-    id          bigint auto_increment
-    primary key,
+    id          bigint auto_increment primary key,
     name        varchar(100)      not null,
-    type        tinyint default 1 not null comment '1-system
-2-normal',
     description text              null
-    );
+);
 
 create table if not exists `groups`
 (
-    id                 bigint auto_increment
-    primary key,
+    id                 bigint auto_increment primary key,
     created_by         varchar(255) null,
     created_date       datetime(6)  null,
     last_modified_by   varchar(255) null,
@@ -19,12 +15,15 @@ create table if not exists `groups`
     description        varchar(500) null,
     name               varchar(100) null,
     status             int(1)       not null
-    );
+);
+
+ALTER TABLE
+    `groups`
+    AUTO_INCREMENT = 1000;
 
 create table if not exists users
 (
-    id                    bigint auto_increment
-    primary key,
+    id                    bigint auto_increment primary key,
     created_by            varchar(255) null,
     created_date          datetime(6)  null,
     last_modified_by      varchar(255) null,
@@ -45,13 +44,14 @@ create table if not exists users
     preferred_username    varchar(255) not null,
     unsigned_name         varchar(255) null,
     username              varchar(255) not null,
-    constraint uk_users_email
-    unique (email),
-    constraint uk_users_username
-    unique (username),
-    constraint users_preferred_username_uindex
-    unique (preferred_username)
-    );
+    constraint uk_users_email unique (email),
+    constraint uk_users_username unique (username),
+    constraint users_preferred_username_uindex unique (preferred_username)
+);
+
+ALTER TABLE
+    users
+    AUTO_INCREMENT = 1000;
 
 create table if not exists access_tokens
 (
@@ -60,20 +60,17 @@ create table if not exists access_tokens
     expired_at datetime(6)  null,
     status     int(1)       not null,
     primary key (id),
-    constraint fk_access_tokens__users
-    foreign key (user_id) references users (id)
-    );
+    constraint fk_access_tokens__users foreign key (user_id) references users (id)
+);
 
 create table if not exists group_members
 (
     user_id  bigint not null,
     group_id bigint not null,
     primary key (user_id, group_id),
-    constraint fk_group_members__groups
-    foreign key (group_id) references `groups` (id),
-    constraint fk_group_members__users
-    foreign key (user_id) references users (id)
-    );
+    constraint fk_group_members__groups foreign key (group_id) references `groups` (id),
+    constraint fk_group_members__users foreign key (user_id) references users (id)
+);
 
 create table if not exists refresh_tokens
 (
@@ -83,18 +80,14 @@ create table if not exists refresh_tokens
     expired_at      datetime(6)  null,
     status          int(1)       not null,
     primary key (id),
-    constraint fk_refresh_tokens__access_tokens
-    foreign key (access_token_id) references access_tokens (id)
-    );
+    constraint fk_refresh_tokens__access_tokens foreign key (access_token_id) references access_tokens (id)
+);
 
 create table if not exists user_authorities
 (
     user_id      bigint not null,
     authority_id bigint not null,
     primary key (user_id, authority_id),
-    constraint user_authorities_authorities_id_fk
-    foreign key (authority_id) references authorities (id),
-    constraint user_authorities_users_id_fk
-    foreign key (user_id) references users (id)
-    );
-
+    constraint user_authorities_authorities_id_fk foreign key (authority_id) references authorities (id),
+    constraint user_authorities_users_id_fk foreign key (user_id) references users (id)
+);

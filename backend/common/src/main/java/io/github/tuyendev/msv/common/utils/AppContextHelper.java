@@ -1,6 +1,6 @@
 package io.github.tuyendev.msv.common.utils;
 
-import io.github.tuyendev.msv.common.CommonConstants;
+import io.github.tuyendev.msv.common.constant.UserEntity;
 import io.github.tuyendev.msv.common.security.user.SecuredUser;
 import io.github.tuyendev.msv.common.security.user.SecuredUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class AppContextHelper {
     }
 
     public static Long getCurrentLoginUserId() {
-        return getCurrentLoginUser().map(SecuredUser::getId).orElse(CommonConstants.User.DEFAULT_USER_ADMIN_ID);
+        return getCurrentLoginUser().map(SecuredUser::getId).orElse(UserEntity.DEFAULT_USER_ADMIN_ID);
     }
 
 }

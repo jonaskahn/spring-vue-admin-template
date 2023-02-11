@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Builder
 @Getter
 @Setter
 @ToString
@@ -21,8 +23,10 @@ import java.util.Set;
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
+    @GenericGenerator(name = "UseExistingIdOtherwiseGenerateId",
+            strategy = "io.github.tuyendev.msv.common.entity.extras.UseExistingIdOtherwiseGenerateId")
+    @GeneratedValue(generator = "UseExistingIdOtherwiseGenerateId")
     private Long id;
 
     @Size(max = 255)

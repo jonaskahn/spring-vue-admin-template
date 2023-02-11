@@ -10,6 +10,7 @@ import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Builder
 @Getter
 @Setter
 @ToString
@@ -27,10 +28,6 @@ public class Authority {
     @NotNull
     @Column(name = "name", nullable = false, length = 100)
     private String name;
-
-    @NotNull
-    @Column(name = "type", nullable = false)
-    private Integer type;
 
     @Lob
     @Column(name = "description")

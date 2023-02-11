@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.Instant;
 import java.util.LinkedHashSet;
@@ -20,8 +21,10 @@ import java.util.Set;
 @Table(name = "groups")
 public class Group {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
+    @GenericGenerator(name = "UseExistingIdOtherwiseGenerateId",
+            strategy = "io.github.tuyendev.msv.common.entity.extras.UseExistingIdOtherwiseGenerateId")
+    @GeneratedValue(generator = "UseExistingIdOtherwiseGenerateId")
     private Long id;
 
     @Size(max = 255)

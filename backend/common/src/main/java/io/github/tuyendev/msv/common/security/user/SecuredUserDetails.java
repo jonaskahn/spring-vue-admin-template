@@ -1,6 +1,6 @@
 package io.github.tuyendev.msv.common.security.user;
 
-import io.github.tuyendev.msv.common.CommonConstants;
+import io.github.tuyendev.msv.common.constant.EntityStatus;
 import one.util.streamex.StreamEx;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.GrantedAuthority;
@@ -46,7 +46,7 @@ public class SecuredUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return Objects.equals(this.user.getLocked(), CommonConstants.EntityStatus.UNLOCKED);
+        return Objects.equals(this.user.getLocked(), EntityStatus.UNLOCKED);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class SecuredUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return Objects.equals(user.getEnabled(), CommonConstants.EntityStatus.ACTIVE);
+        return Objects.equals(user.getEnabled(), EntityStatus.ENABLED);
     }
 
     public SecuredUser getUser() {

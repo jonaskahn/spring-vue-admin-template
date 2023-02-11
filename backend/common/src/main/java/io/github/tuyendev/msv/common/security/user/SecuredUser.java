@@ -1,6 +1,7 @@
 package io.github.tuyendev.msv.common.security.user;
 
-import io.github.tuyendev.msv.common.CommonConstants;
+import io.github.tuyendev.msv.common.constant.EntityStatus;
+import io.github.tuyendev.msv.common.constant.UserEntity;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -12,7 +13,7 @@ public interface SecuredUser extends Serializable {
 
         @Override
         public Long getId() {
-            return CommonConstants.User.DEFAULT_USER_ANONYMOUS_ID;
+            return UserEntity.DEFAULT_USER_ANONYMOUS_ID;
         }
 
         @Override
@@ -42,12 +43,12 @@ public interface SecuredUser extends Serializable {
 
         @Override
         public Integer getEnabled() {
-            return CommonConstants.EntityStatus.ACTIVE;
+            return EntityStatus.ENABLED;
         }
 
         @Override
         public Integer getLocked() {
-            return CommonConstants.EntityStatus.UNLOCKED;
+            return EntityStatus.UNLOCKED;
         }
 
         @Override
