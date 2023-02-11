@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class MSVApp {
-	public static void main(String[] args) {
-		SpringApplication.run(MSVApp.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MSVApp.class, args);
+    }
 }

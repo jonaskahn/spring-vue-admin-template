@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 volumes:
   mariadb:
@@ -7,20 +7,19 @@ volumes:
 
 services:
   mariadb:
-    image: bitnami/mariadb:10.6
+    image: mariadb:10.6
     container_name: mariadb
     hostname: mariadb
     restart: unless-stopped
     ports:
       - 3306:3306
     environment:
-      - MARIADB_ROOT_USER=root
-      - MARIADB_ROOT_PASSWORD=development
-      - MARIADB_USER=app
-      - MARIADB_PASSWORD=development
-      - MARIADB_DATABASE=app
+      - MYSQL_ROOT_PASSWORD=development
+      - MYSQL_USER=app
+      - MYSQL_PASSWORD=development
+      - MYSQL_DATABASE=app
     volumes:
-      - mariadb:/bitnami/mariadb
+      - mariadb:/var/lib/mysql
   mongodb:
     image: mongo:latest
     container_name: mongodb
@@ -31,13 +30,11 @@ services:
     volumes:
       - mongodb:/data/db
   redis:
-    image: bitnami/redis:latest
+    image: redis:latest
     container_name: redis
     hostname: redis
     restart: unless-stopped
     ports:
       - 6379:6379
-    environment:
-      - REDIS_PASSWORD=development
     volumes:
-      - redis:/bitnami/redis/data
+      - redis:/data
