@@ -1,37 +1,67 @@
 package io.github.tuyendev.msv.common.token;
 
-import io.github.tuyendev.msv.common.security.jwt.JwtTokenStore;
-
 import java.util.Date;
 
+import io.github.tuyendev.msv.common.constant.EntityStatus;
+import io.github.tuyendev.msv.common.entity.MongoAccessToken;
+import io.github.tuyendev.msv.common.entity.MongoRefreshToken;
+import io.github.tuyendev.msv.common.exception.jwt.RevokedJwtTokenException;
+import io.github.tuyendev.msv.common.repository.MongoAccessTokenRepository;
+import io.github.tuyendev.msv.common.repository.MongoRefreshTokenRepository;
+import io.github.tuyendev.msv.common.security.jwt.JwtTokenStore;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequiredArgsConstructor
 public class MongoJwtTokenStoreService implements JwtTokenStore {
-    @Override
-    public void saveAccessToken(String id, Long userId, Date expiration) {
 
-    }
+	private final MongoAccessTokenRepository accessTokenRepo;
 
-    @Override
-    public void saveRefreshToken(String id, String accessTokenId, Long userId, Date expiration) {
+	private final MongoRefreshTokenRepository refreshTokenRepo;
 
-    }
+	@Override
+	public void saveAccessToken(String id, Long userId, Date expiration) {
+		MongoAccessToken accessToken = MongoAccessToken.builder()
+				.id(id)
+				.userId(userId)
+				.status(EntityStatus.ACTIVE)
+				.expiredAt(expiration.toInstant())
+				.build();
+		accessTokenRepo.save(accessToken);
+	}
 
-    @Override
-    public Long getUserIdByRefreshTokenId(String refreshTokenId) {
-        return null;
-    }
+	@Override
+	public void saveRefreshToken(String id, String accessTokenId, Long userId, Date expiration) {
+		MongoRefreshToken refreshToken = MongoRefreshToken.builder()
+				.id(id)
+				.accessTokenId(accessTokenId)
+				.userId(userId)
+				.expiredAt(expiration.toInstant())
+				.status(EntityStatus.ACTIVE)
+				.build();
+		refreshTokenRepo.save(refreshToken);
+	}
 
-    @Override
-    public void inactiveAccessTokenById(String id) {
+	@Override
+	public Long getUserIdByRefreshTokenId(String refreshTokenId) {
+		return refreshTokenRepo.findActiveMongoRefreshTokenById(refreshTokenId)
+				.map(MongoRefreshToken::getUserId)
+				.orElseThrow(RevokedJwtTokenException::new);
+	}
 
-    }
+	@Override
+	public void inactiveAccessTokenById(String id) {
+		accessTokenRepo.deactivateAccessTokenById(id);
+	}
 
-    @Override
-    public void inactiveRefreshTokenById(String id) {
+	@Override
+	public void inactiveRefreshTokenById(String id) {
+		refreshTokenRepo.deactivateRefreshTokenById(id);
+	}
 
-    }
-
-    @Override
-    public boolean isAccessTokenExisted(String accessTokenId) {
-        return false;
-    }
+	@Override
+	public boolean isAccessTokenExisted(String accessTokenId) {
+		return accessTokenRepo.existsActiveMongoAccessTokenById(accessTokenId);
+	}
 }

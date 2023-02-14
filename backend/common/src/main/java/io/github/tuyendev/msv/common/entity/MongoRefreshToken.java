@@ -1,34 +1,30 @@
 package io.github.tuyendev.msv.common.entity;
 
+import java.io.Serializable;
+import java.time.Instant;
+
 import lombok.Builder;
 import lombok.Data;
-import org.bson.types.ObjectId;
+
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Data
 @Builder
 @Document(value = "refresh_tokens")
 public class MongoRefreshToken implements Serializable {
 
-    @Id
-    private ObjectId id;
+	@Id
+	private String id;
 
-    @Indexed
-    private ObjectId accessTokenId;
+	@Indexed
+	private String accessTokenId;
 
-    @Indexed
-    private Long userId;
+	@Indexed
+	private Long userId;
 
-    @Transient
-    private String token;
+	private Integer status;
 
-    private Integer status;
-
-    private LocalDateTime expiredAt;
+	private Instant expiredAt;
 }

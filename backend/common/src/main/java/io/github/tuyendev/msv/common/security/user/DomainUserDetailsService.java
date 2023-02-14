@@ -4,7 +4,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface DomainUserDetailsService extends UserDetailsService {
 
-    SecuredUserDetails loadUserByUserId(final Long userId);
+	SecuredUserDetails loadUserByUserId(final Long userId);
 
-    SecuredUserDetails loadUserByPreferredUsername(final String preferredUsername);
+	SecuredUserDetails loadUserByPreferredUsername(final String preferredUsername);
 }

@@ -1,38 +1,68 @@
 package io.github.tuyendev.msv.common.token;
 
-import io.github.tuyendev.msv.common.security.jwt.JwtTokenStore;
-
 import java.util.Date;
 
+import io.github.tuyendev.msv.common.constant.EntityStatus;
+import io.github.tuyendev.msv.common.entity.AccessToken;
+import io.github.tuyendev.msv.common.entity.RefreshToken;
+import io.github.tuyendev.msv.common.exception.jwt.RevokedJwtTokenException;
+import io.github.tuyendev.msv.common.repository.AccessTokenRepository;
+import io.github.tuyendev.msv.common.repository.RefreshTokenRepository;
+import io.github.tuyendev.msv.common.security.jwt.JwtTokenStore;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequiredArgsConstructor
 public class JpaJwtTokenStoreService implements JwtTokenStore {
 
-    @Override
-    public void saveAccessToken(String id, Long userId, Date expiration) {
+	private final AccessTokenRepository accessTokenRepo;
 
-    }
+	private final RefreshTokenRepository refreshTokenRepo;
 
-    @Override
-    public void saveRefreshToken(String id, String accessTokenId, Long userId, Date expiration) {
+	@Override
+	public void saveAccessToken(String id, Long userId, @NonNull Date expiration) {
+		AccessToken accessToken = AccessToken.builder()
+				.id(id)
+				.userId(userId)
+				.expiredAt(expiration.toInstant())
+				.status(EntityStatus.ACTIVE)
+				.build();
+		accessTokenRepo.save(accessToken);
+	}
 
-    }
+	@Override
+	public void saveRefreshToken(String id, String accessTokenId, Long userId, @NonNull Date expiration) {
+		RefreshToken refreshToken = RefreshToken.builder()
+				.id(id)
+				.accessTokenId(accessTokenId)
+				.userId(userId)
+				.expiredAt(expiration.toInstant())
+				.status(EntityStatus.ACTIVE)
+				.build();
+		refreshTokenRepo.save(refreshToken);
+	}
 
-    @Override
-    public Long getUserIdByRefreshTokenId(String refreshTokenId) {
-        return null;
-    }
+	@Override
+	public Long getUserIdByRefreshTokenId(String refreshTokenId) {
+		return refreshTokenRepo.findActiveRefreshTokenBy(refreshTokenId)
+				.map(RefreshToken::getUserId)
+				.orElseThrow(RevokedJwtTokenException::new);
+	}
 
-    @Override
-    public void inactiveAccessTokenById(String id) {
+	@Override
+	public void inactiveAccessTokenById(String id) {
+		accessTokenRepo.deleteById(id);
+	}
 
-    }
+	@Override
+	public void inactiveRefreshTokenById(String id) {
+		refreshTokenRepo.deleteById(id);
+	}
 
-    @Override
-    public void inactiveRefreshTokenById(String id) {
-
-    }
-
-    @Override
-    public boolean isAccessTokenExisted(String accessTokenId) {
-        return false;
-    }
+	@Override
+	public boolean isAccessTokenExisted(String accessTokenId) {
+		return accessTokenRepo.existsActiveAccessTokenById(accessTokenId);
+	}
 }
