@@ -1,24 +1,61 @@
 package io.github.tuyendev.msv.common.constant;
 
+import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonValue;
+import io.github.tuyendev.msv.common.CommonMessageSource;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+
+import org.springframework.context.support.MessageSourceAccessor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Token {
 
 	@NoArgsConstructor(access = AccessLevel.PRIVATE)
-	public static class Audience {
-		public static final String ACCESS_TOKEN = "ACC";
+	public enum Type {
 
-		public static final String REFRESH_TOKEN = "REF";
 
+		ACCESS("ACCESS", "app.common.token.access.name"),
+		REFRESH("REFRESH", "app.common.token.refresh.name");
+
+		private static final Map<String, Type> data = Map.of(
+				ACCESS.name, ACCESS,
+				REFRESH.name, REFRESH
+		);
+
+		private final MessageSourceAccessor messageSource = CommonMessageSource.getAccessor();
+
+		String name;
+
+		String desc;
+
+		Type(String name, String desc) {
+			this.name = name;
+			this.desc = desc;
+		}
+
+		public static Type typeOf(String type) {
+			return data.get(type);
+		}
+
+		@JsonValue
+		public String getName() {
+			return name;
+		}
+
+		public String getDesc() {
+			return messageSource.getMessage(this.desc);
+		}
 	}
 
 	@NoArgsConstructor(access = AccessLevel.PRIVATE)
 	public static class Claim {
-		public static final String AUTHORITY = "auth";
+		public static final String AUTHORITY = "acs";
 
 		public static final String REMEMBER_ME = "rem";
+
+		public static final String TYPE = "typ";
 
 		public static final String EMAIL = "email";
 

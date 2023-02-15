@@ -1,8 +1,10 @@
 package io.github.tuyendev.msv.common.api;
 
 import io.github.tuyendev.msv.common.dto.Response;
-import io.github.tuyendev.msv.common.dto.auth.AuthorizationRequestDto;
-import io.github.tuyendev.msv.common.dto.auth.RefreshTokenRequestDto;
+import io.github.tuyendev.msv.common.dto.token.RenewTokenRequestDto;
+import io.github.tuyendev.msv.common.dto.token.TokenInfoDto;
+import io.github.tuyendev.msv.common.dto.token.TokenInfoRequestDto;
+import io.github.tuyendev.msv.common.dto.token.TokenRequestDto;
 import io.github.tuyendev.msv.common.security.jwt.JwtAccessToken;
 import io.github.tuyendev.msv.common.security.jwt.JwtTokenProvider;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,15 +27,22 @@ public class AuthorizationHandler {
 
 	@PostMapping(name = "Authorization entry point", path = "/token")
 	@Operation(summary = "Login API, generate token if success")
-	public Response<JwtAccessToken> authorize(@Valid @RequestBody AuthorizationRequestDto request) {
+	public Response<JwtAccessToken> authorize(@Valid @RequestBody TokenRequestDto request) {
 		JwtAccessToken token = jwtTokenProvider.generateToken(request.getUsername(), request.getPassword(), request.isRememberMe());
 		return Response.ok(token);
 	}
 
 	@PostMapping(name = "Renew token entry point", path = "/token/renew")
 	@Operation(summary = "Regenerate token if refresh token is valid")
-	public Response<JwtAccessToken> reauthorize(@Valid @RequestBody RefreshTokenRequestDto request) {
+	public Response<JwtAccessToken> reauthorize(@Valid @RequestBody RenewTokenRequestDto request) {
 		JwtAccessToken token = jwtTokenProvider.renewToken(request.getRefreshToken());
 		return Response.ok(token);
+	}
+
+	@PostMapping(name = "Show token info", path = "/token/info")
+	@Operation(summary = "Regenerate token if refresh token is valid")
+	public Response<TokenInfoDto> getTokenInfo(@Valid @RequestBody TokenInfoRequestDto request) {
+		TokenInfoDto info = jwtTokenProvider.getTokenInfo(request.getToken());
+		return Response.ok(info);
 	}
 }

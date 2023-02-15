@@ -8,10 +8,12 @@ import java.util.Objects;
 import java.util.UUID;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.tuyendev.msv.common.constant.Token;
 import io.github.tuyendev.msv.common.dto.jwt.JwtAccessTokenDto;
 import io.github.tuyendev.msv.common.dto.jwt.JwtRefreshTokenDto;
+import io.github.tuyendev.msv.common.dto.token.TokenInfoDto;
 import io.github.tuyendev.msv.common.exception.ShouldNeverOccurException;
 import io.github.tuyendev.msv.common.exception.UserNotExistedException;
 import io.github.tuyendev.msv.common.exception.jwt.InvalidAudienceTokenException;
@@ -55,7 +57,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DomainJwtTokenProvider implements JwtTokenProvider {
 
-	private static final ObjectMapper JACKSON_MAPPER = new ObjectMapper();
+	private static final ObjectMapper JACKSON_MAPPER;
 
 	protected final AuthenticationManagerBuilder authenticationManagerBuilder;
 
@@ -91,6 +93,30 @@ public class DomainJwtTokenProvider implements JwtTokenProvider {
 		catch (ExpiredJwtException | MalformedJwtException | UnsupportedJwtException | SignatureException |
 			   PrematureJwtException | IllegalArgumentException e) {
 			log.trace("Invalid JWT jwt", e);
+			throw new InvalidJwtTokenException();
+		}
+	}
+
+	private static boolean isJwtTokenValid(final JwtParser jwtParser, final String jwt) {
+		try {
+			jwtParser.parseClaimsJws(jwt);
+			return true;
+		}
+		catch (ExpiredJwtException | MalformedJwtException | UnsupportedJwtException | SignatureException |
+			   PrematureJwtException | IllegalArgumentException e) {
+			return false;
+		}
+	}
+
+	private static Map<String, Object> getClaimsWithoutKey(final String jwt) {
+		try {
+			Base64.Decoder decoder = Base64.getUrlDecoder();
+			var payload = decoder.decode(jwt.split("\\.")[1]);
+			return JACKSON_MAPPER.readValue(payload, new TypeReference<>() {
+			});
+		}
+		catch (Exception e) {
+			log.error("Cannot parse payload in jwtToken", e);
 			throw new InvalidJwtTokenException();
 		}
 	}
@@ -136,12 +162,12 @@ public class DomainJwtTokenProvider implements JwtTokenProvider {
 		final String accessToken = Jwts.builder()
 				.setIssuer(issuer)
 				.setId(id)
-				.setAudience(Token.Audience.ACCESS_TOKEN)
 				.setSubject(user.preferredUsername())
 				.setIssuedAt(issuedAt)
 				.setNotBefore(issuedAt)
 				.setExpiration(expirationDate)
 				.claim(Token.Claim.AUTHORITY, user.authorityNames())
+				.claim(Token.Claim.TYPE, Token.Type.ACCESS)
 				.signWith(secretKey)
 				.compact();
 		return JwtAccessTokenDto.builder()
@@ -158,12 +184,12 @@ public class DomainJwtTokenProvider implements JwtTokenProvider {
 		final String refreshToken = Jwts.builder()
 				.setIssuer(issuer)
 				.setId(refreshTokenId)
-				.setAudience(Token.Audience.REFRESH_TOKEN)
 				.setSubject(accessTokenId)
 				.setIssuedAt(issuedAt)
 				.setNotBefore(issuedAt)
 				.setExpiration(expirationDate)
 				.claim(Token.Claim.REMEMBER_ME, rememberMe)
+				.claim(Token.Claim.TYPE, Token.Type.REFRESH)
 				.signWith(secretKey)
 				.compact();
 		return JwtRefreshTokenDto.builder()
@@ -181,7 +207,7 @@ public class DomainJwtTokenProvider implements JwtTokenProvider {
 		if (!Objects.equals(claims.getIssuer(), issuer)) {
 			throw new UnknownIssuerTokenException();
 		}
-		if (!Objects.equals(claims.getAudience(), Token.Audience.REFRESH_TOKEN)) {
+		if (!Objects.equals(claims.get(Token.Claim.TYPE), Token.Type.REFRESH.getName())) {
 			throw new InvalidAudienceTokenException();
 		}
 		final Long userId = tokenStore.getUserIdByRefreshTokenId(claims.getId());
@@ -198,7 +224,7 @@ public class DomainJwtTokenProvider implements JwtTokenProvider {
 	@Override
 	public void authorizeToken(final String jwtToken) {
 		Claims claims = getClaims(jwtParser, jwtToken);
-		if (!Objects.equals(claims.getAudience(), Token.Audience.ACCESS_TOKEN)) {
+		if (!Objects.equals(claims.get(Token.Claim.TYPE), Token.Type.ACCESS.getName())) {
 			throw new InvalidAudienceTokenException();
 		}
 		if (!tokenStore.isAccessTokenExisted(claims.getId())) {
@@ -228,14 +254,10 @@ public class DomainJwtTokenProvider implements JwtTokenProvider {
 		return userDetails;
 	}
 
-
 	@Override
 	public boolean isSelfIssuer(final String jwtToken) {
 		try {
-			Base64.Decoder decoder = Base64.getUrlDecoder();
-			var payload = decoder.decode(jwtToken.split("\\.")[1]);
-			Map<String, String> claims = JACKSON_MAPPER.readValue(payload, new TypeReference<>() {
-			});
+			Map<String, Object> claims = getClaimsWithoutKey(jwtToken);
 			return Objects.equals(claims.get((Claims.ISSUER)), issuer);
 		}
 		catch (Exception e) {
@@ -243,4 +265,42 @@ public class DomainJwtTokenProvider implements JwtTokenProvider {
 			throw new InvalidJwtTokenException();
 		}
 	}
+
+	@Override
+	public TokenInfoDto getTokenInfo(String jwt) {
+		final boolean isValid = isJwtTokenValid(jwtParser, jwt);
+		if (isValid) {
+			Map<String, Object> claims = getClaimsWithoutKey(jwt);
+			final String type = (String) claims.get(Token.Claim.TYPE);
+			boolean existed;
+			if (Objects.equals(type, Token.Type.ACCESS.getName())) {
+				existed = tokenStore.isAccessTokenExisted((String) claims.get(Claims.ID));
+			}
+			else if (Objects.equals(type, Token.Type.REFRESH.getName())) {
+				existed = tokenStore.isRefreshTokenExisted((String) claims.get(Claims.ID));
+			}
+			else throw new ShouldNeverOccurException();
+			return TokenInfoDto.builder()
+					.issuer((String) claims.get(Claims.ISSUER))
+					.type(Token.Type.typeOf(type).getDesc())
+					.revoked(!existed)
+					.expired(isJwtExpired((Long) claims.get(Claims.EXPIRATION)))
+					.valid(true)
+					.build();
+		}
+		return TokenInfoDto.builder()
+				.valid(false)
+				.build();
+	}
+
+	private boolean isJwtExpired(Long expiredDate) {
+		final long nowAsSecond = new Date().getTime() / 1000;
+		return nowAsSecond > expiredDate;
+	}
+
+	static {
+		JACKSON_MAPPER = new ObjectMapper();
+		JACKSON_MAPPER.enable(DeserializationFeature.USE_LONG_FOR_INTS);
+	}
+
 }

@@ -76,4 +76,9 @@ public class MongoJwtTokenStoreService implements JwtTokenStore {
 	public boolean isAccessTokenExisted(String accessTokenId) {
 		return accessTokenRepo.existsActiveMongoAccessTokenById(accessTokenId);
 	}
+
+	@Override
+	public boolean isRefreshTokenExisted(String refreshTokenId) {
+		return refreshTokenRepo.existsById(refreshTokenId);
+	}
 }

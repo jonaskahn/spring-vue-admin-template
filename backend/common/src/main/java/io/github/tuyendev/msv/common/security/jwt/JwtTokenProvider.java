@@ -1,5 +1,8 @@
 package io.github.tuyendev.msv.common.security.jwt;
 
+
+import io.github.tuyendev.msv.common.dto.token.TokenInfoDto;
+
 public interface JwtTokenProvider {
 
 	JwtAccessToken generateToken(final String username, final String password, final boolean rememberMe);
@@ -15,4 +18,6 @@ public interface JwtTokenProvider {
 	 * @return
 	 */
 	boolean isSelfIssuer(final String jwtToken);
+
+	TokenInfoDto getTokenInfo(final String jwtToken);
 }

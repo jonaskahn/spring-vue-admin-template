@@ -1,4 +1,4 @@
-package io.github.tuyendev.msv.core.configurer;
+package io.github.tuyendev.msv.common.configurer;
 
 
 import io.github.tuyendev.msv.common.security.RestAuthenticationEntryPoint;
@@ -31,6 +31,7 @@ class DefaultWebSecurityConfigurer {
 			"/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html",
 			"/auth/token",
 			"/auth/token/renew",
+			"/auth/token/info",
 			"/auth/password/forgot",
 			"/auth/password/forgot-complete",
 			"/auth/password/reset",

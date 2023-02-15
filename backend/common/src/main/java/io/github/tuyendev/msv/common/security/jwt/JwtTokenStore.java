@@ -8,8 +8,8 @@ public interface JwtTokenStore {
 
 	/**
 	 * This method used as an indicator to generate token in transaction (for internal use)
-	 * @param callback
-	 * @return
+	 * @param callback function execute real call
+	 * @return {@link JwtAccessToken}
 	 */
 	JwtAccessToken generateToken(Executor<JwtAccessToken> callback);
 
@@ -24,4 +24,6 @@ public interface JwtTokenStore {
 	void inactiveRefreshTokenById(String id);
 
 	boolean isAccessTokenExisted(String accessTokenId);
+
+	boolean isRefreshTokenExisted(String refreshTokenId);
 }

@@ -76,4 +76,9 @@ public class JpaJwtTokenStoreService implements JwtTokenStore {
 	public boolean isAccessTokenExisted(String accessTokenId) {
 		return accessTokenRepo.existsActiveAccessTokenById(accessTokenId);
 	}
+
+	@Override
+	public boolean isRefreshTokenExisted(String refreshTokenId) {
+		return refreshTokenRepo.existsById(refreshTokenId);
+	}
 }
