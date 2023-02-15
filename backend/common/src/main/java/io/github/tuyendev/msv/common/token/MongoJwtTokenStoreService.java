@@ -69,7 +69,7 @@ public class MongoJwtTokenStoreService implements JwtTokenStore {
 
 	@Override
 	public void inactiveRefreshTokenById(String id) {
-		refreshTokenRepo.deactivateRefreshTokenById(id);
+		refreshTokenRepo.deleteById(id);
 	}
 
 	@Override
