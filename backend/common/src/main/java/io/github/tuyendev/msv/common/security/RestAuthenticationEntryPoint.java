@@ -1,8 +1,5 @@
 package io.github.tuyendev.msv.common.security;
 
-import java.io.IOException;
-
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -19,7 +16,7 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 	}
 
 	@Override
-	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
 		resolver.resolveException(request, response, null, authException);
 	}
 }

@@ -59,6 +59,7 @@ public class DefaultAuthenticationFilter extends GenericFilterBean {
 		else {
 			chain.doFilter(request, response);
 		}
+		this.logger.debug("Finished default app authentication flow");
 	}
 
 	private String resolveToken(HttpServletRequest request) {

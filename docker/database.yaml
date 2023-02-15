@@ -20,40 +20,6 @@ services:
       - MYSQL_DATABASE=app
     volumes:
       - mariadb:/var/lib/mysql
-  mongodb:
-    image: mongo:latest
-    container_name: mongodb
-    hostname: mongodb
-    restart: unless-stopped
-    command: --replSet rs0
-    ports:
-      - "28017:27017"
-    environment:
-      MONGO_INITDB_DATABASE: attachment-api-local-dev
-    volumes:
-      - mongodb:/data/db
-    healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/admin --quiet
-      interval: 2s
-      timeout: 3s
-      retries: 5
-
-  mongo-init:
-    image: mongo:5
-    restart: "no"
-    depends_on:
-      mongodb:
-        condition: service_healthy
-    command: >
-      mongo --host mongodb:27017 --eval
-      '
-      rs.initiate( {
-         _id : "rs0",
-         members: [
-            { _id: 0, host: "localhost:27017" }
-         ]
-      })
-      '
   redis:
     image: redis:latest
     container_name: redis
@@ -63,3 +29,12 @@ services:
       - 6379:6379
     volumes:
       - redis:/data
+  mongodb:
+    image: mongo
+    hostname: mongodb
+    restart: always
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb:/data/db

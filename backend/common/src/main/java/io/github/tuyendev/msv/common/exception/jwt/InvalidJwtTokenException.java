@@ -1,12 +1,15 @@
 package io.github.tuyendev.msv.common.exception.jwt;
 
-import org.springframework.security.core.AuthenticationException;
+import io.github.tuyendev.msv.common.CommonMessageSource;
 
-import static io.github.tuyendev.msv.common.utils.Translator.eval;
+import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.security.core.AuthenticationException;
 
 public class InvalidJwtTokenException extends AuthenticationException {
 
+	private static final MessageSourceAccessor messageSource = CommonMessageSource.getAccessor();
+
 	public InvalidJwtTokenException() {
-		super(eval("app.auth.exception.token-not-valid"));
+		super(messageSource.getMessage("app.auth.exception.token-not-valid"));
 	}
 }
