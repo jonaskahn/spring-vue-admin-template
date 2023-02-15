@@ -16,9 +16,6 @@ public interface MongoRefreshTokenRepository extends MongoRepository<MongoRefres
 	}
 
 	default void deactivateRefreshTokenById(String id) {
-		this.findById(id).ifPresent(mongoRefreshToken -> {
-			mongoRefreshToken.setStatus(EntityStatus.INACTIVE);
-			save(mongoRefreshToken);
-		});
+		deleteById(id);
 	}
 }

@@ -19,7 +19,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.SQLDelete;
 
 @Builder
 @Getter
@@ -29,19 +28,19 @@ import org.hibernate.annotations.SQLDelete;
 @AllArgsConstructor
 @Entity
 @Table(name = "refresh_tokens")
-@SQLDelete(sql = "update refresh_tokens set status = 9 where id = ?")
 public class RefreshToken {
 	@Id
 	@Size(max = 255)
 	@Column(name = "id", nullable = false)
 	private String id;
 
-	@NotNull
+
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "access_token_id", nullable = false, insertable = false, updatable = false)
 	@ToString.Exclude
 	private AccessToken accessToken;
 
+	@NotNull
 	@Column(name = "access_token_id")
 	private String accessTokenId;
 

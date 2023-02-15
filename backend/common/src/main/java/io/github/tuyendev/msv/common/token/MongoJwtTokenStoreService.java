@@ -2,15 +2,21 @@ package io.github.tuyendev.msv.common.token;
 
 import java.util.Date;
 
+import io.github.tuyendev.msv.common.annotation.Executor;
+import io.github.tuyendev.msv.common.configurer.ChainedTransactionConfigurer;
 import io.github.tuyendev.msv.common.constant.EntityStatus;
 import io.github.tuyendev.msv.common.entity.MongoAccessToken;
 import io.github.tuyendev.msv.common.entity.MongoRefreshToken;
 import io.github.tuyendev.msv.common.exception.jwt.RevokedJwtTokenException;
 import io.github.tuyendev.msv.common.repository.MongoAccessTokenRepository;
 import io.github.tuyendev.msv.common.repository.MongoRefreshTokenRepository;
+import io.github.tuyendev.msv.common.security.jwt.JwtAccessToken;
 import io.github.tuyendev.msv.common.security.jwt.JwtTokenStore;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -19,6 +25,12 @@ public class MongoJwtTokenStoreService implements JwtTokenStore {
 	private final MongoAccessTokenRepository accessTokenRepo;
 
 	private final MongoRefreshTokenRepository refreshTokenRepo;
+
+	@Override
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, transactionManager = ChainedTransactionConfigurer.Mode.MONGO)
+	public JwtAccessToken generateToken(Executor<JwtAccessToken> callback) {
+		return callback.run();
+	}
 
 	@Override
 	public void saveAccessToken(String id, Long userId, Date expiration) {

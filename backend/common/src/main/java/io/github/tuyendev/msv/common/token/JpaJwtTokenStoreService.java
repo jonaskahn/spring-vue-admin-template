@@ -2,16 +2,21 @@ package io.github.tuyendev.msv.common.token;
 
 import java.util.Date;
 
+import io.github.tuyendev.msv.common.annotation.Executor;
 import io.github.tuyendev.msv.common.constant.EntityStatus;
 import io.github.tuyendev.msv.common.entity.AccessToken;
 import io.github.tuyendev.msv.common.entity.RefreshToken;
 import io.github.tuyendev.msv.common.exception.jwt.RevokedJwtTokenException;
 import io.github.tuyendev.msv.common.repository.AccessTokenRepository;
 import io.github.tuyendev.msv.common.repository.RefreshTokenRepository;
+import io.github.tuyendev.msv.common.security.jwt.JwtAccessToken;
 import io.github.tuyendev.msv.common.security.jwt.JwtTokenStore;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -20,6 +25,12 @@ public class JpaJwtTokenStoreService implements JwtTokenStore {
 	private final AccessTokenRepository accessTokenRepo;
 
 	private final RefreshTokenRepository refreshTokenRepo;
+
+	@Override
+	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+	public JwtAccessToken generateToken(Executor<JwtAccessToken> callback) {
+		return callback.run();
+	}
 
 	@Override
 	public void saveAccessToken(String id, Long userId, @NonNull Date expiration) {

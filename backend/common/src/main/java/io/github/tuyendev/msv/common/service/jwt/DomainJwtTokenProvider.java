@@ -9,7 +9,6 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.tuyendev.msv.common.configurer.ChainedTransactionConfigurer;
 import io.github.tuyendev.msv.common.constant.Token;
 import io.github.tuyendev.msv.common.dto.jwt.JwtAccessTokenDto;
 import io.github.tuyendev.msv.common.dto.jwt.JwtRefreshTokenDto;
@@ -50,7 +49,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -105,12 +103,11 @@ public class DomainJwtTokenProvider implements JwtTokenProvider {
 	}
 
 	@Override
-	@Transactional(rollbackFor = Exception.class, transactionManager = ChainedTransactionConfigurer.Mode.CHAINED)
 	public JwtAccessToken generateToken(String username, String password, boolean rememberMe) {
 		Authentication authenticationToken = UsernamePasswordAuthenticationToken.unauthenticated(username, password);
 		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		return createToken(rememberMe);
+		return tokenStore.generateToken(() -> createToken(rememberMe));
 	}
 
 	private JwtAccessToken createToken(final boolean rememberMe) {
@@ -179,7 +176,6 @@ public class DomainJwtTokenProvider implements JwtTokenProvider {
 	}
 
 	@Override
-	@Transactional(rollbackFor = Exception.class, transactionManager = ChainedTransactionConfigurer.Mode.CHAINED)
 	public JwtAccessToken renewToken(final String jwtToken) {
 		Claims claims = getClaims(jwtParser, jwtToken);
 		if (!Objects.equals(claims.getIssuer(), issuer)) {

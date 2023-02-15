@@ -2,7 +2,17 @@ package io.github.tuyendev.msv.common.security.jwt;
 
 import java.util.Date;
 
+import io.github.tuyendev.msv.common.annotation.Executor;
+
 public interface JwtTokenStore {
+
+	/**
+	 * This method used as an indicator to generate token in transaction (for internal use)
+	 * @param callback
+	 * @return
+	 */
+	JwtAccessToken generateToken(Executor<JwtAccessToken> callback);
+
 	void saveAccessToken(String id, Long userId, Date expiration);
 
 	void saveRefreshToken(String id, String accessTokenId, Long userId, Date expiration);

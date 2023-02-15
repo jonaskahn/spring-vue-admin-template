@@ -39,12 +39,12 @@ public class AccessToken {
 	@Column(name = "id", nullable = false)
 	private String id;
 
-	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "user_id", nullable = false, updatable = false, insertable = false)
 	@ToString.Exclude
 	private User user;
 
+	@NotNull
 	@Column(name = "user_id")
 	private Long userId;
 
