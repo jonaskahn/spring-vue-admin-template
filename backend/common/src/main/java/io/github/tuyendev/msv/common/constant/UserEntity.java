@@ -17,4 +17,50 @@ public final class UserEntity {
 	public static final Integer PHONE_VERIFIED = 1;
 
 	public static final Integer PHONE_NOT_VERIFIED = 0;
+
+	public enum Gender {
+		MEN(1),
+		WOMEN(2),
+		UNKNOWN(3);
+
+		int value;
+
+		Gender(int value) {
+			this.value = value;
+		}
+
+		public int value() {
+			return value;
+		}
+	}
+
+	public enum EmailVerify {
+		VERIFIED(1),
+		NOT_VERIFIED(0);
+
+		int value;
+
+		EmailVerify(int value) {
+			this.value = value;
+		}
+
+		public int value() {
+			return value;
+		}
+	}
+
+	public enum PhoneVerify {
+		VERIFIED(1),
+		NOT_VERIFIED(0);
+
+		int value;
+
+		PhoneVerify(int value) {
+			this.value = value;
+		}
+
+		public int value() {
+			return value;
+		}
+	}
 }

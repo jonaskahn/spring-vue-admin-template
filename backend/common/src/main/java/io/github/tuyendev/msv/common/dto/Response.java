@@ -79,7 +79,11 @@ public class Response<T> implements Serializable {
 	}
 
 	private static String eval(String key) {
-		return messageSource.getMessage(key);
+		try {
+			return messageSource.getMessage(key);
+		}catch (Exception e){
+			return key;
+		}
 	}
 
 	private static String eval(String key, Object... args) {

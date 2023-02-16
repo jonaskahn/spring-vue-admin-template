@@ -4,9 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 public enum AuthorityType {
+
+
 	ADMIN("admin", "app.common.authority.label.admin"),
 	EDITOR("editor", "app.common.authority.label.editor"),
 	USER("user", "app.common.authority.label.user");
+
+	public static final String ADMIN_VALUE = "admin";
+	public static final String EDITOR_VALUE = "editor";
+	public static final String USER_VALUE = "user";
 
 	private static final Map<String, AuthorityType> data = Map.of(
 			ADMIN.value(), ADMIN,
