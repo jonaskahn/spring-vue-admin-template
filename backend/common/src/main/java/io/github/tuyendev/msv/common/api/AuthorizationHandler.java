@@ -32,7 +32,7 @@ public class AuthorizationHandler {
 		return Response.ok(token);
 	}
 
-	@PostMapping(name = "Renew token entry point", path = "/token/renew")
+	@PostMapping(name = "Renew token", path = "/token/renew")
 	@Operation(summary = "Regenerate token if refresh token is valid")
 	public Response<JwtAccessToken> reauthorize(@Valid @RequestBody RenewTokenRequestDto request) {
 		JwtAccessToken token = jwtTokenProvider.renewToken(request.getRefreshToken());
@@ -40,7 +40,7 @@ public class AuthorizationHandler {
 	}
 
 	@PostMapping(name = "Show token info", path = "/token/info")
-	@Operation(summary = "Regenerate token if refresh token is valid")
+	@Operation(summary = "Show the token information")
 	public Response<TokenInfoDto> getTokenInfo(@Valid @RequestBody TokenInfoRequestDto request) {
 		TokenInfoDto info = jwtTokenProvider.getTokenInfo(request.getToken());
 		return Response.ok(info);
