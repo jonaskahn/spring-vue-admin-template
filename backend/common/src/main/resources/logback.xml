@@ -13,28 +13,23 @@
 		</encoder>
 	</appender>
 
-	<root level="DEBUG">
+	<root level="error">
 		<appender-ref ref="Console"/>
 	</root>
 
-
-	<logger name="io.github.tuyendev.msv" level="DEBUG" additivity="false">
+	<logger name="io.github.tuyendev.msv" level="debug" additivity="false">
 		<appender-ref ref="Console"/>
 	</logger>
 
-	<logger name="com.zaxxer.hikari" level="WARN" additivity="false">
+	<logger name="com.zaxxer.hikari" level="warn" additivity="false">
 		<appender-ref ref="Console"/>
 	</logger>
 
-	<logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
+	<logger name="org.hibernate.SQL" level="debug" additivity="false">
 		<appender-ref ref="Console"/>
 	</logger>
 
-	<logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" additivity="false">
-		<appender-ref ref="Console"/>
-	</logger>
-
-	<logger name="org.springframework.data.mongodb.core" level="debug" additivity="false">
+	<logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="trace" additivity="false">
 		<appender-ref ref="Console"/>
 	</logger>
 

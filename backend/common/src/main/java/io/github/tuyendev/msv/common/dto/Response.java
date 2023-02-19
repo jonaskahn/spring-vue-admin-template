@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -125,6 +126,17 @@ public class Response<T> implements Serializable {
 				.build();
 	}
 
+	public static Response failed(int status, String message) {
+		final String uuid = UUID.randomUUID().toString();
+		log(uuid, null);
+		return Response.builder()
+				.status(status)
+				.timestamp(now())
+				.message(eval(message))
+				.payload(new ErrorContent(uuid, null))
+				.build();
+	}
+
 	public static Response failed(LogicException e) {
 		return failed(HttpStatus.BAD_REQUEST.value(), e.getMessage(), e);
 	}
@@ -145,7 +157,9 @@ public class Response<T> implements Serializable {
 	}
 
 	private static void log(String uuid, Throwable e) {
-		if (e instanceof Exception) {
+		if(Objects.isNull(e)){
+			log.error((String.format("EXCEPTION CODE: %s ", uuid)));
+		} else if (e instanceof Exception) {
 			log.error((String.format("EXCEPTION CODE: %s ", uuid)), e);
 		}
 		else if (e instanceof Error) {
@@ -196,11 +210,11 @@ public class Response<T> implements Serializable {
 	}
 
 	public static Response failed(NoHandlerFoundException e) {
-		return failed(HttpStatus.BAD_REQUEST.value(), eval("app.common.exception.not-found"), e);
+		return failed(HttpStatus.BAD_REQUEST.value(), eval("app.common.exception.http-not-found"), e);
 	}
 
 	public static Response failed(HttpMessageConversionException e) {
-		return failed(HttpStatus.BAD_REQUEST.value(), eval("app.common.exception.message-conversion"), e);
+		return failed(HttpStatus.BAD_REQUEST.value(), eval("app.common.exception.http-message-conversion"), e);
 	}
 
 	public static Response failed(BeansException e) {

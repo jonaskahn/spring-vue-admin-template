@@ -1,6 +1,7 @@
 package io.github.tuyendev.msv.common.configurer;
 
 
+import io.github.tuyendev.msv.common.constant.AuthorityType;
 import io.github.tuyendev.msv.common.security.RestAuthenticationEntryPoint;
 import io.github.tuyendev.msv.common.security.jwt.JwtSecurityAdapter;
 import io.github.tuyendev.msv.common.security.jwt.JwtTokenProvider;
@@ -22,7 +23,7 @@ import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 class DefaultWebSecurityConfigurer {
 
@@ -74,8 +75,9 @@ class DefaultWebSecurityConfigurer {
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-		http.authorizeHttpRequests(requests -> requests.
-				anyRequest().permitAll());
+		http.authorizeHttpRequests(requests -> requests
+				.requestMatchers("/actuator").hasAuthority(AuthorityType.ADMIN_VALUE)
+				.anyRequest().authenticated());
 
 		http.formLogin().disable()
 				.logout().disable()
