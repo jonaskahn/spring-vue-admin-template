@@ -1,6 +1,5 @@
 package io.github.tuyendev.msv.common.configurer;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -19,10 +18,7 @@ import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 @RequiredArgsConstructor
 class MultipleLanguageConfigurer extends AcceptHeaderLocaleResolver implements WebMvcConfigurer {
 
-	private final List<Locale> LOCALES = Arrays.asList(
-			new Locale("vi"),
-			new Locale("en")
-	);
+	private static final List<Locale> SUPPORTED_LOCALES = List.of(new Locale("vi"), new Locale("en"));
 
 	private final MessageSource messageSource;
 
@@ -30,7 +26,7 @@ class MultipleLanguageConfigurer extends AcceptHeaderLocaleResolver implements W
 	public Locale resolveLocale(HttpServletRequest request) {
 		String headerLang = request.getHeader("Accept-Language");
 		return headerLang == null || headerLang.isEmpty() ? Locale.getDefault()
-				: Locale.lookup(Locale.LanguageRange.parse(headerLang), LOCALES);
+				: Locale.lookup(Locale.LanguageRange.parse(headerLang), SUPPORTED_LOCALES);
 	}
 
 	@Override
