@@ -97,17 +97,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@Override
 	protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-		return ResponseEntity.badRequest().body(Response.failed(ex));
+ 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Response.failed(ex));
 	}
 
 	@Override
 	protected ResponseEntity<Object> handleAsyncRequestTimeoutException(AsyncRequestTimeoutException ex, HttpHeaders headers, HttpStatusCode status, WebRequest webRequest) {
-		return ResponseEntity.badRequest().body(Response.failed(ex));
+		return ResponseEntity.internalServerError().body(Response.failed(ex));
 	}
 
 	@Override
 	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-		return ResponseEntity.badRequest().body(Response.unexpected(ex));
+		return ResponseEntity.internalServerError().body(Response.unexpected(ex));
 	}
 
 

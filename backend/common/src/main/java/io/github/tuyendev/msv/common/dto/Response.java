@@ -210,7 +210,7 @@ public class Response<T> implements Serializable {
 	}
 
 	public static Response failed(NoHandlerFoundException e) {
-		return failed(HttpStatus.BAD_REQUEST.value(), eval("app.common.exception.http-not-found"), e);
+		return failed(HttpStatus.NOT_FOUND.value(), eval("app.common.exception.not-found"), e);
 	}
 
 	public static Response failed(HttpMessageConversionException e) {
