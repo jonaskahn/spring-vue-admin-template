@@ -7,6 +7,7 @@ import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -24,6 +25,8 @@ import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.SQLDelete;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 @Builder
 @Getter
 @Setter
@@ -33,6 +36,7 @@ import org.hibernate.annotations.SQLDelete;
 @Entity
 @Table(name = "access_tokens")
 @SQLDelete(sql = "update access_tokens set status = 9 where id = ?")
+@EntityListeners(AuditingEntityListener.class)
 public class AccessToken {
 	@Id
 	@Size(max = 255)

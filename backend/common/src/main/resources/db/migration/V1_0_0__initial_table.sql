@@ -8,9 +8,9 @@ create table if not exists authorities
 create table if not exists `groups`
 (
     id                 bigint auto_increment primary key,
-    created_by         varchar(255) null,
+    created_by         bigint null,
     created_date       datetime(6)  null,
-    last_modified_by   varchar(255) null,
+    last_modified_by   bigint null,
     last_modified_date datetime(6)  null,
     description        varchar(500) null,
     name               varchar(100) null,
@@ -24,9 +24,9 @@ ALTER TABLE
 create table if not exists users
 (
     id                    bigint auto_increment primary key,
-    created_by            varchar(255) null,
+    created_by            bigint null,
     created_date          datetime(6)  null,
-    last_modified_by      varchar(255) null,
+    last_modified_by      bigint null,
     last_modified_date    datetime(6)  null,
     birthdate             date         null,
     email                 varchar(255) not null,

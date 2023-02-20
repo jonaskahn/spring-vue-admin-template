@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -16,6 +17,8 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 @Getter
 @Setter
 @ToString
@@ -23,6 +26,7 @@ import org.hibernate.Hibernate;
 @AllArgsConstructor
 @Entity
 @Table(name = "group_members")
+@EntityListeners(AuditingEntityListener.class)
 public class GroupMember {
 	@EmbeddedId
 	private GroupMemberId id;

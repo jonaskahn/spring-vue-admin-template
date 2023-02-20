@@ -11,7 +11,9 @@ public enum AuthorityType {
 	USER("user", "app.common.authority.label.user");
 
 	public static final String ADMIN_VALUE = "admin";
+
 	public static final String EDITOR_VALUE = "editor";
+
 	public static final String USER_VALUE = "user";
 
 	private static final Map<String, AuthorityType> data = Map.of(

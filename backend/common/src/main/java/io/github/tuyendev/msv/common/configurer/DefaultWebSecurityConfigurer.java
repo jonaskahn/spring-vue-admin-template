@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
@@ -36,7 +35,9 @@ class DefaultWebSecurityConfigurer {
 			"/auth/password/forgot",
 			"/auth/password/forgot-complete",
 			"/auth/password/reset",
-			"/auth/password/reset-complete"
+			"/auth/password/reset-complete",
+			"/public/**",
+			"/**/public/**"
 	};
 
 	private final JwtTokenProvider jwtTokenProvider;
@@ -51,12 +52,6 @@ class DefaultWebSecurityConfigurer {
 		this.jwtTokenProvider = jwtTokenProvider;
 		this.oauth2JwtAuthenticationConverter = oauth2JwtAuthenticationConverter;
 		this.resolver = resolver;
-	}
-
-
-	@Bean
-	public WebSecurityCustomizer webSecurityCustomizer() {
-		return web -> web.ignoring().requestMatchers(IGNORED_API);
 	}
 
 	@Bean
@@ -76,6 +71,7 @@ class DefaultWebSecurityConfigurer {
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 		http.authorizeHttpRequests(requests -> requests
+				.requestMatchers(IGNORED_API).permitAll()
 				.requestMatchers("/actuator").hasAuthority(AuthorityType.ADMIN_VALUE)
 				.anyRequest().authenticated());
 

@@ -1,58 +1,47 @@
 package io.github.tuyendev.msv.common.entity;
 
-import java.time.Instant;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
 
-@Builder
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+@SuperBuilder
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "users")
-public class User {
+@EntityListeners(AuditingEntityListener.class)
+public class User extends AuditableEntity {
 	@Id
 	@Column(name = "id", nullable = false)
 	@GenericGenerator(name = "UseExistingIdOtherwiseGenerateId",
 			strategy = "io.github.tuyendev.msv.common.entity.extras.UseExistingIdOtherwiseGenerateId")
 	@GeneratedValue(generator = "UseExistingIdOtherwiseGenerateId")
 	private Long id;
-
-	@Size(max = 255)
-	@Column(name = "created_by")
-	private String createdBy;
-
-	@Column(name = "created_date")
-	private Instant createdDate;
-
-	@Size(max = 255)
-	@Column(name = "last_modified_by")
-	private String lastModifiedBy;
-
-	@Column(name = "last_modified_date")
-	private Instant lastModifiedDate;
 
 	@Column(name = "birthdate")
 	private LocalDate birthdate;
@@ -94,6 +83,9 @@ public class User {
 	@Column(name = "password")
 	private String password;
 
+	@Transient
+	private String rawPassword;
+
 	@Size(max = 255)
 	@Column(name = "phone_number")
 	private String phoneNumber;
@@ -122,12 +114,16 @@ public class User {
 	@ToString.Exclude
 	private Set<Group> groups = new LinkedHashSet<>();
 
+	@Transient
+	private Set<Long> groupIds = new HashSet<>();
+
 	@ManyToMany
 	@JoinTable(name = "user_authorities",
 			joinColumns = @JoinColumn(name = "user_id"),
 			inverseJoinColumns = @JoinColumn(name = "authority_id"))
 	@ToString.Exclude
 	private Set<Authority> authorities = new LinkedHashSet<>();
+
 
 	@Override
 	public boolean equals(Object o) {

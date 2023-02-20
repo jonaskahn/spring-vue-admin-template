@@ -6,6 +6,7 @@ import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,6 +25,8 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 @Builder
 @Getter
 @Setter
@@ -32,6 +35,7 @@ import org.hibernate.Hibernate;
 @AllArgsConstructor
 @Entity
 @Table(name = "authorities")
+@EntityListeners(AuditingEntityListener.class)
 public class Authority {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

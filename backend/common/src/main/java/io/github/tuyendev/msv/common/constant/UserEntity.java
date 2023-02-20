@@ -1,5 +1,9 @@
 package io.github.tuyendev.msv.common.constant;
 
+import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -23,12 +27,24 @@ public final class UserEntity {
 		WOMEN(2),
 		UNKNOWN(3);
 
-		int value;
+		private static final Map<Integer, Gender> data = Map.of(
+				MEN.value, MEN,
+				WOMEN.value, WOMEN,
+				UNKNOWN.value, UNKNOWN
+		);
+
+		final int value;
 
 		Gender(int value) {
 			this.value = value;
 		}
 
+		@JsonCreator
+		public static Gender from(Integer value) {
+			return data.get(value);
+		}
+
+		@JsonValue
 		public int value() {
 			return value;
 		}
@@ -38,12 +54,23 @@ public final class UserEntity {
 		VERIFIED(1),
 		NOT_VERIFIED(0);
 
-		int value;
+		private static final Map<Integer, EmailVerify> data = Map.of(
+				VERIFIED.value, VERIFIED,
+				NOT_VERIFIED.value, NOT_VERIFIED
+		);
+
+		final int value;
 
 		EmailVerify(int value) {
 			this.value = value;
 		}
 
+		@JsonCreator
+		public static EmailVerify from(Integer value) {
+			return data.get(value);
+		}
+
+		@JsonValue
 		public int value() {
 			return value;
 		}
@@ -53,12 +80,23 @@ public final class UserEntity {
 		VERIFIED(1),
 		NOT_VERIFIED(0);
 
-		int value;
+		private static final Map<Integer, PhoneVerify> data = Map.of(
+				VERIFIED.value, VERIFIED,
+				NOT_VERIFIED.value, NOT_VERIFIED
+		);
+
+		final int value;
 
 		PhoneVerify(int value) {
 			this.value = value;
 		}
 
+		@JsonCreator
+		public static PhoneVerify from(Integer value) {
+			return data.get(value);
+		}
+
+		@JsonValue
 		public int value() {
 			return value;
 		}

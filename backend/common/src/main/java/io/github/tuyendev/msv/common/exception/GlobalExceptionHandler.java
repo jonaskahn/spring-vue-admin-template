@@ -97,7 +97,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@Override
 	protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
- 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Response.failed(ex));
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Response.failed(ex));
 	}
 
 	@Override

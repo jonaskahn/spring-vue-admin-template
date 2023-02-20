@@ -1,12 +1,12 @@
 package io.github.tuyendev.msv.common.entity;
 
-import java.time.Instant;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -20,9 +20,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+@SuperBuilder
 @Getter
 @Setter
 @ToString
@@ -30,27 +34,15 @@ import org.hibernate.annotations.GenericGenerator;
 @AllArgsConstructor
 @Entity
 @Table(name = "groups")
-public class Group {
+@EntityListeners(AuditingEntityListener.class)
+public class Group extends AuditableEntity {
+
 	@Id
 	@Column(name = "id", nullable = false)
 	@GenericGenerator(name = "UseExistingIdOtherwiseGenerateId",
 			strategy = "io.github.tuyendev.msv.common.entity.extras.UseExistingIdOtherwiseGenerateId")
 	@GeneratedValue(generator = "UseExistingIdOtherwiseGenerateId")
 	private Long id;
-
-	@Size(max = 255)
-	@Column(name = "created_by")
-	private String createdBy;
-
-	@Column(name = "created_date")
-	private Instant createdDate;
-
-	@Size(max = 255)
-	@Column(name = "last_modified_by")
-	private String lastModifiedBy;
-
-	@Column(name = "last_modified_date")
-	private Instant lastModifiedDate;
 
 	@Size(max = 500)
 	@Column(name = "description", length = 500)

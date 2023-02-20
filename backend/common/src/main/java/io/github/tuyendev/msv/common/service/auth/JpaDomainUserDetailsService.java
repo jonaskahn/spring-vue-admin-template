@@ -1,9 +1,13 @@
 package io.github.tuyendev.msv.common.service.auth;
 
+import java.util.Objects;
+
 import com.naharoo.commons.mapstruct.MappingFacade;
+import io.github.tuyendev.msv.common.constant.UserEntity;
 import io.github.tuyendev.msv.common.dto.user.SecuredUserDto;
 import io.github.tuyendev.msv.common.entity.User;
 import io.github.tuyendev.msv.common.exception.UserNotExistedException;
+import io.github.tuyendev.msv.common.exception.UserNotVerifyException;
 import io.github.tuyendev.msv.common.repository.UserRepository;
 import io.github.tuyendev.msv.common.security.user.DomainUserDetailsService;
 import io.github.tuyendev.msv.common.security.user.SecuredUser;
@@ -30,8 +34,15 @@ public class JpaDomainUserDetailsService implements DomainUserDetailsService {
 	}
 
 	private SecuredUserDetails convertUserEntityToSecureUserDetails(User user) {
+		postCheck(user);
 		SecuredUser securedUser = mapper.map(user, SecuredUserDto.class);
 		return SecuredUserDetails.instance(securedUser);
+	}
+
+	private void postCheck(User user) {
+		if (!Objects.equals(user.getEmailVerified(), UserEntity.EmailVerify.VERIFIED.value())) {
+			throw new UserNotVerifyException();
+		}
 	}
 
 	@Override
@@ -42,7 +53,8 @@ public class JpaDomainUserDetailsService implements DomainUserDetailsService {
 
 	@Override
 	public SecuredUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User found = userRepo.findUserByEmailOrUsername(username, username).orElseThrow(UserNotExistedException::new);
+		final String lowerCaseUsername = username.toLowerCase();
+		User found = userRepo.findUserByEmailOrUsername(lowerCaseUsername, lowerCaseUsername).orElseThrow(UserNotExistedException::new);
 		return convertUserEntityToSecureUserDetails(found);
 	}
 }

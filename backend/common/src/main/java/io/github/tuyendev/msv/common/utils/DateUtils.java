@@ -4,7 +4,11 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
-public abstract class DateUtils {
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class DateUtils {
 
 	public static LocalDateTime dateToLocalDateTime(Date date) {
 		if (date == null) return null;

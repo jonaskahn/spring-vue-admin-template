@@ -82,7 +82,8 @@ public class Response<T> implements Serializable {
 	private static String eval(String key) {
 		try {
 			return messageSource.getMessage(key);
-		}catch (Exception e){
+		}
+		catch (Exception e) {
 			return key;
 		}
 	}
@@ -157,9 +158,10 @@ public class Response<T> implements Serializable {
 	}
 
 	private static void log(String uuid, Throwable e) {
-		if(Objects.isNull(e)){
+		if (Objects.isNull(e)) {
 			log.error((String.format("EXCEPTION CODE: %s ", uuid)));
-		} else if (e instanceof Exception) {
+		}
+		else if (e instanceof Exception) {
 			log.error((String.format("EXCEPTION CODE: %s ", uuid)), e);
 		}
 		else if (e instanceof Error) {
