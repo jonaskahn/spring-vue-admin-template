@@ -28,7 +28,7 @@ public class MongoJwtTokenStoreService implements JwtTokenStore {
 
 	@Override
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED, transactionManager = ChainedTransactionConfigurer.Mode.MONGO)
-	public JwtAccessToken generateToken(Executor<JwtAccessToken> callback) {
+	public JwtAccessToken generateTokenInTransaction(Executor<JwtAccessToken> callback) {
 		return callback.run();
 	}
 

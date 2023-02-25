@@ -28,7 +28,7 @@ public class JpaJwtTokenStoreService implements JwtTokenStore {
 
 	@Override
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-	public JwtAccessToken generateToken(Executor<JwtAccessToken> callback) {
+	public JwtAccessToken generateTokenInTransaction(Executor<JwtAccessToken> callback) {
 		return callback.run();
 	}
 

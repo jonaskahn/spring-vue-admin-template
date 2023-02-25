@@ -11,7 +11,7 @@ public interface JwtTokenStore {
 	 * @param callback function execute real call
 	 * @return {@link JwtAccessToken}
 	 */
-	JwtAccessToken generateToken(Executor<JwtAccessToken> callback);
+	JwtAccessToken generateTokenInTransaction(Executor<JwtAccessToken> callback);
 
 	void saveAccessToken(String id, Long userId, Date expiration);
 
