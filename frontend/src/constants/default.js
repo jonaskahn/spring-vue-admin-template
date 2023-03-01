@@ -1,5 +1,5 @@
-const Default = {
+const Constants = {
     API_TOKEN: 'API_TOKEN'
 };
 
-export default Default;
+export default Constants;

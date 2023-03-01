@@ -1,17 +1,24 @@
 <script setup>
 import { useLayout } from '@/layout/composables/layout';
 import { computed, ref } from 'vue';
+import {AuthService} from "@/service/AuthService";
 
 const { layoutConfig, contextPath } = useLayout();
 const email = ref('');
 const password = ref('');
 const checked = ref(false);
 
+const service = new AuthService();
+
 const logoUrl = computed(() => {
     return `${contextPath}layout/images/${layoutConfig.darkTheme.value ? 'logo-white' : 'logo-dark'}.svg`;
 });
 
-function submit() {}
+function submit() {
+  service.login({
+    email: email.value
+  })
+}
 </script>
 
 <template>
