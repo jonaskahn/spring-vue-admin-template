@@ -1,7 +1,6 @@
 <script setup>
 import { useLayout } from '@/layout/composables/layout';
 import { computed, ref } from 'vue';
-import AppConfig from '@/layout/AppConfig.vue';
 
 const { layoutConfig, contextPath } = useLayout();
 const email = ref('');
@@ -11,41 +10,41 @@ const checked = ref(false);
 const logoUrl = computed(() => {
     return `${contextPath}layout/images/${layoutConfig.darkTheme.value ? 'logo-white' : 'logo-dark'}.svg`;
 });
+
+function submit() {}
 </script>
 
 <template>
     <div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
         <div class="flex flex-column align-items-center justify-content-center">
             <img :src="logoUrl" alt="Sakai logo" class="mb-5 w-6rem flex-shrink-0" />
-            <div style="border-radius: 56px; padding: 0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%)">
-                <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius: 53px">
-                    <div class="text-center mb-5">
-                        <img alt="Image" class="mb-3" height="50" src="/demo/images/login/avatar.png" />
-                        <div class="text-900 text-3xl font-medium mb-3">Welcome, Isabel!</div>
-                        <span class="text-600 font-medium">Sign in to continue</span>
-                    </div>
-
-                    <div>
-                        <label class="block text-900 text-xl font-medium mb-2" for="email1">Email</label>
-                        <InputText id="email1" v-model="email" class="w-full md:w-30rem mb-5" placeholder="Email address" style="padding: 1rem" type="text" />
-
-                        <label class="block text-900 font-medium text-xl mb-2" for="password1">Password</label>
-                        <Password id="password1" v-model="password" :toggleMask="true" class="w-full mb-3" inputClass="w-full" inputStyle="padding:1rem" placeholder="Password"></Password>
-
-                        <div class="flex align-items-center justify-content-between mb-5 gap-5">
-                            <div class="flex align-items-center">
-                                <Checkbox id="rememberme1" v-model="checked" binary class="mr-2"></Checkbox>
-                                <label for="rememberme1">Remember me</label>
-                            </div>
-                            <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)">Forgot password?</a>
+            <div>
+                <form>
+                    <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius: 53px">
+                        <div class="text-center mb-5">
+                            <div class="text-900 text-3xl font-medium mb-3">Sign in to continue</div>
                         </div>
-                        <Button class="w-full p-3 text-xl" label="Sign In"></Button>
+
+                        <div>
+                            <label class="block text-900 text-xl font-medium mb-2" for="email1">Email</label>
+                            <InputText id="email1" v-model="email" class="w-full md:w-30rem mb-5" placeholder="sample@tuyendev.github.io" style="padding: 1rem" type="text" />
+                            <label class="block text-900 font-medium text-xl mb-2" for="password1">Password</label>
+                            <Password id="password1" v-model="password" :feedback="false" :toggleMask="true" class="w-full mb-3" inputClass="w-full" inputStyle="padding:1rem" placeholder="********"></Password>
+
+                            <div class="flex align-items-center justify-content-between mb-5 gap-5">
+                                <div class="flex align-items-center">
+                                    <Checkbox id="rememberme1" v-model="checked" binary class="mr-2"></Checkbox>
+                                    <label for="rememberme1">Remember me</label>
+                                </div>
+                                <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)">Forgot password?</a>
+                            </div>
+                            <Button class="w-full p-3 text-xl" label="Sign In" @click.prevent="submit"></Button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
-    <AppConfig simple />
 </template>
 
 <style scoped>

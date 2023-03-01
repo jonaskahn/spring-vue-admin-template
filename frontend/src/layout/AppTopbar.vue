@@ -68,7 +68,7 @@ const isOutsideClicked = (event) => {
 
         <router-link class="layout-topbar-logo" to="/">
             <!--            <img :src="logoUrl" alt="logo" />-->
-            <span>LICENSE SERVER</span>
+            <span>Mee Spring Vue</span>
         </router-link>
 
         <button class="p-link layout-topbar-menu-button layout-topbar-button" @click="onTopBarMenuButton()">

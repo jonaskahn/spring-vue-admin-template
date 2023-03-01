@@ -1,5 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import AppLayout from '@/layout/AppLayout.vue';
+import RouteInfo from '@/constants/routeInfo';
+import Constant from '@/constants/default';
 
 const router = createRouter({
     history: createWebHashHistory(),
@@ -144,19 +146,14 @@ const router = createRouter({
             ]
         },
         {
-            path: '/landing',
-            name: 'landing',
-            component: () => import('@/views/pages/Landing.vue')
-        },
-        {
             path: '/pages/notfound',
             name: 'notfound',
             component: () => import('@/views/pages/NotFound.vue')
         },
 
         {
-            path: '/auth/login',
-            name: 'login',
+            path: RouteInfo.LOGIN.path,
+            name: RouteInfo.LOGIN.name,
             component: () => import('@/views/pages/auth/Login.vue')
         },
         {
@@ -170,6 +167,12 @@ const router = createRouter({
             component: () => import('@/views/pages/auth/Error.vue')
         }
     ]
+});
+
+router.beforeEach((to, from, next) => {
+    const token = sessionStorage.getItem(Constant.API_TOKEN);
+    if (!token && to.path !== RouteInfo.LOGIN.path) next(RouteInfo.LOGIN.path);
+    else next();
 });
 
 export default router;

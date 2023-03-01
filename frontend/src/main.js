@@ -106,7 +106,6 @@ import BlockViewer from '@/components/BlockViewer.vue';
 import '@/assets/styles.scss';
 
 const app = createApp(App);
-
 app.use(router);
 app.use(PrimeVue, { ripple: true });
 app.use(ToastService);
@@ -211,4 +210,4 @@ app.component('TreeTable', TreeTable);
 app.component('TriStateCheckbox', TriStateCheckbox);
 app.component('VirtualScroller', VirtualScroller);
 
-app.mount('#app');
+app.mount('#default');
