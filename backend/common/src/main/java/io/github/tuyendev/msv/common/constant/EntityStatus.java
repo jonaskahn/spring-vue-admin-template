@@ -19,4 +19,7 @@ public final class EntityStatus {
 	public static final Integer UNLOCKED = 0;
 
 	public static final Integer DELETED = 9;
+
+
+
 }
