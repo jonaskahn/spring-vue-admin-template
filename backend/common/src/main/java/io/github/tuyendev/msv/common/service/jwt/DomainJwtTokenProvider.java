@@ -2,6 +2,7 @@ package io.github.tuyendev.msv.common.service.jwt;
 
 import java.security.Key;
 import java.util.Base64;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
@@ -133,21 +134,28 @@ public class DomainJwtTokenProvider implements JwtTokenProvider {
 		Authentication authenticationToken = UsernamePasswordAuthenticationToken.unauthenticated(username, password);
 		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		return tokenStore.generateToken(() -> createToken(rememberMe));
+		return tokenStore.generateTokenInTransaction(() -> createToken(rememberMe));
 	}
 
 	private JwtAccessToken createToken(final boolean rememberMe) {
 		SecuredUser currentUser = AppContextHelper.getCurrentLoginUser()
 				.orElseThrow(ShouldNeverOccurException::new);
+
 		final JwtAccessTokenDto accessToken = createAccessToken(currentUser, rememberMe);
 		tokenStore.saveAccessToken(accessToken.id(), currentUser.id(), accessToken.expiredAt());
 		final JwtRefreshTokenDto refreshToken = createRefreshToken(accessToken.id(), accessToken.issuedAt(), rememberMe);
 		tokenStore.saveRefreshToken(refreshToken.id(), refreshToken.accessTokenId(), currentUser.id(), refreshToken.expiredAt());
+
+		Calendar converter = Calendar.getInstance();
+		converter.setTime(accessToken.expiredAt());
+		final long accessTokenExpiredAtInSeconds = converter.getTimeInMillis() / 1000;
+		converter.setTime(refreshToken.expiredAt());
+		final long refreshTokenExpiredAtInSeconds = converter.getTimeInMillis() / 1000;
 		return JwtAccessToken.builder()
 				.accessToken(accessToken.token())
 				.refreshToken(refreshToken.token())
-				.accessTokenExpiredAt(accessToken.expiredAt().getTime())
-				.refreshTokenExpiredAt(refreshToken.expiredAt().getTime())
+				.accessTokenExpiredAt(accessTokenExpiredAtInSeconds)
+				.refreshTokenExpiredAt(refreshTokenExpiredAtInSeconds)
 				.build();
 	}
 
