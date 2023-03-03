@@ -1,9 +1,12 @@
-import {Requester} from "@/service/Requester";
+import http from '@/common/http'
 
-export class AuthService extends Requester {
+export default class AuthService {
   async login(params) {
-    console.log(params)
-    const res = await Requester.init().post("aaaaa")
-    console.log(res.status)
+    try {
+      const res = await http().post('/auth/token', params)
+      return res.status
+    } catch (e) {
+      /* empty */
+    }
   }
 }

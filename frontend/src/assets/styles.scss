@@ -8,5 +8,6 @@ $gutter: 1rem; //for primeflex grid system
 @import 'primeflex/primeflex.scss';
 @import 'primeicons/primeicons.css';
 
-@import 'transition.css';
-@import 'scroll-bar.css';
+/* Demos */
+@import '@/assets/demo/styles/flags/flags.css';
+@import '@/assets/demo/styles/badges.scss';
