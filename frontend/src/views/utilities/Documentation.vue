@@ -11,7 +11,7 @@
           <a
             class="font-medium text-primary hover:underline"
             href="https://github.com/vuejs/create-vue"
-          >create-vue</a
+            >create-vue</a
           >, the recommended way to start a <strong>Vite-powered</strong> Vue projects. To get
           started, clone the
           <a class="font-medium" href="https://github.com/primefaces/sakai-vue">repository</a> from

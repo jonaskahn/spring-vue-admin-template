@@ -1,21 +1,21 @@
 <script setup>
-import { useLayout } from "@/layout/composables/layout";
-import { computed } from "vue";
-import AppConfig from "@/layout/AppConfig.vue";
+import { useLayout } from '@/layout/composables/layout'
+import { computed } from 'vue'
+import AppConfig from '@/layout/AppConfig.vue'
 
-const { layoutConfig, contextPath } = useLayout();
+const { layoutConfig, contextPath } = useLayout()
 
 const smoothScroll = (id) => {
   document.querySelector(id).scrollIntoView({
-    behavior: "smooth"
-  });
-};
+    behavior: 'smooth'
+  })
+}
 
 const logoUrl = computed(() => {
   return `${contextPath}layout/images/${
-    layoutConfig.darkTheme.value ? "logo-white" : "logo-dark"
-  }.svg`;
-});
+    layoutConfig.darkTheme.value ? 'logo-white' : 'logo-dark'
+  }.svg`
+})
 </script>
 
 <template>
@@ -26,9 +26,9 @@ const logoUrl = computed(() => {
       >
         <a class="flex align-items-center" href="#">
           <img :src="logoUrl" alt="Sakai Logo" class="mr-0 lg:mr-2" height="50" /><span
-          class="text-900 font-medium text-2xl line-height-3 mr-8"
-        >SAKAI</span
-        >
+            class="text-900 font-medium text-2xl line-height-3 mr-8"
+            >SAKAI</span
+          >
         </a>
         <a
           v-ripple
@@ -434,7 +434,7 @@ const logoUrl = computed(() => {
             </div>
             <h2 class="line-height-1 text-900 text-4xl font-normal">Congue Quisque Egestas</h2>
             <span class="text-700 text-2xl line-height-3 ml-0 md:ml-2" style="max-width: 650px"
-            >Lectus arcu bibendum at varius vel pharetra vel turpis nunc. Eget aliquet nibh
+              >Lectus arcu bibendum at varius vel pharetra vel turpis nunc. Eget aliquet nibh
               praesent tristique magna sit amet purus gravida. Sit amet mattis vulputate enim nulla
               aliquet.</span
             >
@@ -453,7 +453,7 @@ const logoUrl = computed(() => {
             </div>
             <h2 class="line-height-1 text-900 text-4xl font-normal">Celerisque Eu Ultrices</h2>
             <span class="text-700 text-2xl line-height-3 mr-0 md:mr-2" style="max-width: 650px"
-            >Adipiscing commodo elit at imperdiet dui. Viverra nibh cras pulvinar mattis nunc sed
+              >Adipiscing commodo elit at imperdiet dui. Viverra nibh cras pulvinar mattis nunc sed
               blandit libero. Suspendisse in est ante in. Mauris pharetra et ultrices neque ornare
               aenean euismod elementum nisi.</span
             >
@@ -611,7 +611,7 @@ const logoUrl = computed(() => {
                 <a class="line-height-3 text-xl block cursor-pointer mb-2 text-700">About Us</a>
                 <a class="line-height-3 text-xl block cursor-pointer mb-2 text-700">News</a>
                 <a class="line-height-3 text-xl block cursor-pointer mb-2 text-700"
-                >Investor Relations</a
+                  >Investor Relations</a
                 >
                 <a class="line-height-3 text-xl block cursor-pointer mb-2 text-700">Careers</a>
                 <a class="line-height-3 text-xl block cursor-pointer text-700">Media Kit</a>
@@ -628,7 +628,7 @@ const logoUrl = computed(() => {
                 <h4 class="font-medium text-2xl line-height-3 mb-3 text-900">Community</h4>
                 <a class="line-height-3 text-xl block cursor-pointer mb-2 text-700">Discord</a>
                 <a class="line-height-3 text-xl block cursor-pointer mb-2 text-700"
-                >Events<img class="ml-2" src="/demo/images/landing/new-badge.svg"
+                  >Events<img class="ml-2" src="/demo/images/landing/new-badge.svg"
                 /></a>
                 <a class="line-height-3 text-xl block cursor-pointer mb-2 text-700">FAQ</a>
                 <a class="line-height-3 text-xl block cursor-pointer text-700">Blog</a>
@@ -638,7 +638,7 @@ const logoUrl = computed(() => {
                 <h4 class="font-medium text-2xl line-height-3 mb-3 text-900">Legal</h4>
                 <a class="line-height-3 text-xl block cursor-pointer mb-2 text-700">Brand Policy</a>
                 <a class="line-height-3 text-xl block cursor-pointer mb-2 text-700"
-                >Privacy Policy</a
+                  >Privacy Policy</a
                 >
                 <a class="line-height-3 text-xl block cursor-pointer text-700">Terms of Service</a>
               </div>

@@ -30,7 +30,7 @@ function createInstance(headers = {}) {
   })
   instance.interceptors.response.use(
     function (response) {
-      return response
+      return new ResponseData(response.data.message, response.data.payload)
     },
     function (error) {
       if (error.response) {
@@ -47,6 +47,21 @@ function createInstance(headers = {}) {
   return instance
 }
 
+const ResponseData = class {
+  constructor(message, payload) {
+    this._message = message
+    this._payload = payload
+  }
+
+  get message() {
+    return this._message
+  }
+
+  get payload() {
+    return this._payload
+  }
+}
+
 export function request(settings = { auth: false }) {
   return settings.auth ? auth : anonymous
 }
@@ -54,3 +69,5 @@ export function request(settings = { auth: false }) {
 export function upload(settings = { auth: false }) {
   return settings.auth ? authUpload : anonymousUpload
 }
+
+export { ResponseData }

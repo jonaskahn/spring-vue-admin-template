@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import AppLayout from '@/layout/AppLayout.vue'
 import RouteInfo from '@/constants/routeInfo'
 import constants from '@/constants'
+import routeInfo from '@/constants/routeInfo'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -11,8 +12,8 @@ const router = createRouter({
       component: AppLayout,
       children: [
         {
-          path: '/',
-          name: 'dashboard',
+          path: routeInfo.APP.DASH_BOARD.path,
+          name: routeInfo.APP.DASH_BOARD.name,
           component: () => import('@/views/Dashboard.vue')
         },
         {
@@ -175,9 +176,42 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const token = sessionStorage.getItem(constants.TOKEN.ACCESS_TOKEN)
-  if (!token && to.path !== RouteInfo.AUTH.LOGIN.path) next(RouteInfo.AUTH.LOGIN.path)
-  else next()
+  if (isTokenInvalid()) {
+    redirectIfInvalid(to, next)
+  } else {
+    redirectIfValid(to, next)
+  }
 })
+
+function isTokenInvalid() {
+  const accessToken = localStorage.getItem(constants.TOKEN.ACCESS_TOKEN)
+  if (accessToken === null || accessToken === 'undefined') {
+    return true
+  }
+  const accessTokenExpired = parseInt(localStorage.getItem(constants.TOKEN.ACCESS_TOKEN_EXPIRED))
+  const now = new Date().getTime()
+  return !accessTokenExpired && now > accessTokenExpired
+}
+
+function redirectIfInvalid(to, next) {
+  if (to.path !== RouteInfo.AUTH.LOGIN.path) {
+    router.push({
+      path: RouteInfo.AUTH.LOGIN.path
+    })
+  } else {
+    next()
+  }
+}
+
+function redirectIfValid(to, next) {
+  if (to.path === RouteInfo.AUTH.LOGIN.path) {
+    router.push({
+      path: RouteInfo.APP.DASH_BOARD.path
+    })
+  } else {
+    next()
+  }
+}
+
 
 export default router

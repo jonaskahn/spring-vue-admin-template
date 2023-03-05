@@ -1,5 +1,6 @@
 <script setup>
-import AppConfig from "@/layout/AppConfig.vue";</script>
+import AppConfig from '@/layout/AppConfig.vue'
+</script>
 
 <template>
   <div
@@ -35,7 +36,7 @@ import AppConfig from "@/layout/AppConfig.vue";</script>
             </div>
             <h1 class="text-900 font-bold text-4xl lg:text-5xl mb-2">Access Denied</h1>
             <span class="text-600 mb-5"
-            >You do not have the necessary permisions. Please contact admins.</span
+              >You do not have the necessary permisions. Please contact admins.</span
             >
             <img
               alt="Access denied"

@@ -1,63 +1,63 @@
 <script setup>
-import { ref } from "vue";
-import { useToast } from "primevue/usetoast";
+import { ref } from 'vue'
+import { useToast } from 'primevue/usetoast'
 
-const toast = useToast();
-const message = ref([]);
-const username = ref(null);
-const email = ref(null);
-const count = ref(0);
+const toast = useToast()
+const message = ref([])
+const username = ref(null)
+const email = ref(null)
+const count = ref(0)
 
 const addMessage = (type) => {
-  if (type === "success") {
+  if (type === 'success') {
     message.value = [
-      { severity: "success", detail: "Success Message", content: "Message sent", id: count.value++ }
-    ];
-  } else if (type === "info") {
+      { severity: 'success', detail: 'Success Message', content: 'Message sent', id: count.value++ }
+    ]
+  } else if (type === 'info') {
     message.value = [
-      { severity: "info", detail: "Info Message", content: "PrimeVue rocks", id: count.value++ }
-    ];
-  } else if (type === "warn") {
-    message.value = [
-      {
-        severity: "warn",
-        detail: "Warn Message",
-        content: "There are unsaved changes",
-        id: count.value++
-      }
-    ];
-  } else if (type === "error") {
+      { severity: 'info', detail: 'Info Message', content: 'PrimeVue rocks', id: count.value++ }
+    ]
+  } else if (type === 'warn') {
     message.value = [
       {
-        severity: "error",
-        detail: "Error Message",
-        content: "Validation failed",
+        severity: 'warn',
+        detail: 'Warn Message',
+        content: 'There are unsaved changes',
         id: count.value++
       }
-    ];
+    ]
+  } else if (type === 'error') {
+    message.value = [
+      {
+        severity: 'error',
+        detail: 'Error Message',
+        content: 'Validation failed',
+        id: count.value++
+      }
+    ]
   }
-};
+}
 
 const showSuccess = () => {
   toast.add({
-    severity: "success",
-    summary: "Success Message",
-    detail: "Message Detail",
+    severity: 'success',
+    summary: 'Success Message',
+    detail: 'Message Detail',
     life: 3000
-  });
-};
+  })
+}
 
 const showInfo = () => {
-  toast.add({ severity: "info", summary: "Info Message", detail: "Message Detail", life: 3000 });
-};
+  toast.add({ severity: 'info', summary: 'Info Message', detail: 'Message Detail', life: 3000 })
+}
 
 const showWarn = () => {
-  toast.add({ severity: "warn", summary: "Warn Message", detail: "Message Detail", life: 3000 });
-};
+  toast.add({ severity: 'warn', summary: 'Warn Message', detail: 'Message Detail', life: 3000 })
+}
 
 const showError = () => {
-  toast.add({ severity: "error", summary: "Error Message", detail: "Message Detail", life: 3000 });
-};
+  toast.add({ severity: 'error', summary: 'Error Message', detail: 'Message Detail', life: 3000 })
+}
 </script>
 
 <template>
@@ -84,9 +84,8 @@ const showError = () => {
         <Button class="p-button-danger mr-2" label="Error" @click="addMessage('error')" />
 
         <transition-group name="p-message" tag="div">
-          <Message v-for="msg of message" :key="msg.content" :severity="msg.severity">{{
-              msg.content
-            }}
+          <Message v-for="msg of message" :key="msg.content" :severity="msg.severity"
+            >{{ msg.content }}
           </Message>
         </transition-group>
       </div>
@@ -134,7 +133,7 @@ const showError = () => {
             type="username"
           />
           <small id="username-help" class="p-error"
-          >Enter your username to reset your password.</small
+            >Enter your username to reset your password.</small
           >
         </div>
       </div>

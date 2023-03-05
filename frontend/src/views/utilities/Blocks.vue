@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref } from 'vue'
 
 const block1 = ref(`<div class="grid grid-nogutter surface-section text-800">
     <div class="col-12 md:col-6 p-6 text-center md:text-left flex align-items-center ">
@@ -15,7 +15,7 @@ const block1 = ref(`<div class="grid grid-nogutter surface-section text-800">
     <div class="col-12 md:col-6 overflow-hidden">
         <img src="/demo/images/blocks/hero/hero-1.png" alt="Image" class="md:ml-auto block md:h-full" style="clip-path: polygon(8% 0, 100% 0%, 100% 100%, 0 100%)">
     </div>
-</div>`);
+</div>`)
 const block2 = ref(`<div class="surface-section px-4 py-8 md:px-6 lg:px-8 text-center">
     <div class="mb-3 font-bold text-2xl">
         <span class="text-900">One Product, </span>
@@ -66,7 +66,7 @@ const block2 = ref(`<div class="surface-section px-4 py-8 md:px-6 lg:px-8 text-c
             <span class="text-700 text-sm line-height-3">Mattis rhoncus urna neque viverra justo nec ultrices. Id cursus metus aliquam eleifend.</span>
         </div>
     </div>
-</div>`);
+</div>`)
 
 const block3 = ref(`<div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
     <div class="text-900 font-bold text-6xl mb-4 text-center">Pricing Plans</div>
@@ -182,7 +182,7 @@ const block3 = ref(`<div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
             </div>
         </div>
     </div>
-</div>`);
+</div>`)
 
 const block4 = ref(`<div class="surface-section px-4 py-8 md:px-6 lg:px-8">
     <div class="text-700 text-center">
@@ -191,7 +191,7 @@ const block4 = ref(`<div class="surface-section px-4 py-8 md:px-6 lg:px-8">
         <div class="text-700 text-2xl mb-5">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit numquam eligendi quos.</div>
         <Button label="Join Now" icon="pi pi-discord" class="font-bold px-5 py-3 p-button-raised p-button-rounded white-space-nowrap"></Button>
     </div>
-</div>`);
+</div>`)
 
 const block5 =
   ref(`<div class="bg-bluegray-900 text-gray-100 p-3 flex justify-content-between lg:justify-content-center align-items-center flex-wrap">
@@ -205,7 +205,7 @@ const block5 =
     <a v-ripple class="flex align-items-center no-underline justify-content-center border-circle text-gray-50 hover:bg-bluegray-700 cursor-pointer transition-colors transition-duration-150 p-ripple" style="width:2rem; height: 2rem">
         <i class="pi pi-times"></i>
     </a>
-</div>`);
+</div>`)
 
 const block6 = ref(`<div class="surface-section px-4 py-5 md:px-6 lg:px-8">
     <ul class="list-none p-0 m-0 flex align-items-center font-medium mb-3">
@@ -242,7 +242,7 @@ const block6 = ref(`<div class="surface-section px-4 py-5 md:px-6 lg:px-8">
             <Button label="Save" icon="pi pi-check"></Button>
         </div>
     </div>
-</div>`);
+</div>`)
 
 const block7 = ref(`<div class="surface-ground px-4 py-5 md:px-6 lg:px-8">
     <div class="grid">
@@ -307,7 +307,7 @@ const block7 = ref(`<div class="surface-ground px-4 py-5 md:px-6 lg:px-8">
             </div>
         </div>
     </div>
-</div>`);
+</div>`)
 
 const block8 = ref(`<div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
     <div class="text-center mb-5">
@@ -334,7 +334,7 @@ const block8 = ref(`<div class="surface-card p-4 shadow-2 border-round w-full lg
 
         <Button label="Sign In" icon="pi pi-user" class="w-full"></Button>
     </div>
-</div>`);
+</div>`)
 
 const block9 = ref(`<div class="surface-section">
     <div class="font-medium text-3xl text-900 mb-3">Movie Information</div>
@@ -382,15 +382,15 @@ const block9 = ref(`<div class="surface-section">
             </div>
         </li>
     </ul>
-</div>`);
+</div>`)
 
 const block10 = ref(`<div class="surface-card p-4 shadow-2 border-round">
     <div class="text-3xl font-medium text-900 mb-3">Card Title</div>
     <div class="font-medium text-500 mb-3">Vivamus id nisl interdum, blandit augue sit amet, eleifend mi.</div>
     <div style="height: 150px" class="border-2 border-dashed surface-border"></div>
-</div>`);
+</div>`)
 
-const checked = ref(false);
+const checked = ref(false)
 </script>
 
 <template>
@@ -437,7 +437,7 @@ const checked = ref(false);
             </span>
             <div class="text-900 mb-3 font-medium">Built for Developers</div>
             <span class="text-700 text-sm line-height-3"
-            >Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+              >Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
               fugiat nulla pariatur.</span
             >
           </div>
@@ -447,7 +447,7 @@ const checked = ref(false);
             </span>
             <div class="text-900 mb-3 font-medium">End-to-End Encryption</div>
             <span class="text-700 text-sm line-height-3"
-            >Risus nec feugiat in fermentum posuere urna nec. Posuere sollicitudin aliquam
+              >Risus nec feugiat in fermentum posuere urna nec. Posuere sollicitudin aliquam
               ultrices sagittis.</span
             >
           </div>
@@ -457,7 +457,7 @@ const checked = ref(false);
             </span>
             <div class="text-900 mb-3 font-medium">Easy to Use</div>
             <span class="text-700 text-sm line-height-3"
-            >Ornare suspendisse sed nisi lacus sed viverra tellus. Neque volutpat ac tincidunt
+              >Ornare suspendisse sed nisi lacus sed viverra tellus. Neque volutpat ac tincidunt
               vitae semper.</span
             >
           </div>
@@ -467,7 +467,7 @@ const checked = ref(false);
             </span>
             <div class="text-900 mb-3 font-medium">Fast & Global Support</div>
             <span class="text-700 text-sm line-height-3"
-            >Fermentum et sollicitudin ac orci phasellus egestas tellus rutrum tellus.</span
+              >Fermentum et sollicitudin ac orci phasellus egestas tellus rutrum tellus.</span
             >
           </div>
           <div class="col-12 md:col-4 mb-4 px-5">
@@ -476,7 +476,7 @@ const checked = ref(false);
             </span>
             <div class="text-900 mb-3 font-medium">Open Source</div>
             <span class="text-700 text-sm line-height-3"
-            >Nec tincidunt praesent semper feugiat. Sed adipiscing diam donec adipiscing tristique
+              >Nec tincidunt praesent semper feugiat. Sed adipiscing diam donec adipiscing tristique
               risus nec feugiat.
             </span>
           </div>
@@ -486,7 +486,7 @@ const checked = ref(false);
             </span>
             <div class="text-900 mb-3 font-medium">Trusted Securitty</div>
             <span class="text-700 text-sm line-height-3"
-            >Mattis rhoncus urna neque viverra justo nec ultrices. Id cursus metus aliquam
+              >Mattis rhoncus urna neque viverra justo nec ultrices. Id cursus metus aliquam
               eleifend.</span
             >
           </div>
@@ -646,7 +646,7 @@ const checked = ref(false);
         <div class="font-bold mr-8">🔥 Hot Deals!</div>
         <div class="align-items-center hidden lg:flex">
           <span class="line-height-3"
-          >Libero voluptatum atque exercitationem praesentium provident odit.</span
+            >Libero voluptatum atque exercitationem praesentium provident odit.</span
           >
         </div>
         <a class="flex align-items-center ml-2 mr-8">
@@ -806,7 +806,7 @@ const checked = ref(false);
               <label for="rememberme1">Remember me</label>
             </div>
             <a class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer"
-            >Forgot password?</a
+              >Forgot password?</a
             >
           </div>
 

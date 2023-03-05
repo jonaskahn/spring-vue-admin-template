@@ -1,142 +1,142 @@
 <script setup>
-import { FilterMatchMode } from "primevue/api";
-import { onBeforeMount, onMounted, ref } from "vue";
-import ProductService from "@/service/ProductService";
-import { useToast } from "primevue/usetoast";
-import { useLayout } from "@/layout/composables/layout";
+import { FilterMatchMode } from 'primevue/api'
+import { onBeforeMount, onMounted, ref } from 'vue'
+import ProductService from '@/service/ProductService'
+import { useToast } from 'primevue/usetoast'
+import { useLayout } from '@/layout/composables/layout'
 
-const toast = useToast();
-const { contextPath } = useLayout();
+const toast = useToast()
+const { contextPath } = useLayout()
 
-const products = ref(null);
-const productDialog = ref(false);
-const deleteProductDialog = ref(false);
-const deleteProductsDialog = ref(false);
-const product = ref({});
-const selectedProducts = ref(null);
-const dt = ref(null);
-const filters = ref({});
-const submitted = ref(false);
+const products = ref(null)
+const productDialog = ref(false)
+const deleteProductDialog = ref(false)
+const deleteProductsDialog = ref(false)
+const product = ref({})
+const selectedProducts = ref(null)
+const dt = ref(null)
+const filters = ref({})
+const submitted = ref(false)
 const statuses = ref([
-  { label: "INSTOCK", value: "instock" },
-  { label: "LOWSTOCK", value: "lowstock" },
-  { label: "OUTOFSTOCK", value: "outofstock" }
-]);
+  { label: 'INSTOCK', value: 'instock' },
+  { label: 'LOWSTOCK', value: 'lowstock' },
+  { label: 'OUTOFSTOCK', value: 'outofstock' }
+])
 
-const productService = new ProductService();
+const productService = new ProductService()
 
 onBeforeMount(() => {
-  initFilters();
-});
+  initFilters()
+})
 onMounted(() => {
-  productService.getProducts().then((data) => (products.value = data));
-});
+  productService.getProducts().then((data) => (products.value = data))
+})
 const formatCurrency = (value) => {
-  return value.toLocaleString("en-US", { style: "currency", currency: "USD" });
-};
+  return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+}
 
 const openNew = () => {
-  product.value = {};
-  submitted.value = false;
-  productDialog.value = true;
-};
+  product.value = {}
+  submitted.value = false
+  productDialog.value = true
+}
 
 const hideDialog = () => {
-  productDialog.value = false;
-  submitted.value = false;
-};
+  productDialog.value = false
+  submitted.value = false
+}
 
 const saveProduct = () => {
-  submitted.value = true;
+  submitted.value = true
   if (product.value.name && product.value.name.trim() && product.value.price) {
     if (product.value.id) {
       product.value.inventoryStatus = product.value.inventoryStatus.value
         ? product.value.inventoryStatus.value
-        : product.value.inventoryStatus;
-      products.value[findIndexById(product.value.id)] = product.value;
+        : product.value.inventoryStatus
+      products.value[findIndexById(product.value.id)] = product.value
       toast.add({
-        severity: "success",
-        summary: "Successful",
-        detail: "Product Updated",
+        severity: 'success',
+        summary: 'Successful',
+        detail: 'Product Updated',
         life: 3000
-      });
+      })
     } else {
-      product.value.id = createId();
-      product.value.code = createId();
-      product.value.image = "product-placeholder.svg";
+      product.value.id = createId()
+      product.value.code = createId()
+      product.value.image = 'product-placeholder.svg'
       product.value.inventoryStatus = product.value.inventoryStatus
         ? product.value.inventoryStatus.value
-        : "INSTOCK";
-      products.value.push(product.value);
+        : 'INSTOCK'
+      products.value.push(product.value)
       toast.add({
-        severity: "success",
-        summary: "Successful",
-        detail: "Product Created",
+        severity: 'success',
+        summary: 'Successful',
+        detail: 'Product Created',
         life: 3000
-      });
+      })
     }
-    productDialog.value = false;
-    product.value = {};
+    productDialog.value = false
+    product.value = {}
   }
-};
+}
 
 const editProduct = (editProduct) => {
-  product.value = { ...editProduct };
-  console.log(product);
-  productDialog.value = true;
-};
+  product.value = { ...editProduct }
+  console.log(product)
+  productDialog.value = true
+}
 
 const confirmDeleteProduct = (editProduct) => {
-  product.value = editProduct;
-  deleteProductDialog.value = true;
-};
+  product.value = editProduct
+  deleteProductDialog.value = true
+}
 
 const deleteProduct = () => {
-  products.value = products.value.filter((val) => val.id !== product.value.id);
-  deleteProductDialog.value = false;
-  product.value = {};
-  toast.add({ severity: "success", summary: "Successful", detail: "Product Deleted", life: 3000 });
-};
+  products.value = products.value.filter((val) => val.id !== product.value.id)
+  deleteProductDialog.value = false
+  product.value = {}
+  toast.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 })
+}
 
 const findIndexById = (id) => {
-  let index = -1;
+  let index = -1
   for (let i = 0; i < products.value.length; i++) {
     if (products.value[i].id === id) {
-      index = i;
-      break;
+      index = i
+      break
     }
   }
-  return index;
-};
+  return index
+}
 
 const createId = () => {
-  let id = "";
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let id = ''
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
   for (let i = 0; i < 5; i++) {
-    id += chars.charAt(Math.floor(Math.random() * chars.length));
+    id += chars.charAt(Math.floor(Math.random() * chars.length))
   }
-  return id;
-};
+  return id
+}
 
 const exportCSV = () => {
-  dt.value.exportCSV();
-};
+  dt.value.exportCSV()
+}
 
 const confirmDeleteSelected = () => {
-  deleteProductsDialog.value = true;
-};
+  deleteProductsDialog.value = true
+}
 const deleteSelectedProducts = () => {
-  products.value = products.value.filter((val) => !selectedProducts.value.includes(val));
-  deleteProductsDialog.value = false;
-  selectedProducts.value = null;
-  toast.add({ severity: "success", summary: "Successful", detail: "Products Deleted", life: 3000 });
-};
+  products.value = products.value.filter((val) => !selectedProducts.value.includes(val))
+  deleteProductsDialog.value = false
+  selectedProducts.value = null
+  toast.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 })
+}
 
 const initFilters = () => {
   filters.value = {
     global: { value: null, matchMode: FilterMatchMode.CONTAINS }
-  };
-};
+  }
+}
 </script>
 
 <template>
@@ -288,7 +288,7 @@ const initFilters = () => {
                     ? slotProps.data.inventoryStatus.toLowerCase()
                     : '')
                 "
-              >{{ slotProps.data.inventoryStatus }}</span
+                >{{ slotProps.data.inventoryStatus }}</span
               >
             </template>
           </Column>
@@ -356,13 +356,13 @@ const initFilters = () => {
               <template #value="slotProps">
                 <div v-if="slotProps.value && slotProps.value.value">
                   <span :class="'product-badge status-' + slotProps.value.value">{{
-                      slotProps.value.label
-                    }}</span>
+                    slotProps.value.label
+                  }}</span>
                 </div>
                 <div v-else-if="slotProps.value && !slotProps.value.value">
                   <span :class="'product-badge status-' + slotProps.value.toLowerCase()">{{
-                      slotProps.value
-                    }}</span>
+                    slotProps.value
+                  }}</span>
                 </div>
                 <span v-else>
                   {{ slotProps.placeholder }}
@@ -447,8 +447,8 @@ const initFilters = () => {
           <div class="flex align-items-center justify-content-center">
             <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
             <span v-if="product"
-            >Are you sure you want to delete <b>{{ product.name }}</b
-            >?</span
+              >Are you sure you want to delete <b>{{ product.name }}</b
+              >?</span
             >
           </div>
           <template #footer>

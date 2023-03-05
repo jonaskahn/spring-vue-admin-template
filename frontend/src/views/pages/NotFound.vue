@@ -1,5 +1,6 @@
 <script setup>
-import AppConfig from "@/layout/AppConfig.vue";</script>
+import AppConfig from '@/layout/AppConfig.vue'
+</script>
 
 <template>
   <div
@@ -41,7 +42,7 @@ import AppConfig from "@/layout/AppConfig.vue";</script>
             </span>
             <span class="ml-4 flex flex-column">
               <span class="text-900 lg:text-xl font-medium mb-0 block"
-              >Frequently Asked Questions</span
+                >Frequently Asked Questions</span
               >
               <span class="text-600 lg:text-xl">Ultricies mi quis hendrerit dolor.</span>
             </span>

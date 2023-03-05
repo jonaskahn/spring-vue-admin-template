@@ -1,14 +1,14 @@
 <script setup>
-import { useLayout } from "@/layout/composables/layout";
-import { computed } from "vue";
+import { useLayout } from '@/layout/composables/layout'
+import { computed } from 'vue'
 
-const { layoutConfig, contextPath } = useLayout();
+const { layoutConfig, contextPath } = useLayout()
 
 const logoUrl = computed(() => {
   return `${contextPath}layout/images/${
-    layoutConfig.darkTheme.value ? "logo-white" : "logo-dark"
-  }.svg`;
-});
+    layoutConfig.darkTheme.value ? 'logo-white' : 'logo-dark'
+  }.svg`
+})
 </script>
 
 <template>

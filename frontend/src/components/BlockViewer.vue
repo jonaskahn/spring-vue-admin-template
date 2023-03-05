@@ -1,5 +1,5 @@
 <script>
-import CodeHighlight from "./CodeHighlight.vue";
+import CodeHighlight from './CodeHighlight.vue'
 
 export default {
   props: {
@@ -22,20 +22,20 @@ export default {
         CODE: 1
       },
       blockView: 0
-    };
+    }
   },
   methods: {
     activateView(event, blockView) {
-      this.blockView = blockView;
-      event.preventDefault();
+      this.blockView = blockView
+      event.preventDefault()
     },
     async copyCode(event) {
-      await navigator.clipboard.writeText(this.code);
-      event.preventDefault();
+      await navigator.clipboard.writeText(this.code)
+      event.preventDefault()
     }
   },
   components: { CodeHighlight }
-};
+}
 </script>
 
 <template>
@@ -50,7 +50,7 @@ export default {
           :class="{ 'block-action-active': blockView === BlockView.PREVIEW }"
           tabindex="0"
           @click="activateView($event, BlockView.PREVIEW)"
-        ><span>Preview</span></a
+          ><span>Preview</span></a
         >
         <a
           :class="{ 'block-action-active': blockView === BlockView.CODE }"
@@ -64,7 +64,7 @@ export default {
           :tabindex="0"
           class="block-action-copy"
           @click="copyCode($event)"
-        ><i class="pi pi-copy"></i
+          ><i class="pi pi-copy"></i
         ></a>
       </div>
     </div>

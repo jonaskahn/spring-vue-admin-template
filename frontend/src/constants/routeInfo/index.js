@@ -9,13 +9,13 @@ export default {
       path: '/auth/sign-in',
       name: 'sign-in',
       title: 'Sign in'
-    },
-    APP: {
-      DASH_BOARD: {
-        path: '/',
-        name: 'dashboard',
-        title: 'Mee Spring Vue'
-      }
+    }
+  },
+  APP: {
+    DASH_BOARD: {
+      path: '/',
+      name: 'dashboard',
+      title: 'Mee Spring Vue'
     }
   }
 }

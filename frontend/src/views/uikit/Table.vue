@@ -1,51 +1,51 @@
 <script setup>
-import { FilterMatchMode, FilterOperator } from "primevue/api";
-import CustomerService from "@/service/CustomerService";
-import ProductService from "@/service/ProductService";
-import { onBeforeMount, ref } from "vue";
-import { useLayout } from "@/layout/composables/layout";
+import { FilterMatchMode, FilterOperator } from 'primevue/api'
+import CustomerService from '@/service/CustomerService'
+import ProductService from '@/service/ProductService'
+import { onBeforeMount, ref } from 'vue'
+import { useLayout } from '@/layout/composables/layout'
 
-const { contextPath } = useLayout();
+const { contextPath } = useLayout()
 
-const customer1 = ref(null);
-const customer2 = ref(null);
-const customer3 = ref(null);
-const filters1 = ref(null);
-const loading1 = ref(null);
-const loading2 = ref(null);
-const idFrozen = ref(false);
-const products = ref(null);
-const expandedRows = ref([]);
-const statuses = ref(["unqualified", "qualified", "new", "negotiation", "renewal", "proposal"]);
+const customer1 = ref(null)
+const customer2 = ref(null)
+const customer3 = ref(null)
+const filters1 = ref(null)
+const loading1 = ref(null)
+const loading2 = ref(null)
+const idFrozen = ref(false)
+const products = ref(null)
+const expandedRows = ref([])
+const statuses = ref(['unqualified', 'qualified', 'new', 'negotiation', 'renewal', 'proposal'])
 const representatives = ref([
-  { name: "Amy Elsner", image: "amyelsner.png" },
-  { name: "Anna Fali", image: "annafali.png" },
-  { name: "Asiya Javayant", image: "asiyajavayant.png" },
-  { name: "Bernardo Dominic", image: "bernardodominic.png" },
-  { name: "Elwin Sharvill", image: "elwinsharvill.png" },
-  { name: "Ioni Bowcher", image: "ionibowcher.png" },
-  { name: "Ivan Magalhaes", image: "ivanmagalhaes.png" },
-  { name: "Onyama Limba", image: "onyamalimba.png" },
-  { name: "Stephen Shaw", image: "stephenshaw.png" },
-  { name: "XuXue Feng", image: "xuxuefeng.png" }
-]);
+  { name: 'Amy Elsner', image: 'amyelsner.png' },
+  { name: 'Anna Fali', image: 'annafali.png' },
+  { name: 'Asiya Javayant', image: 'asiyajavayant.png' },
+  { name: 'Bernardo Dominic', image: 'bernardodominic.png' },
+  { name: 'Elwin Sharvill', image: 'elwinsharvill.png' },
+  { name: 'Ioni Bowcher', image: 'ionibowcher.png' },
+  { name: 'Ivan Magalhaes', image: 'ivanmagalhaes.png' },
+  { name: 'Onyama Limba', image: 'onyamalimba.png' },
+  { name: 'Stephen Shaw', image: 'stephenshaw.png' },
+  { name: 'XuXue Feng', image: 'xuxuefeng.png' }
+])
 
-const customerService = new CustomerService();
-const productService = new ProductService();
+const customerService = new CustomerService()
+const productService = new ProductService()
 
 onBeforeMount(() => {
-  productService.getProductsWithOrdersSmall().then((data) => (products.value = data));
+  productService.getProductsWithOrdersSmall().then((data) => (products.value = data))
   customerService.getCustomersLarge().then((data) => {
-    customer1.value = data;
-    loading1.value = false;
-    customer1.value.forEach((customer) => (customer.date = new Date(customer.date)));
-  });
-  customerService.getCustomersLarge().then((data) => (customer2.value = data));
-  customerService.getCustomersMedium().then((data) => (customer3.value = data));
-  loading2.value = false;
+    customer1.value = data
+    loading1.value = false
+    customer1.value.forEach((customer) => (customer.date = new Date(customer.date)))
+  })
+  customerService.getCustomersLarge().then((data) => (customer2.value = data))
+  customerService.getCustomersMedium().then((data) => (customer3.value = data))
+  loading2.value = false
 
-  initFilters1();
-});
+  initFilters1()
+})
 
 const initFilters1 = () => {
   filters1.value = {
@@ -54,7 +54,7 @@ const initFilters1 = () => {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
     },
-    "country.name": {
+    'country.name': {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
     },
@@ -73,41 +73,41 @@ const initFilters1 = () => {
     },
     activity: { value: [0, 50], matchMode: FilterMatchMode.BETWEEN },
     verified: { value: null, matchMode: FilterMatchMode.EQUALS }
-  };
-};
+  }
+}
 
 const clearFilter1 = () => {
-  initFilters1();
-};
+  initFilters1()
+}
 const expandAll = () => {
-  expandedRows.value = products.value.filter((p) => p.id);
-};
+  expandedRows.value = products.value.filter((p) => p.id)
+}
 const collapseAll = () => {
-  expandedRows.value = null;
-};
+  expandedRows.value = null
+}
 const formatCurrency = (value) => {
-  return value.toLocaleString("en-US", { style: "currency", currency: "USD" });
-};
+  return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+}
 
 const formatDate = (value) => {
-  return value.toLocaleDateString("en-US", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric"
-  });
-};
+  return value.toLocaleDateString('en-US', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  })
+}
 const calculateCustomerTotal = (name) => {
-  let total = 0;
+  let total = 0
   if (customer3.value) {
     for (let customer of customer3.value) {
       if (customer.representative.name === name) {
-        total++;
+        total++
       }
     }
   }
 
-  return total;
-};
+  return total
+}
 </script>
 
 <template>
@@ -172,8 +172,8 @@ const calculateCustomerTotal = (name) => {
                 width="30"
               />
               <span class="image-text" style="margin-left: 0.5em; vertical-align: middle">{{
-                  data.country.name
-                }}</span>
+                data.country.name
+              }}</span>
             </template>
             <template #filter="{ filterModel }">
               <InputText
@@ -215,8 +215,8 @@ const calculateCustomerTotal = (name) => {
                 width="32"
               />
               <span class="image-text" style="margin-left: 0.5em; vertical-align: middle">{{
-                  data.representative.name
-                }}</span>
+                data.representative.name
+              }}</span>
             </template>
             <template #filter="{ filterModel }">
               <div class="mb-3 text-bold">Agent Picker</div>
@@ -236,8 +236,8 @@ const calculateCustomerTotal = (name) => {
                       width="32"
                     />
                     <span class="image-text" style="margin-left: 0.5em; vertical-align: middle">{{
-                        slotProps.option.name
-                      }}</span>
+                      slotProps.option.name
+                    }}</span>
                   </div>
                 </template>
               </MultiSelect>
@@ -294,14 +294,14 @@ const calculateCustomerTotal = (name) => {
                   <span
                     v-if="slotProps.value"
                     :class="'customer-badge status-' + slotProps.value"
-                  >{{ slotProps.value }}</span
+                    >{{ slotProps.value }}</span
                   >
                   <span v-else>{{ slotProps.placeholder }}</span>
                 </template>
                 <template #option="slotProps">
                   <span :class="'customer-badge status-' + slotProps.option">{{
-                      slotProps.option
-                    }}</span>
+                    slotProps.option
+                  }}</span>
                 </template>
               </Dropdown>
             </template>
@@ -381,8 +381,8 @@ const calculateCustomerTotal = (name) => {
                 width="30"
               />
               <span class="image-text" style="margin-left: 0.5em; vertical-align: middle">{{
-                  data.country.name
-                }}</span>
+                data.country.name
+              }}</span>
             </template>
           </Column>
           <Column :style="{ width: '200px' }" field="date" header="Date"></Column>
@@ -402,8 +402,8 @@ const calculateCustomerTotal = (name) => {
                 width="32"
               />
               <span class="image-text" style="margin-left: 0.5em; vertical-align: middle">{{
-                  data.representative.name
-                }}</span>
+                data.representative.name
+              }}</span>
             </template>
           </Column>
           <Column
@@ -461,8 +461,7 @@ const calculateCustomerTotal = (name) => {
             <template #body="slotProps">
               {{ formatCurrency(slotProps.data.category) }}
             </template>
-          </Column
-          >
+          </Column>
           <Column :sortable="true" field="rating" header="Reviews">
             <template #body="slotProps">
               <Rating :cancel="false" :modelValue="slotProps.data.rating" :readonly="true" />
@@ -477,7 +476,7 @@ const calculateCustomerTotal = (name) => {
                     ? slotProps.data.inventoryStatus.toLowerCase()
                     : '')
                 "
-              >{{ slotProps.data.inventoryStatus }}</span
+                >{{ slotProps.data.inventoryStatus }}</span
               >
             </template>
           </Column>
@@ -512,7 +511,7 @@ const calculateCustomerTotal = (name) => {
                         'order-badge order-' +
                         (slotProps.data.status ? slotProps.data.status.toLowerCase() : '')
                       "
-                    >{{ slotProps.data.status }}</span
+                      >{{ slotProps.data.status }}</span
                     >
                   </template>
                 </Column>
@@ -557,8 +556,8 @@ const calculateCustomerTotal = (name) => {
           <Column field="status" header="Status" style="min-width: 200px">
             <template #body="slotProps">
               <span :class="'customer-badge status-' + slotProps.data.status">{{
-                  slotProps.data.status
-                }}</span>
+                slotProps.data.status
+              }}</span>
             </template>
           </Column>
           <Column field="date" header="Date" style="min-width: 200px"></Column>

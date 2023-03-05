@@ -1,36 +1,36 @@
 <script setup>
-import { computed, onMounted, ref } from "vue";
-import { useLayout } from "@/layout/composables/layout";
+import { computed, onMounted, ref } from 'vue'
+import { useLayout } from '@/layout/composables/layout'
 
-const { contextPath } = useLayout();
+const { contextPath } = useLayout()
 
-const icons = ref(null);
-const filter = ref(null);
+const icons = ref(null)
+const filter = ref(null)
 
 const filteredIcons = computed(() => {
   if (filter.value)
     return icons.value.filter(
       (icon) => icon.properties.name.indexOf(filter.value.toLowerCase()) > -1
-    );
-  else return icons.value;
-});
+    )
+  else return icons.value
+})
 
 onMounted(() => {
-  fetch(contextPath + "demo/data/icons.json", { headers: { "Cache-Control": "no-cache" } })
+  fetch(contextPath + 'demo/data/icons.json', { headers: { 'Cache-Control': 'no-cache' } })
     .then((res) => res.json())
     .then((d) => {
       let data = d.icons.filter((value) => {
-        return value.icon.tags.indexOf("deprecate") === -1;
-      });
+        return value.icon.tags.indexOf('deprecate') === -1
+      })
       data.sort((icon1, icon2) => {
-        if (icon1.properties.name < icon2.properties.name) return -1;
-        else if (icon1.properties.name > icon2.properties.name) return 1;
-        else return 0;
-      });
+        if (icon1.properties.name < icon2.properties.name) return -1
+        else if (icon1.properties.name > icon2.properties.name) return 1
+        else return 0
+      })
 
-      icons.value = data;
-    });
-});
+      icons.value = data
+    })
+})
 </script>
 
 <template>
@@ -42,11 +42,11 @@ onMounted(() => {
         <a
           class="font-medium text-primary hover:underline"
           href="https://github.com/primefaces/primeicons"
-        >PrimeIcons</a
+          >PrimeIcons</a
         >
         library, the official icons suite from
         <a class="font-medium text-primary hover:underline" href="https://www.primetek.com.tr"
-        >PrimeTek</a
+          >PrimeTek</a
         >.
       </p>
 
@@ -98,7 +98,7 @@ onMounted(() => {
         <a
           class="font-medium text-primary hover:underline"
           href="https://github.com/primefaces/primeicons/issues"
-        >request new icons</a
+          >request new icons</a
         >
         at the issue tracker.
       </p>

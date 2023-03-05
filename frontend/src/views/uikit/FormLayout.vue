@@ -1,13 +1,13 @@
 <script setup>
-import { ref } from "vue";
+import { ref } from 'vue'
 
 const dropdownItems = ref([
-  { name: "Option 1", code: "Option 1" },
-  { name: "Option 2", code: "Option 2" },
-  { name: "Option 3", code: "Option 3" }
-]);
+  { name: 'Option 1', code: 'Option 1' },
+  { name: 'Option 2', code: 'Option 2' },
+  { name: 'Option 3', code: 'Option 3' }
+])
 
-const dropdownItem = ref(null);
+const dropdownItem = ref(null)
 </script>
 
 <template>

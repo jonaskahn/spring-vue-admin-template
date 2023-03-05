@@ -1,63 +1,63 @@
 <script setup>
-import { onMounted, ref } from "vue";
-import ProductService from "@/service/ProductService";
-import { useLayout } from "@/layout/composables/layout";
+import { onMounted, ref } from 'vue'
+import ProductService from '@/service/ProductService'
+import { useLayout } from '@/layout/composables/layout'
 
-const { contextPath } = useLayout();
+const { contextPath } = useLayout()
 
 const picklistValue = ref([
   [
-    { name: "San Francisco", code: "SF" },
-    { name: "London", code: "LDN" },
-    { name: "Paris", code: "PRS" },
-    { name: "Istanbul", code: "IST" },
-    { name: "Berlin", code: "BRL" },
-    { name: "Barcelona", code: "BRC" },
-    { name: "Rome", code: "RM" }
+    { name: 'San Francisco', code: 'SF' },
+    { name: 'London', code: 'LDN' },
+    { name: 'Paris', code: 'PRS' },
+    { name: 'Istanbul', code: 'IST' },
+    { name: 'Berlin', code: 'BRL' },
+    { name: 'Barcelona', code: 'BRC' },
+    { name: 'Rome', code: 'RM' }
   ],
   []
-]);
+])
 
 const orderlistValue = ref([
-  { name: "San Francisco", code: "SF" },
-  { name: "London", code: "LDN" },
-  { name: "Paris", code: "PRS" },
-  { name: "Istanbul", code: "IST" },
-  { name: "Berlin", code: "BRL" },
-  { name: "Barcelona", code: "BRC" },
-  { name: "Rome", code: "RM" }
-]);
+  { name: 'San Francisco', code: 'SF' },
+  { name: 'London', code: 'LDN' },
+  { name: 'Paris', code: 'PRS' },
+  { name: 'Istanbul', code: 'IST' },
+  { name: 'Berlin', code: 'BRL' },
+  { name: 'Barcelona', code: 'BRC' },
+  { name: 'Rome', code: 'RM' }
+])
 
-const dataviewValue = ref(null);
-const layout = ref("grid");
-const sortKey = ref(null);
-const sortOrder = ref(null);
-const sortField = ref(null);
+const dataviewValue = ref(null)
+const layout = ref('grid')
+const sortKey = ref(null)
+const sortOrder = ref(null)
+const sortField = ref(null)
 const sortOptions = ref([
-  { label: "Price High to Low", value: "!price" },
-  { label: "Price Low to High", value: "price" }
-]);
+  { label: 'Price High to Low', value: '!price' },
+  { label: 'Price Low to High', value: 'price' }
+])
 
-const productService = new ProductService();
+const productService = new ProductService()
 
 onMounted(() => {
-  productService.getProductsSmall().then((data) => (dataviewValue.value = data));
-});
+  productService.getProductsSmall().then((data) => (dataviewValue.value = data))
+})
 
 const onSortChange = (event) => {
-  const value = event.value.value;
-  const sortValue = event.value;
+  const value = event.value.value
+  const sortValue = event.value
 
-  if (value.indexOf("!") === 0) {
-    sortOrder.value = -1;
-    sortField.value = value.substring(1, value.length);
-    sortKey.value = sortValue;
+  if (value.indexOf('!') === 0) {
+    sortOrder.value = -1
+    sortField.value = value.substring(1, value.length)
+    sortKey.value = sortValue
   } else {
-    sortOrder.value = 1;
-    sortField.value = value;
-    sortKey.value = sortValue;
+    sortOrder.value = 1
+    sortField.value = value
+    sortKey.value = sortValue
   }
-};
+}
 </script>
 
 <template>
@@ -115,7 +115,7 @@ const onSortChange = (event) => {
                   class="flex flex-row md:flex-column justify-content-between w-full md:w-auto align-items-center md:align-items-end mt-5 md:mt-0"
                 >
                   <span class="text-2xl font-semibold mb-2 align-self-center md:align-self-end"
-                  >${{ slotProps.data.price }}</span
+                    >${{ slotProps.data.price }}</span
                   >
                   <Button
                     :disabled="slotProps.data.inventoryStatus === 'OUTOFSTOCK'"
@@ -125,7 +125,7 @@ const onSortChange = (event) => {
                   ></Button>
                   <span
                     :class="'product-badge status-' + slotProps.data.inventoryStatus.toLowerCase()"
-                  >{{ slotProps.data.inventoryStatus }}</span
+                    >{{ slotProps.data.inventoryStatus }}</span
                   >
                 </div>
               </div>
@@ -142,7 +142,7 @@ const onSortChange = (event) => {
                   </div>
                   <span
                     :class="'product-badge status-' + slotProps.data.inventoryStatus.toLowerCase()"
-                  >{{ slotProps.data.inventoryStatus }}</span
+                    >{{ slotProps.data.inventoryStatus }}</span
                   >
                 </div>
                 <div class="text-center">

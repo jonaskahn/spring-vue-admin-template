@@ -1,17 +1,17 @@
 <script setup>
-import NodeService from "@/service/NodeService";
-import { onMounted, ref } from "vue";
+import NodeService from '@/service/NodeService'
+import { onMounted, ref } from 'vue'
 
-const treeValue = ref(null);
-const selectedTreeValue = ref(null);
-const treeTableValue = ref(null);
-const selectedTreeTableValue = ref(null);
-const nodeService = new NodeService();
+const treeValue = ref(null)
+const selectedTreeValue = ref(null)
+const treeTableValue = ref(null)
+const selectedTreeTableValue = ref(null)
+const nodeService = new NodeService()
 
 onMounted(() => {
-  nodeService.getTreeNodes().then((data) => (treeValue.value = data));
-  nodeService.getTreeTableNodes().then((data) => (treeTableValue.value = data));
-});
+  nodeService.getTreeNodes().then((data) => (treeValue.value = data))
+  nodeService.getTreeTableNodes().then((data) => (treeTableValue.value = data))
+})
 </script>
 
 <template>

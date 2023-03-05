@@ -1,79 +1,79 @@
 <script setup>
-import ProductService from "@/service/ProductService";
-import { onMounted, ref } from "vue";
-import { useToast } from "primevue/usetoast";
-import { useConfirm } from "primevue/useconfirm";
-import { useLayout } from "@/layout/composables/layout";
+import ProductService from '@/service/ProductService'
+import { onMounted, ref } from 'vue'
+import { useToast } from 'primevue/usetoast'
+import { useConfirm } from 'primevue/useconfirm'
+import { useLayout } from '@/layout/composables/layout'
 
-const { contextPath } = useLayout();
+const { contextPath } = useLayout()
 
-const display = ref(false);
-const displayConfirmation = ref(false);
-const visibleLeft = ref(false);
-const visibleRight = ref(false);
-const visibleTop = ref(false);
-const visibleBottom = ref(false);
-const visibleFull = ref(false);
-const products = ref(null);
-const selectedProduct = ref(null);
-const op = ref(null);
-const op2 = ref(null);
-const popup = ref(null);
+const display = ref(false)
+const displayConfirmation = ref(false)
+const visibleLeft = ref(false)
+const visibleRight = ref(false)
+const visibleTop = ref(false)
+const visibleBottom = ref(false)
+const visibleFull = ref(false)
+const products = ref(null)
+const selectedProduct = ref(null)
+const op = ref(null)
+const op2 = ref(null)
+const popup = ref(null)
 
-const productService = new ProductService();
-const toast = useToast();
-const confirmPopup = useConfirm();
+const productService = new ProductService()
+const toast = useToast()
+const confirmPopup = useConfirm()
 
 onMounted(() => {
-  productService.getProductsSmall().then((data) => (products.value = data));
-});
+  productService.getProductsSmall().then((data) => (products.value = data))
+})
 
 const open = () => {
-  display.value = true;
-};
+  display.value = true
+}
 
 const close = () => {
-  display.value = false;
-};
+  display.value = false
+}
 
 const openConfirmation = () => {
-  displayConfirmation.value = true;
-};
+  displayConfirmation.value = true
+}
 
 const closeConfirmation = () => {
-  displayConfirmation.value = false;
-};
+  displayConfirmation.value = false
+}
 
 const toggle = (event) => {
-  op.value.toggle(event);
-};
+  op.value.toggle(event)
+}
 
 const toggleDataTable = (event) => {
-  op2.value.toggle(event);
-};
+  op2.value.toggle(event)
+}
 
 const formatCurrency = (value) => {
-  return value.toLocaleString("en-US", { style: "currency", currency: "USD" });
-};
+  return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+}
 
 const onProductSelect = (event) => {
-  op.value.hide();
-  toast.add({ severity: "info", summary: "Product Selected", detail: event.data.name, life: 3000 });
-};
+  op.value.hide()
+  toast.add({ severity: 'info', summary: 'Product Selected', detail: event.data.name, life: 3000 })
+}
 
 const confirm = (event) => {
   confirmPopup.require({
     target: event.target,
-    message: "Are you sure you want to proceed?",
-    icon: "pi pi-exclamation-triangle",
+    message: 'Are you sure you want to proceed?',
+    icon: 'pi pi-exclamation-triangle',
     accept: () => {
-      toast.add({ severity: "info", summary: "Confirmed", detail: "You have accepted", life: 3000 });
+      toast.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 })
     },
     reject: () => {
-      toast.add({ severity: "info", summary: "Rejected", detail: "You have rejected", life: 3000 });
+      toast.add({ severity: 'info', summary: 'Rejected', detail: 'You have rejected', life: 3000 })
     }
-  });
-};
+  })
+}
 </script>
 
 <template>

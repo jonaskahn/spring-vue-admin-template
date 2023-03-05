@@ -1,56 +1,56 @@
 <script setup>
-import ProductService from "@/service/ProductService";
-import PhotoService from "@/service/PhotoService";
-import { onMounted, ref } from "vue";
-import { useLayout } from "@/layout/composables/layout";
+import ProductService from '@/service/ProductService'
+import PhotoService from '@/service/PhotoService'
+import { onMounted, ref } from 'vue'
+import { useLayout } from '@/layout/composables/layout'
 
-const { contextPath } = useLayout();
+const { contextPath } = useLayout()
 
-const products = ref([]);
-const images = ref([]);
+const products = ref([])
+const images = ref([])
 const galleriaResponsiveOptions = ref([
   {
-    breakpoint: "1024px",
+    breakpoint: '1024px',
     numVisible: 5
   },
   {
-    breakpoint: "960px",
+    breakpoint: '960px',
     numVisible: 4
   },
   {
-    breakpoint: "768px",
+    breakpoint: '768px',
     numVisible: 3
   },
   {
-    breakpoint: "560px",
+    breakpoint: '560px',
     numVisible: 1
   }
-]);
+])
 const carouselResponsiveOptions = ref([
   {
-    breakpoint: "1024px",
+    breakpoint: '1024px',
     numVisible: 3,
     numScroll: 3
   },
   {
-    breakpoint: "768px",
+    breakpoint: '768px',
     numVisible: 2,
     numScroll: 2
   },
   {
-    breakpoint: "560px",
+    breakpoint: '560px',
     numVisible: 1,
     numScroll: 1
   }
-]);
+])
 
-const productService = new ProductService();
-const photoService = new PhotoService();
+const productService = new ProductService()
+const photoService = new PhotoService()
 
 onMounted(() => {
-  productService.getProductsSmall().then((data) => (products.value = data));
-  photoService.getImages().then((data) => (images.value = data));
-});
+  productService.getProductsSmall().then((data) => (products.value = data))
+  photoService.getImages().then((data) => (images.value = data))
+})
 </script>
 
 <template>
@@ -82,7 +82,7 @@ onMounted(() => {
                   <h6 class="mt-0 mb-3">${{ product.data.price }}</h6>
                   <span
                     :class="'product-badge status-' + product.data.inventoryStatus.toLowerCase()"
-                  >{{ product.data.inventoryStatus }}</span
+                    >{{ product.data.inventoryStatus }}</span
                   >
                   <div class="car-buttons mt-5">
                     <Button

@@ -1,117 +1,117 @@
 <script setup>
-import { onMounted, reactive, ref, watch } from "vue";
-import ProductService from "@/service/ProductService";
-import { useLayout } from "@/layout/composables/layout";
+import { onMounted, reactive, ref, watch } from 'vue'
+import ProductService from '@/service/ProductService'
+import { useLayout } from '@/layout/composables/layout'
 
-const { isDarkTheme, contextPath } = useLayout();
+const { isDarkTheme, contextPath } = useLayout()
 
-const products = ref(null);
+const products = ref(null)
 const lineData = reactive({
-  labels: ["January", "February", "March", "April", "May", "June", "July"],
+  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
   datasets: [
     {
-      label: "First Dataset",
+      label: 'First Dataset',
       data: [65, 59, 80, 81, 56, 55, 40],
       fill: false,
-      backgroundColor: "#2f4860",
-      borderColor: "#2f4860",
+      backgroundColor: '#2f4860',
+      borderColor: '#2f4860',
       tension: 0.4
     },
     {
-      label: "Second Dataset",
+      label: 'Second Dataset',
       data: [28, 48, 40, 19, 86, 27, 90],
       fill: false,
-      backgroundColor: "#00bb7e",
-      borderColor: "#00bb7e",
+      backgroundColor: '#00bb7e',
+      borderColor: '#00bb7e',
       tension: 0.4
     }
   ]
-});
+})
 const items = ref([
-  { label: "Add New", icon: "pi pi-fw pi-plus" },
-  { label: "Remove", icon: "pi pi-fw pi-minus" }
-]);
-const lineOptions = ref(null);
-const productService = new ProductService();
+  { label: 'Add New', icon: 'pi pi-fw pi-plus' },
+  { label: 'Remove', icon: 'pi pi-fw pi-minus' }
+])
+const lineOptions = ref(null)
+const productService = new ProductService()
 
 onMounted(() => {
-  productService.getProductsSmall().then((data) => (products.value = data));
-});
+  productService.getProductsSmall().then((data) => (products.value = data))
+})
 
 const formatCurrency = (value) => {
-  return value.toLocaleString("en-US", { style: "currency", currency: "USD" });
-};
+  return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+}
 const applyLightTheme = () => {
   lineOptions.value = {
     plugins: {
       legend: {
         labels: {
-          color: "#495057"
+          color: '#495057'
         }
       }
     },
     scales: {
       x: {
         ticks: {
-          color: "#495057"
+          color: '#495057'
         },
         grid: {
-          color: "#ebedef"
+          color: '#ebedef'
         }
       },
       y: {
         ticks: {
-          color: "#495057"
+          color: '#495057'
         },
         grid: {
-          color: "#ebedef"
+          color: '#ebedef'
         }
       }
     }
-  };
-};
+  }
+}
 
 const applyDarkTheme = () => {
   lineOptions.value = {
     plugins: {
       legend: {
         labels: {
-          color: "#ebedef"
+          color: '#ebedef'
         }
       }
     },
     scales: {
       x: {
         ticks: {
-          color: "#ebedef"
+          color: '#ebedef'
         },
         grid: {
-          color: "rgba(160, 167, 181, .3)"
+          color: 'rgba(160, 167, 181, .3)'
         }
       },
       y: {
         ticks: {
-          color: "#ebedef"
+          color: '#ebedef'
         },
         grid: {
-          color: "rgba(160, 167, 181, .3)"
+          color: 'rgba(160, 167, 181, .3)'
         }
       }
     }
-  };
-};
+  }
+}
 
 watch(
   isDarkTheme,
   (val) => {
     if (val) {
-      applyDarkTheme();
+      applyDarkTheme()
     } else {
-      applyLightTheme();
+      applyLightTheme()
     }
   },
   { immediate: true }
-);
+)
 </script>
 
 <template>
@@ -363,9 +363,9 @@ watch(
               <i class="pi pi-dollar text-xl text-blue-500"></i>
             </div>
             <span class="text-900 line-height-3"
-            >Richard Jones
+              >Richard Jones
               <span class="text-700"
-              >has purchased a blue t-shirt for <span class="text-blue-500">79$</span></span
+                >has purchased a blue t-shirt for <span class="text-blue-500">79$</span></span
               >
             </span>
           </li>
@@ -376,7 +376,7 @@ watch(
               <i class="pi pi-download text-xl text-orange-500"></i>
             </div>
             <span class="text-700 line-height-3"
-            >Your request for withdrawal of
+              >Your request for withdrawal of
               <span class="text-blue-500 font-medium">2500$</span> has been initiated.</span
             >
           </li>
@@ -391,9 +391,9 @@ watch(
               <i class="pi pi-dollar text-xl text-blue-500"></i>
             </div>
             <span class="text-900 line-height-3"
-            >Keyser Wick
+              >Keyser Wick
               <span class="text-700"
-              >has purchased a black jacket for <span class="text-blue-500">59$</span></span
+                >has purchased a black jacket for <span class="text-blue-500">59$</span></span
               >
             </span>
           </li>
@@ -404,7 +404,7 @@ watch(
               <i class="pi pi-question text-xl text-pink-500"></i>
             </div>
             <span class="text-900 line-height-3"
-            >Jane Davis
+              >Jane Davis
               <span class="text-700">has posted a new questions about your product.</span>
             </span>
           </li>

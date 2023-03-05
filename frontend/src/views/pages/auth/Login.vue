@@ -1,26 +1,35 @@
 <script setup>
-import { useLayout } from "@/layout/composables/layout";
-import { computed, ref } from "vue";
-import AppConfig from "@/layout/AppConfig.vue";
-import AuthService from "@/service/AuthService";
+import { useLayout } from '@/layout/composables/layout'
+import { computed, ref } from 'vue'
+import AppConfig from '@/layout/AppConfig.vue'
+import AuthService from '@/service/AuthService'
+import { useRouter } from 'vue-router'
+import routeInfo from '@/constants/routeInfo'
 
-const { layoutConfig, contextPath } = useLayout();
-const email = ref("");
-const password = ref("");
-const checked = ref(false);
+const { layoutConfig, contextPath } = useLayout()
+const email = ref('admin')
+const password = ref('admin-password')
+const checked = ref(false)
 
 const logoUrl = computed(() => {
   return `${contextPath}layout/images/${
-    layoutConfig.darkTheme.value ? "logo-white" : "logo-dark"
-  }.svg`;
-});
+    layoutConfig.darkTheme.value ? 'logo-white' : 'logo-dark'
+  }.svg`
+})
 
-const authService = new AuthService();
+const authService = new AuthService()
+const router = useRouter()
 
-function submit() {
-  authService.login({
-    email: email.value
-  });
+async function submit() {
+  const result = await authService.login({
+    username: email.value,
+    password: password.value
+  })
+  if (result) {
+    router.push({
+      path: routeInfo.APP.DASH_BOARD.path
+    })
+  }
 }
 </script>
 
@@ -58,7 +67,7 @@ function submit() {
               />
 
               <label class="block text-900 font-medium text-xl mb-2" for="password1"
-              >Password</label
+                >Password</label
               >
               <Password
                 id="password1"
@@ -79,7 +88,7 @@ function submit() {
                 <a
                   class="font-medium no-underline ml-2 text-right cursor-pointer"
                   style="color: var(--primary-color)"
-                >Forgot password?</a
+                  >Forgot password?</a
                 >
               </div>
               <Button

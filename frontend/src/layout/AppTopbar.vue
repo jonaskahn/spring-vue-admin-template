@@ -1,70 +1,70 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from "vue";
-import { useLayout } from "@/layout/composables/layout";
-import { useRouter } from "vue-router";
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { useLayout } from '@/layout/composables/layout'
+import { useRouter } from 'vue-router'
 
-const { layoutConfig, onMenuToggle, contextPath } = useLayout();
+const { layoutConfig, onMenuToggle, contextPath } = useLayout()
 
-const outsideClickListener = ref(null);
-const topbarMenuActive = ref(false);
-const router = useRouter();
+const outsideClickListener = ref(null)
+const topbarMenuActive = ref(false)
+const router = useRouter()
 
 onMounted(() => {
-  bindOutsideClickListener();
-});
+  bindOutsideClickListener()
+})
 
 onBeforeUnmount(() => {
-  unbindOutsideClickListener();
-});
+  unbindOutsideClickListener()
+})
 
 const logoUrl = computed(() => {
   return `${contextPath}layout/images/${
-    layoutConfig.darkTheme.value ? "logo-white" : "logo-dark"
-  }.svg`;
-});
+    layoutConfig.darkTheme.value ? 'logo-white' : 'logo-dark'
+  }.svg`
+})
 
 const onTopBarMenuButton = () => {
-  topbarMenuActive.value = !topbarMenuActive.value;
-};
+  topbarMenuActive.value = !topbarMenuActive.value
+}
 const onSettingsClick = () => {
-  topbarMenuActive.value = false;
-  router.push("/documentation");
-};
+  topbarMenuActive.value = false
+  router.push('/documentation')
+}
 const topbarMenuClasses = computed(() => {
   return {
-    "layout-topbar-menu-mobile-active": topbarMenuActive.value
-  };
-});
+    'layout-topbar-menu-mobile-active': topbarMenuActive.value
+  }
+})
 
 const bindOutsideClickListener = () => {
   if (!outsideClickListener.value) {
     outsideClickListener.value = (event) => {
       if (isOutsideClicked(event)) {
-        topbarMenuActive.value = false;
+        topbarMenuActive.value = false
       }
-    };
-    document.addEventListener("click", outsideClickListener.value);
+    }
+    document.addEventListener('click', outsideClickListener.value)
   }
-};
+}
 const unbindOutsideClickListener = () => {
   if (outsideClickListener.value) {
-    document.removeEventListener("click", outsideClickListener);
-    outsideClickListener.value = null;
+    document.removeEventListener('click', outsideClickListener)
+    outsideClickListener.value = null
   }
-};
+}
 const isOutsideClicked = (event) => {
-  if (!topbarMenuActive.value) return;
+  if (!topbarMenuActive.value) return
 
-  const sidebarEl = document.querySelector(".layout-topbar-menu");
-  const topbarEl = document.querySelector(".layout-topbar-menu-button");
+  const sidebarEl = document.querySelector('.layout-topbar-menu')
+  const topbarEl = document.querySelector('.layout-topbar-menu-button')
 
   return !(
     sidebarEl.isSameNode(event.target) ||
     sidebarEl.contains(event.target) ||
     topbarEl.isSameNode(event.target) ||
     topbarEl.contains(event.target)
-  );
-};
+  )
+}
 </script>
 
 <template>
