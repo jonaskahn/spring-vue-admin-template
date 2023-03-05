@@ -1,26 +1,26 @@
 <script setup>
-import { useLayout } from '@/layout/composables/layout'
-import { computed, ref } from 'vue'
-import AppConfig from '@/layout/AppConfig.vue'
-import AuthService from '@/service/AuthService'
+import { useLayout } from "@/layout/composables/layout";
+import { computed, ref } from "vue";
+import AppConfig from "@/layout/AppConfig.vue";
+import AuthService from "@/service/AuthService";
 
-const { layoutConfig, contextPath } = useLayout()
-const email = ref('')
-const password = ref('')
-const checked = ref(false)
+const { layoutConfig, contextPath } = useLayout();
+const email = ref("");
+const password = ref("");
+const checked = ref(false);
 
 const logoUrl = computed(() => {
   return `${contextPath}layout/images/${
-    layoutConfig.darkTheme.value ? 'logo-white' : 'logo-dark'
-  }.svg`
-})
+    layoutConfig.darkTheme.value ? "logo-white" : "logo-dark"
+  }.svg`;
+});
 
-const authService = new AuthService()
+const authService = new AuthService();
 
 function submit() {
   authService.login({
     email: email.value
-  })
+  });
 }
 </script>
 
@@ -39,54 +39,54 @@ function submit() {
       >
         <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius: 53px">
           <div class="text-center mb-5">
-            <img src="/demo/images/login/avatar.png" alt="Image" height="50" class="mb-3" />
+            <img alt="Image" class="mb-3" height="50" src="/demo/images/login/avatar.png" />
             <div class="text-900 text-3xl font-medium mb-3">Welcome, Isabel!</div>
             <span class="text-600 font-medium">Sign in to continue</span>
           </div>
 
           <div>
             <form>
-              <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
+              <label class="block text-900 text-xl font-medium mb-2" for="email1">Email</label>
               <InputText
-                required
                 id="email1"
-                type="text"
-                placeholder="Email address"
-                class="w-full md:w-30rem mb-5"
-                style="padding: 1rem"
                 v-model="email"
+                class="w-full md:w-30rem mb-5"
+                placeholder="Email address"
+                required
+                style="padding: 1rem"
+                type="text"
               />
 
-              <label for="password1" class="block text-900 font-medium text-xl mb-2"
-                >Password</label
+              <label class="block text-900 font-medium text-xl mb-2" for="password1"
+              >Password</label
               >
               <Password
-                required
                 id="password1"
                 v-model="password"
-                placeholder="Password"
                 :toggleMask="true"
                 class="w-full mb-3"
                 inputClass="w-full"
                 inputStyle="padding:1rem"
+                placeholder="Password"
+                required
               ></Password>
 
               <div class="flex align-items-center justify-content-between mb-5 gap-5">
                 <div class="flex align-items-center">
-                  <Checkbox v-model="checked" id="rememberme1" binary class="mr-2"></Checkbox>
+                  <Checkbox id="rememberme1" v-model="checked" binary class="mr-2"></Checkbox>
                   <label for="rememberme1">Remember me</label>
                 </div>
                 <a
                   class="font-medium no-underline ml-2 text-right cursor-pointer"
                   style="color: var(--primary-color)"
-                  >Forgot password?</a
+                >Forgot password?</a
                 >
               </div>
               <Button
-                label="Sign In"
                 class="w-full p-3 text-xl"
-                @click="submit"
+                label="Sign In"
                 type="button"
+                @click="submit"
               ></Button>
             </form>
           </div>

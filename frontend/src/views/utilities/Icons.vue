@@ -1,36 +1,36 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
-import { useLayout } from '@/layout/composables/layout'
+import { computed, onMounted, ref } from "vue";
+import { useLayout } from "@/layout/composables/layout";
 
-const { contextPath } = useLayout()
+const { contextPath } = useLayout();
 
-const icons = ref(null)
-const filter = ref(null)
+const icons = ref(null);
+const filter = ref(null);
 
 const filteredIcons = computed(() => {
   if (filter.value)
     return icons.value.filter(
       (icon) => icon.properties.name.indexOf(filter.value.toLowerCase()) > -1
-    )
-  else return icons.value
-})
+    );
+  else return icons.value;
+});
 
 onMounted(() => {
-  fetch(contextPath + 'demo/data/icons.json', { headers: { 'Cache-Control': 'no-cache' } })
+  fetch(contextPath + "demo/data/icons.json", { headers: { "Cache-Control": "no-cache" } })
     .then((res) => res.json())
     .then((d) => {
       let data = d.icons.filter((value) => {
-        return value.icon.tags.indexOf('deprecate') === -1
-      })
+        return value.icon.tags.indexOf("deprecate") === -1;
+      });
       data.sort((icon1, icon2) => {
-        if (icon1.properties.name < icon2.properties.name) return -1
-        else if (icon1.properties.name > icon2.properties.name) return 1
-        else return 0
-      })
+        if (icon1.properties.name < icon2.properties.name) return -1;
+        else if (icon1.properties.name > icon2.properties.name) return 1;
+        else return 0;
+      });
 
-      icons.value = data
-    })
-})
+      icons.value = data;
+    });
+});
 </script>
 
 <template>
@@ -40,13 +40,13 @@ onMounted(() => {
       <p>
         PrimeVue components internally use
         <a
-          href="https://github.com/primefaces/primeicons"
           class="font-medium text-primary hover:underline"
-          >PrimeIcons</a
+          href="https://github.com/primefaces/primeicons"
+        >PrimeIcons</a
         >
         library, the official icons suite from
-        <a href="https://www.primetek.com.tr" class="font-medium text-primary hover:underline"
-          >PrimeTek</a
+        <a class="font-medium text-primary hover:underline" href="https://www.primetek.com.tr"
+        >PrimeTek</a
         >.
       </p>
 
@@ -55,7 +55,7 @@ onMounted(() => {
         PrimeIcons is available at npm, run the following command to download it to your project.
       </p>
 
-      <CodeHighlight> npm install primeicons --save </CodeHighlight>
+      <CodeHighlight> npm install primeicons --save</CodeHighlight>
 
       <h5>Getting Started</h5>
       <p>
@@ -74,7 +74,7 @@ onMounted(() => {
       <h5>Size</h5>
       <p>Size of the icons can easily be changed using font-size property.</p>
 
-      <CodeHighlight> &lt;i class="pi pi-check"&gt;&lt;/i&gt; </CodeHighlight>
+      <CodeHighlight> &lt;i class="pi pi-check"&gt;&lt;/i&gt;</CodeHighlight>
 
       <i class="pi pi-check"></i>
 
@@ -96,9 +96,9 @@ onMounted(() => {
       <p>
         Here is the current list of PrimeIcons, more icons are added periodically. You may also
         <a
-          href="https://github.com/primefaces/primeicons/issues"
           class="font-medium text-primary hover:underline"
-          >request new icons</a
+          href="https://github.com/primefaces/primeicons/issues"
+        >request new icons</a
         >
         at the issue tracker.
       </p>
@@ -107,9 +107,9 @@ onMounted(() => {
 
       <div class="grid icons-list text-center">
         <div
-          class="col-6 sm:col-4 lg:col-3 xl:col-2 pb-5"
           v-for="icon of filteredIcons"
           :key="icon.properties.name"
+          class="col-6 sm:col-4 lg:col-3 xl:col-2 pb-5"
         >
           <i :class="'text-2xl mb-2 pi pi-' + icon.properties.name"></i>
           <div>pi-{{ icon.properties.name }}</div>

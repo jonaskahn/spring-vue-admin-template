@@ -1,6 +1,5 @@
 <script setup>
-import AppConfig from '@/layout/AppConfig.vue'
-</script>
+import AppConfig from "@/layout/AppConfig.vue";</script>
 
 <template>
   <div
@@ -8,9 +7,9 @@ import AppConfig from '@/layout/AppConfig.vue'
   >
     <div class="flex flex-column align-items-center justify-content-center">
       <img
-        src="/demo/images/notfound/logo-blue.svg"
         alt="Sakai logo"
         class="mb-5 w-6rem flex-shrink-0"
+        src="/demo/images/notfound/logo-blue.svg"
       />
       <div
         style="
@@ -31,8 +30,8 @@ import AppConfig from '@/layout/AppConfig.vue'
           <h1 class="text-900 font-bold text-3xl lg:text-5xl mb-2">Not Found</h1>
           <div class="text-600 mb-5">Requested resource is not available.</div>
           <router-link
-            to="/"
             class="w-full flex align-items-center py-5 border-300 border-bottom-1"
+            to="/"
           >
             <span
               class="flex justify-content-center align-items-center bg-cyan-400 border-round"
@@ -42,14 +41,14 @@ import AppConfig from '@/layout/AppConfig.vue'
             </span>
             <span class="ml-4 flex flex-column">
               <span class="text-900 lg:text-xl font-medium mb-0 block"
-                >Frequently Asked Questions</span
+              >Frequently Asked Questions</span
               >
               <span class="text-600 lg:text-xl">Ultricies mi quis hendrerit dolor.</span>
             </span>
           </router-link>
           <router-link
-            to="/"
             class="w-full flex align-items-center py-5 border-300 border-bottom-1"
+            to="/"
           >
             <span
               class="flex justify-content-center align-items-center bg-orange-400 border-round"
@@ -63,8 +62,8 @@ import AppConfig from '@/layout/AppConfig.vue'
             </span>
           </router-link>
           <router-link
-            to="/"
             class="w-full flex align-items-center mb-5 py-5 border-300 border-bottom-1"
+            to="/"
           >
             <span
               class="flex justify-content-center align-items-center bg-indigo-400 border-round"

@@ -1,13 +1,13 @@
 <script setup>
-import { ref } from 'vue'
+import { ref } from "vue";
 
 const dropdownItems = ref([
-  { name: 'Option 1', code: 'Option 1' },
-  { name: 'Option 2', code: 'Option 2' },
-  { name: 'Option 3', code: 'Option 3' }
-])
+  { name: "Option 1", code: "Option 1" },
+  { name: "Option 2", code: "Option 2" },
+  { name: "Option 3", code: "Option 3" }
+]);
 
-const dropdownItem = ref(null)
+const dropdownItem = ref(null);
 </script>
 
 <template>
@@ -48,13 +48,13 @@ const dropdownItem = ref(null)
       <div class="card p-fluid">
         <h5>Horizontal</h5>
         <div class="field grid">
-          <label for="name3" class="col-12 mb-2 md:col-2 md:mb-0">Name</label>
+          <label class="col-12 mb-2 md:col-2 md:mb-0" for="name3">Name</label>
           <div class="col-12 md:col-10">
             <InputText id="name3" type="text" />
           </div>
         </div>
         <div class="field grid">
-          <label for="email3" class="col-12 mb-2 md:col-2 md:mb-0">Email</label>
+          <label class="col-12 mb-2 md:col-2 md:mb-0" for="email3">Email</label>
           <div class="col-12 md:col-10">
             <InputText id="email3" type="text" />
           </div>
@@ -65,12 +65,12 @@ const dropdownItem = ref(null)
         <h5>Inline</h5>
         <div class="formgroup-inline">
           <div class="field">
-            <label for="firstname1" class="p-sr-only">Firstname</label>
-            <InputText id="firstname1" type="text" placeholder="Firstname" />
+            <label class="p-sr-only" for="firstname1">Firstname</label>
+            <InputText id="firstname1" placeholder="Firstname" type="text" />
           </div>
           <div class="field">
-            <label for="lastname1" class="p-sr-only">Lastname</label>
-            <InputText id="lastname1" type="text" placeholder="Lastname" />
+            <label class="p-sr-only" for="lastname1">Lastname</label>
+            <InputText id="lastname1" placeholder="Lastname" type="text" />
           </div>
           <Button label="Submit"></Button>
         </div>

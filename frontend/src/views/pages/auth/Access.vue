@@ -1,6 +1,5 @@
 <script setup>
-import AppConfig from '@/layout/AppConfig.vue'
-</script>
+import AppConfig from "@/layout/AppConfig.vue";</script>
 
 <template>
   <div
@@ -8,9 +7,9 @@ import AppConfig from '@/layout/AppConfig.vue'
   >
     <div class="flex flex-column align-items-center justify-content-center">
       <img
-        src="/demo/images/access/logo-orange.svg"
         alt="Sakai logo"
         class="mb-5 w-6rem flex-shrink-0"
+        src="/demo/images/access/logo-orange.svg"
       />
       <div
         style="
@@ -36,12 +35,12 @@ import AppConfig from '@/layout/AppConfig.vue'
             </div>
             <h1 class="text-900 font-bold text-4xl lg:text-5xl mb-2">Access Denied</h1>
             <span class="text-600 mb-5"
-              >You do not have the necessary permisions. Please contact admins.</span
+            >You do not have the necessary permisions. Please contact admins.</span
             >
             <img
-              src="/demo/images/access/asset-access.svg"
               alt="Access denied"
               class="mb-5"
+              src="/demo/images/access/asset-access.svg"
               width="80%"
             />
             <div class="col-12 mt-5 text-center">
@@ -49,7 +48,7 @@ import AppConfig from '@/layout/AppConfig.vue'
                 class="pi pi-fw pi-arrow-left text-blue-500 mr-2"
                 style="vertical-align: center"
               ></i>
-              <router-link to="/" class="text-blue-500">Go to Dashboard</router-link>
+              <router-link class="text-blue-500" to="/">Go to Dashboard</router-link>
             </div>
           </div>
         </div>

@@ -1,34 +1,34 @@
 <script setup>
-import { ref } from 'vue'
+import { ref } from "vue";
 
 const toolbarItems = ref([
   {
-    label: 'Save',
-    icon: 'pi pi-check'
+    label: "Save",
+    icon: "pi pi-check"
   },
   {
-    label: 'Update',
-    icon: 'pi pi-upload'
+    label: "Update",
+    icon: "pi pi-upload"
   },
   {
-    label: 'Delete',
-    icon: 'pi pi-trash'
+    label: "Delete",
+    icon: "pi pi-trash"
   },
   {
-    label: 'Home Page',
-    icon: 'pi pi-home'
+    label: "Home Page",
+    icon: "pi pi-home"
   }
-])
+]);
 const cardMenu = ref([
-  { label: 'Save', icon: 'pi pi-fw pi-check' },
-  { label: 'Update', icon: 'pi pi-fw pi-refresh' },
-  { label: 'Delete', icon: 'pi pi-fw pi-trash' }
-])
-const menuRef = ref(null)
+  { label: "Save", icon: "pi pi-fw pi-check" },
+  { label: "Update", icon: "pi pi-fw pi-refresh" },
+  { label: "Delete", icon: "pi pi-fw pi-trash" }
+]);
+const menuRef = ref(null);
 
 const toggle = () => {
-  menuRef.value.toggle(event)
-}
+  menuRef.value.toggle(event);
+};
 </script>
 
 <template>
@@ -38,17 +38,17 @@ const toggle = () => {
         <h5>Toolbar</h5>
         <Toolbar>
           <template v-slot:start>
-            <Button label="New" icon="pi pi-plus" class="mr-2" />
-            <Button label="Open" icon="pi pi-folder-open" class="p-button-secondary mr-2" />
+            <Button class="mr-2" icon="pi pi-plus" label="New" />
+            <Button class="p-button-secondary mr-2" icon="pi pi-folder-open" label="Open" />
 
             <i class="pi pi-bars p-toolbar-separator mr-2"></i>
 
-            <Button icon="pi pi-check" class="p-button-success mr-2" />
-            <Button icon="pi pi-trash" class="p-button-warning mr-2" />
-            <Button icon="pi pi-print" class="p-button-danger" />
+            <Button class="p-button-success mr-2" icon="pi pi-check" />
+            <Button class="p-button-warning mr-2" icon="pi pi-trash" />
+            <Button class="p-button-danger" icon="pi pi-print" />
           </template>
           <template v-slot:end>
-            <SplitButton label="Options" :model="toolbarItems"></SplitButton>
+            <SplitButton :model="toolbarItems" label="Options"></SplitButton>
           </template>
         </Toolbar>
       </div>
@@ -128,7 +128,7 @@ const toggle = () => {
     <div class="col-12 md:col-6">
       <div class="card">
         <h5>Panel</h5>
-        <Panel header="Header" :toggleable="true">
+        <Panel :toggleable="true" header="Header">
           <p class="line-height-3 m-0">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
             incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
@@ -141,7 +141,7 @@ const toggle = () => {
       </div>
       <div class="card">
         <h5>Fieldset</h5>
-        <Fieldset legend="Legend" :toggleable="true">
+        <Fieldset :toggleable="true" legend="Legend">
           <p class="line-height-3 m-0">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
             incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
@@ -157,7 +157,7 @@ const toggle = () => {
         <template v-slot:title>
           <div class="flex align-items-center justify-content-between mb-0">
             <h5>Card</h5>
-            <Button icon="pi pi-plus" class="p-button-text" @click="toggle" />
+            <Button class="p-button-text" icon="pi pi-plus" @click="toggle" />
           </div>
           <Menu id="config_menu" ref="menuRef" :model="cardMenu" :popup="true" />
         </template>
@@ -189,7 +189,7 @@ const toggle = () => {
                 <label for="password">Password</label>
                 <InputText id="password" type="password" />
               </div>
-              <Button label="Login" class="mt-2"></Button>
+              <Button class="mt-2" label="Login"></Button>
             </div>
           </div>
 
@@ -208,7 +208,7 @@ const toggle = () => {
               modi.
             </p>
 
-            <Divider layout="horizontal" align="center">
+            <Divider align="center" layout="horizontal">
               <span class="p-tag">Badge</span>
             </Divider>
 
@@ -222,7 +222,7 @@ const toggle = () => {
             </p>
 
             <Divider align="right">
-              <Button label="Button" icon="pi pi-search" class="p-button-outlined"></Button>
+              <Button class="p-button-outlined" icon="pi pi-search" label="Button"></Button>
             </Divider>
 
             <p class="line-height-3 m-0">
@@ -242,8 +242,8 @@ const toggle = () => {
       <div class="card">
         <h5>Splitter</h5>
 
-        <Splitter style="height: 300px" class="mb-5">
-          <SplitterPanel :size="30" :minSize="10" style="overflow: scroll">
+        <Splitter class="mb-5" style="height: 300px">
+          <SplitterPanel :minSize="10" :size="30" style="overflow: scroll">
             <div className="h-full flex align-items-center justify-content-center">Panel 1</div>
           </SplitterPanel>
           <SplitterPanel :size="70" style="overflow: scroll">

@@ -1,21 +1,21 @@
 <script setup>
-import { useLayout } from '@/layout/composables/layout'
-import { computed } from 'vue'
-import AppConfig from '@/layout/AppConfig.vue'
+import { useLayout } from "@/layout/composables/layout";
+import { computed } from "vue";
+import AppConfig from "@/layout/AppConfig.vue";
 
-const { layoutConfig, contextPath } = useLayout()
+const { layoutConfig, contextPath } = useLayout();
 
 const smoothScroll = (id) => {
   document.querySelector(id).scrollIntoView({
-    behavior: 'smooth'
-  })
-}
+    behavior: "smooth"
+  });
+};
 
 const logoUrl = computed(() => {
   return `${contextPath}layout/images/${
-    layoutConfig.darkTheme.value ? 'logo-white' : 'logo-dark'
-  }.svg`
-})
+    layoutConfig.darkTheme.value ? "logo-white" : "logo-dark"
+  }.svg`;
+});
 </script>
 
 <template>
@@ -25,13 +25,12 @@ const logoUrl = computed(() => {
         class="py-4 px-4 mx-0 md:mx-6 lg:mx-8 lg:px-8 flex align-items-center justify-content-between relative lg:static mb-3"
       >
         <a class="flex align-items-center" href="#">
-          <img :src="logoUrl" alt="Sakai Logo" height="50" class="mr-0 lg:mr-2" /><span
-            class="text-900 font-medium text-2xl line-height-3 mr-8"
-            >SAKAI</span
-          >
+          <img :src="logoUrl" alt="Sakai Logo" class="mr-0 lg:mr-2" height="50" /><span
+          class="text-900 font-medium text-2xl line-height-3 mr-8"
+        >SAKAI</span
+        >
         </a>
         <a
-          class="cursor-pointer block lg:hidden text-700 p-ripple"
           v-ripple
           v-styleclass="{
             selector: '@next',
@@ -39,6 +38,7 @@ const logoUrl = computed(() => {
             leaveToClass: 'hidden',
             hideOnOutsideClick: true
           }"
+          class="cursor-pointer block lg:hidden text-700 p-ripple"
         >
           <i class="pi pi-bars text-4xl"></i>
         </a>
@@ -51,36 +51,36 @@ const logoUrl = computed(() => {
           >
             <li>
               <a
-                @click="smoothScroll('#hero')"
-                class="flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3 p-ripple"
                 v-ripple
+                class="flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3 p-ripple"
+                @click="smoothScroll('#hero')"
               >
                 <span>Home</span>
               </a>
             </li>
             <li>
               <a
-                @click="smoothScroll('#features')"
-                class="flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3 p-ripple"
                 v-ripple
+                class="flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3 p-ripple"
+                @click="smoothScroll('#features')"
               >
                 <span>Features</span>
               </a>
             </li>
             <li>
               <a
-                @click="smoothScroll('#highlights')"
-                class="flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3 p-ripple"
                 v-ripple
+                class="flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3 p-ripple"
+                @click="smoothScroll('#highlights')"
               >
                 <span>Highlights</span>
               </a>
             </li>
             <li>
               <a
-                @click="smoothScroll('#pricing')"
-                class="flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3 p-ripple"
                 v-ripple
+                class="flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3 p-ripple"
+                @click="smoothScroll('#pricing')"
               >
                 <span>Pricing</span>
               </a>
@@ -90,12 +90,12 @@ const logoUrl = computed(() => {
             class="flex justify-content-between lg:block border-top-1 lg:border-top-none surface-border py-3 lg:py-0 mt-3 lg:mt-0"
           >
             <Button
-              label="Login"
               class="p-button-text p-button-rounded border-none font-light line-height-2 text-blue-500"
+              label="Login"
             ></Button>
             <Button
-              label="Register"
               class="p-button-rounded border-none ml-5 font-light text-white line-height-2 bg-blue-500"
+              label="Register"
             ></Button>
           </div>
         </div>
@@ -123,12 +123,12 @@ const logoUrl = computed(() => {
             egestas erat...
           </p>
           <Button
-            label="Get Started"
             class="p-button-rounded text-xl border-none mt-5 bg-blue-500 font-normal text-white line-height-3 px-3"
+            label="Get Started"
           ></Button>
         </div>
         <div class="flex justify-content-center md:justify-content-end">
-          <img src="/demo/images/landing/screen-1.png" alt="Hero Image" class="w-9 md:w-auto" />
+          <img alt="Hero Image" class="w-9 md:w-auto" src="/demo/images/landing/screen-1.png" />
         </div>
       </div>
 
@@ -403,7 +403,7 @@ const logoUrl = computed(() => {
                 fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
                 qui officia deserunt mollit anim id est laborum.”
               </p>
-              <img src="/demo/images/landing/peak-logo.svg" class="mt-4" alt="Company logo" />
+              <img alt="Company logo" class="mt-4" src="/demo/images/landing/peak-logo.svg" />
             </div>
           </div>
         </div>
@@ -420,7 +420,7 @@ const logoUrl = computed(() => {
             class="flex justify-content-center col-12 lg:col-6 bg-purple-100 p-0 flex-order-1 lg:flex-order-0"
             style="border-radius: 8px"
           >
-            <img src="/demo/images/landing/mockup.svg" class="w-11" alt="mockup mobile" />
+            <img alt="mockup mobile" class="w-11" src="/demo/images/landing/mockup.svg" />
           </div>
 
           <div
@@ -434,7 +434,7 @@ const logoUrl = computed(() => {
             </div>
             <h2 class="line-height-1 text-900 text-4xl font-normal">Congue Quisque Egestas</h2>
             <span class="text-700 text-2xl line-height-3 ml-0 md:ml-2" style="max-width: 650px"
-              >Lectus arcu bibendum at varius vel pharetra vel turpis nunc. Eget aliquet nibh
+            >Lectus arcu bibendum at varius vel pharetra vel turpis nunc. Eget aliquet nibh
               praesent tristique magna sit amet purus gravida. Sit amet mattis vulputate enim nulla
               aliquet.</span
             >
@@ -453,7 +453,7 @@ const logoUrl = computed(() => {
             </div>
             <h2 class="line-height-1 text-900 text-4xl font-normal">Celerisque Eu Ultrices</h2>
             <span class="text-700 text-2xl line-height-3 mr-0 md:mr-2" style="max-width: 650px"
-              >Adipiscing commodo elit at imperdiet dui. Viverra nibh cras pulvinar mattis nunc sed
+            >Adipiscing commodo elit at imperdiet dui. Viverra nibh cras pulvinar mattis nunc sed
               blandit libero. Suspendisse in est ante in. Mauris pharetra et ultrices neque ornare
               aenean euismod elementum nisi.</span
             >
@@ -463,7 +463,7 @@ const logoUrl = computed(() => {
             class="flex justify-content-end flex-order-1 sm:flex-order-2 col-12 lg:col-6 bg-yellow-100 p-0"
             style="border-radius: 8px"
           >
-            <img src="/demo/images/landing/mockup-desktop.svg" class="w-11" alt="mockup" />
+            <img alt="mockup" class="w-11" src="/demo/images/landing/mockup-desktop.svg" />
           </div>
         </div>
       </div>
@@ -481,13 +481,13 @@ const logoUrl = computed(() => {
               style="border-radius: 10px"
             >
               <h3 class="text-900 text-center my-5">Free</h3>
-              <img src="/demo/images/landing/free.svg" class="w-10 h-10 mx-auto" alt="free" />
+              <img alt="free" class="w-10 h-10 mx-auto" src="/demo/images/landing/free.svg" />
               <div class="my-5 text-center">
                 <span class="text-5xl font-bold mr-2 text-900">$0</span>
                 <span class="text-600">per month</span>
                 <Button
-                  label="Get Started"
                   class="block mx-auto mt-4 p-button-rounded border-none ml-3 font-light line-height-2 bg-blue-500 text-white"
+                  label="Get Started"
                 ></Button>
               </div>
               <Divider class="w-full bg-surface-200"></Divider>
@@ -518,13 +518,13 @@ const logoUrl = computed(() => {
               style="border-radius: 10px"
             >
               <h3 class="text-900 text-center my-5">Startup</h3>
-              <img src="/demo/images/landing/startup.svg" class="w-10 h-10 mx-auto" alt="startup" />
+              <img alt="startup" class="w-10 h-10 mx-auto" src="/demo/images/landing/startup.svg" />
               <div class="my-5 text-center">
                 <span class="text-5xl font-bold mr-2 text-900">$1</span>
                 <span class="text-600">per month</span>
                 <Button
-                  label="Try Free"
                   class="block mx-auto mt-4 p-button-rounded border-none ml-3 font-light line-height-2 bg-blue-500 text-white"
+                  label="Try Free"
                 ></Button>
               </div>
               <Divider class="w-full bg-surface-200"></Divider>
@@ -556,16 +556,16 @@ const logoUrl = computed(() => {
             >
               <h3 class="text-900 text-center my-5">Enterprise</h3>
               <img
-                src="/demo/images/landing/enterprise.svg"
-                class="w-10 h-10 mx-auto"
                 alt="enterprise"
+                class="w-10 h-10 mx-auto"
+                src="/demo/images/landing/enterprise.svg"
               />
               <div class="my-5 text-center">
                 <span class="text-5xl font-bold mr-2 text-900">$999</span>
                 <span class="text-600">per month</span>
                 <Button
-                  label="Get a Quote"
                   class="block mx-auto mt-4 p-button-rounded border-none ml-3 font-light line-height-2 bg-blue-500 text-white"
+                  label="Get a Quote"
                 ></Button>
               </div>
               <Divider class="w-full bg-surface-200"></Divider>
@@ -596,10 +596,10 @@ const logoUrl = computed(() => {
         <div class="grid justify-content-between">
           <div class="col-12 md:col-2" style="margin-top: -1.5rem">
             <a
-              @click="smoothScroll('#home')"
               class="flex flex-wrap align-items-center justify-content-center md:justify-content-start md:mb-0 mb-3 cursor-pointer"
+              @click="smoothScroll('#home')"
             >
-              <img :src="logoUrl" alt="footer sections" width="50" height="50" class="mr-2" />
+              <img :src="logoUrl" alt="footer sections" class="mr-2" height="50" width="50" />
               <h4 class="font-medium text-3xl text-900">SAKAI</h4>
             </a>
           </div>
@@ -611,7 +611,7 @@ const logoUrl = computed(() => {
                 <a class="line-height-3 text-xl block cursor-pointer mb-2 text-700">About Us</a>
                 <a class="line-height-3 text-xl block cursor-pointer mb-2 text-700">News</a>
                 <a class="line-height-3 text-xl block cursor-pointer mb-2 text-700"
-                  >Investor Relations</a
+                >Investor Relations</a
                 >
                 <a class="line-height-3 text-xl block cursor-pointer mb-2 text-700">Careers</a>
                 <a class="line-height-3 text-xl block cursor-pointer text-700">Media Kit</a>
@@ -628,7 +628,7 @@ const logoUrl = computed(() => {
                 <h4 class="font-medium text-2xl line-height-3 mb-3 text-900">Community</h4>
                 <a class="line-height-3 text-xl block cursor-pointer mb-2 text-700">Discord</a>
                 <a class="line-height-3 text-xl block cursor-pointer mb-2 text-700"
-                  >Events<img src="/demo/images/landing/new-badge.svg" class="ml-2"
+                >Events<img class="ml-2" src="/demo/images/landing/new-badge.svg"
                 /></a>
                 <a class="line-height-3 text-xl block cursor-pointer mb-2 text-700">FAQ</a>
                 <a class="line-height-3 text-xl block cursor-pointer text-700">Blog</a>
@@ -638,7 +638,7 @@ const logoUrl = computed(() => {
                 <h4 class="font-medium text-2xl line-height-3 mb-3 text-900">Legal</h4>
                 <a class="line-height-3 text-xl block cursor-pointer mb-2 text-700">Brand Policy</a>
                 <a class="line-height-3 text-xl block cursor-pointer mb-2 text-700"
-                  >Privacy Policy</a
+                >Privacy Policy</a
                 >
                 <a class="line-height-3 text-xl block cursor-pointer text-700">Terms of Service</a>
               </div>

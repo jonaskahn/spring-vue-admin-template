@@ -9,19 +9,19 @@
         <p>
           Sakai is an application template for Vue based on the
           <a
-            href="https://github.com/vuejs/create-vue"
             class="font-medium text-primary hover:underline"
-            >create-vue</a
+            href="https://github.com/vuejs/create-vue"
+          >create-vue</a
           >, the recommended way to start a <strong>Vite-powered</strong> Vue projects. To get
           started, clone the
-          <a href="https://github.com/primefaces/sakai-vue" class="font-medium">repository</a> from
+          <a class="font-medium" href="https://github.com/primefaces/sakai-vue">repository</a> from
           GitHub and install the dependencies with npm or yarn.
         </p>
-        <CodeHighlight> npm install </CodeHighlight>
+        <CodeHighlight> npm install</CodeHighlight>
 
         or
 
-        <CodeHighlight> yarn </CodeHighlight>
+        <CodeHighlight> yarn</CodeHighlight>
 
         <p>
           Next step is running the application using the serve script and navigate to
@@ -29,7 +29,7 @@
           the development of your application using the Sakai template.
         </p>
 
-        <CodeHighlight> npm run dev </CodeHighlight>
+        <CodeHighlight> npm run dev</CodeHighlight>
 
         <h5>Structure</h5>
         <p>
@@ -69,12 +69,12 @@
 
         <div class="video-container">
           <iframe
+            allowfullscreen
             className="video"
-            width="560"
+            frameborder="0"
             height="315"
             src="https://www.youtube.com/embed/AHeSjJFR3ZE"
-            frameborder="0"
-            allowfullscreen
+            width="560"
           ></iframe>
         </div>
 

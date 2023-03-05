@@ -1,56 +1,56 @@
 <script setup>
-import ProductService from '@/service/ProductService'
-import PhotoService from '@/service/PhotoService'
-import { ref, onMounted } from 'vue'
-import { useLayout } from '@/layout/composables/layout'
+import ProductService from "@/service/ProductService";
+import PhotoService from "@/service/PhotoService";
+import { onMounted, ref } from "vue";
+import { useLayout } from "@/layout/composables/layout";
 
-const { contextPath } = useLayout()
+const { contextPath } = useLayout();
 
-const products = ref([])
-const images = ref([])
+const products = ref([]);
+const images = ref([]);
 const galleriaResponsiveOptions = ref([
   {
-    breakpoint: '1024px',
+    breakpoint: "1024px",
     numVisible: 5
   },
   {
-    breakpoint: '960px',
+    breakpoint: "960px",
     numVisible: 4
   },
   {
-    breakpoint: '768px',
+    breakpoint: "768px",
     numVisible: 3
   },
   {
-    breakpoint: '560px',
+    breakpoint: "560px",
     numVisible: 1
   }
-])
+]);
 const carouselResponsiveOptions = ref([
   {
-    breakpoint: '1024px',
+    breakpoint: "1024px",
     numVisible: 3,
     numScroll: 3
   },
   {
-    breakpoint: '768px',
+    breakpoint: "768px",
     numVisible: 2,
     numScroll: 2
   },
   {
-    breakpoint: '560px',
+    breakpoint: "560px",
     numVisible: 1,
     numScroll: 1
   }
-])
+]);
 
-const productService = new ProductService()
-const photoService = new PhotoService()
+const productService = new ProductService();
+const photoService = new PhotoService();
 
 onMounted(() => {
-  productService.getProductsSmall().then((data) => (products.value = data))
-  photoService.getImages().then((data) => (images.value = data))
-})
+  productService.getProductsSmall().then((data) => (products.value = data));
+  photoService.getImages().then((data) => (images.value = data));
+});
 </script>
 
 <template>
@@ -59,19 +59,19 @@ onMounted(() => {
       <div class="card">
         <h5>Carousel</h5>
         <Carousel
-          :value="products"
-          :numVisible="3"
-          :numScroll="3"
           :circular="false"
+          :numScroll="3"
+          :numVisible="3"
           :responsiveOptions="carouselResponsiveOptions"
+          :value="products"
         >
           <template #item="product">
             <div class="product-item">
               <div class="product-item-content">
                 <div class="mb-3">
                   <img
-                    :src="contextPath + 'demo/images/product/' + product.data.image"
                     :alt="product.data.name"
+                    :src="contextPath + 'demo/images/product/' + product.data.image"
                     class="product-image"
                   />
                 </div>
@@ -82,23 +82,23 @@ onMounted(() => {
                   <h6 class="mt-0 mb-3">${{ product.data.price }}</h6>
                   <span
                     :class="'product-badge status-' + product.data.inventoryStatus.toLowerCase()"
-                    >{{ product.data.inventoryStatus }}</span
+                  >{{ product.data.inventoryStatus }}</span
                   >
                   <div class="car-buttons mt-5">
                     <Button
-                      type="button"
                       class="p-button p-button-rounded mr-2"
                       icon="pi pi-search"
+                      type="button"
                     ></Button>
                     <Button
-                      type="button"
                       class="p-button-success p-button-rounded mr-2"
                       icon="pi pi-star-fill"
+                      type="button"
                     ></Button>
                     <Button
-                      type="button"
                       class="p-button-help p-button-rounded"
                       icon="pi pi-cog"
+                      type="button"
                     ></Button>
                   </div>
                 </div>
@@ -113,23 +113,23 @@ onMounted(() => {
       <div class="card">
         <h5>Galleria</h5>
         <Galleria
-          :value="images"
-          :responsiveOptions="galleriaResponsiveOptions"
-          :numVisible="7"
           :circular="true"
+          :numVisible="7"
+          :responsiveOptions="galleriaResponsiveOptions"
+          :value="images"
           containerStyle="max-width: 800px; margin: auto"
         >
           <template #item="slotProps">
             <img
-              :src="contextPath + slotProps.item.itemImageSrc"
               :alt="slotProps.item.alt"
+              :src="contextPath + slotProps.item.itemImageSrc"
               style="width: 100%; display: block"
             />
           </template>
           <template #thumbnail="slotProps">
             <img
-              :src="contextPath + slotProps.item.thumbnailImageSrc"
               :alt="slotProps.item.alt"
+              :src="contextPath + slotProps.item.thumbnailImageSrc"
               tyle="width: 100%; display: block;"
             />
           </template>
@@ -144,8 +144,8 @@ onMounted(() => {
           <Image
             :src="contextPath + 'demo/images/galleria/galleria11.jpg'"
             alt="Image"
-            width="250"
             preview
+            width="250"
           />
         </div>
       </div>

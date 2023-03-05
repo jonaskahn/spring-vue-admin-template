@@ -1,117 +1,117 @@
 <script setup>
-import { onMounted, reactive, ref, watch } from 'vue'
-import ProductService from '@/service/ProductService'
-import { useLayout } from '@/layout/composables/layout'
+import { onMounted, reactive, ref, watch } from "vue";
+import ProductService from "@/service/ProductService";
+import { useLayout } from "@/layout/composables/layout";
 
-const { isDarkTheme, contextPath } = useLayout()
+const { isDarkTheme, contextPath } = useLayout();
 
-const products = ref(null)
+const products = ref(null);
 const lineData = reactive({
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+  labels: ["January", "February", "March", "April", "May", "June", "July"],
   datasets: [
     {
-      label: 'First Dataset',
+      label: "First Dataset",
       data: [65, 59, 80, 81, 56, 55, 40],
       fill: false,
-      backgroundColor: '#2f4860',
-      borderColor: '#2f4860',
+      backgroundColor: "#2f4860",
+      borderColor: "#2f4860",
       tension: 0.4
     },
     {
-      label: 'Second Dataset',
+      label: "Second Dataset",
       data: [28, 48, 40, 19, 86, 27, 90],
       fill: false,
-      backgroundColor: '#00bb7e',
-      borderColor: '#00bb7e',
+      backgroundColor: "#00bb7e",
+      borderColor: "#00bb7e",
       tension: 0.4
     }
   ]
-})
+});
 const items = ref([
-  { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-  { label: 'Remove', icon: 'pi pi-fw pi-minus' }
-])
-const lineOptions = ref(null)
-const productService = new ProductService()
+  { label: "Add New", icon: "pi pi-fw pi-plus" },
+  { label: "Remove", icon: "pi pi-fw pi-minus" }
+]);
+const lineOptions = ref(null);
+const productService = new ProductService();
 
 onMounted(() => {
-  productService.getProductsSmall().then((data) => (products.value = data))
-})
+  productService.getProductsSmall().then((data) => (products.value = data));
+});
 
 const formatCurrency = (value) => {
-  return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
-}
+  return value.toLocaleString("en-US", { style: "currency", currency: "USD" });
+};
 const applyLightTheme = () => {
   lineOptions.value = {
     plugins: {
       legend: {
         labels: {
-          color: '#495057'
+          color: "#495057"
         }
       }
     },
     scales: {
       x: {
         ticks: {
-          color: '#495057'
+          color: "#495057"
         },
         grid: {
-          color: '#ebedef'
+          color: "#ebedef"
         }
       },
       y: {
         ticks: {
-          color: '#495057'
+          color: "#495057"
         },
         grid: {
-          color: '#ebedef'
+          color: "#ebedef"
         }
       }
     }
-  }
-}
+  };
+};
 
 const applyDarkTheme = () => {
   lineOptions.value = {
     plugins: {
       legend: {
         labels: {
-          color: '#ebedef'
+          color: "#ebedef"
         }
       }
     },
     scales: {
       x: {
         ticks: {
-          color: '#ebedef'
+          color: "#ebedef"
         },
         grid: {
-          color: 'rgba(160, 167, 181, .3)'
+          color: "rgba(160, 167, 181, .3)"
         }
       },
       y: {
         ticks: {
-          color: '#ebedef'
+          color: "#ebedef"
         },
         grid: {
-          color: 'rgba(160, 167, 181, .3)'
+          color: "rgba(160, 167, 181, .3)"
         }
       }
     }
-  }
-}
+  };
+};
 
 watch(
   isDarkTheme,
   (val) => {
     if (val) {
-      applyDarkTheme()
+      applyDarkTheme();
     } else {
-      applyLightTheme()
+      applyLightTheme();
     }
   },
   { immediate: true }
-)
+);
 </script>
 
 <template>
@@ -192,28 +192,28 @@ watch(
     <div class="col-12 xl:col-6">
       <div class="card">
         <h5>Recent Sales</h5>
-        <DataTable :value="products" :rows="5" :paginator="true" responsiveLayout="scroll">
+        <DataTable :paginator="true" :rows="5" :value="products" responsiveLayout="scroll">
           <Column style="width: 15%">
-            <template #header> Image </template>
+            <template #header> Image</template>
             <template #body="slotProps">
               <img
-                :src="contextPath + 'demo/images/product/' + slotProps.data.image"
                 :alt="slotProps.data.image"
-                width="50"
+                :src="contextPath + 'demo/images/product/' + slotProps.data.image"
                 class="shadow-2"
+                width="50"
               />
             </template>
           </Column>
-          <Column field="name" header="Name" :sortable="true" style="width: 35%"></Column>
-          <Column field="price" header="Price" :sortable="true" style="width: 35%">
+          <Column :sortable="true" field="name" header="Name" style="width: 35%"></Column>
+          <Column :sortable="true" field="price" header="Price" style="width: 35%">
             <template #body="slotProps">
               {{ formatCurrency(slotProps.data.price) }}
             </template>
           </Column>
           <Column style="width: 15%">
-            <template #header> View </template>
+            <template #header> View</template>
             <template #body>
-              <Button icon="pi pi-search" type="button" class="p-button-text"></Button>
+              <Button class="p-button-text" icon="pi pi-search" type="button"></Button>
             </template>
           </Column>
         </DataTable>
@@ -223,11 +223,11 @@ watch(
           <h5>Best Selling Products</h5>
           <div>
             <Button
-              icon="pi pi-ellipsis-v"
               class="p-button-text p-button-plain p-button-rounded"
+              icon="pi pi-ellipsis-v"
               @click="$refs.menu2.toggle($event)"
             ></Button>
-            <Menu ref="menu2" :popup="true" :model="items"></Menu>
+            <Menu ref="menu2" :model="items" :popup="true"></Menu>
           </div>
         </div>
         <ul class="list-none p-0 m-0">
@@ -339,18 +339,18 @@ watch(
     <div class="col-12 xl:col-6">
       <div class="card">
         <h5>Sales Overview</h5>
-        <Chart type="line" :data="lineData" :options="lineOptions" />
+        <Chart :data="lineData" :options="lineOptions" type="line" />
       </div>
       <div class="card">
         <div class="flex align-items-center justify-content-between mb-4">
           <h5>Notifications</h5>
           <div>
             <Button
-              icon="pi pi-ellipsis-v"
               class="p-button-text p-button-plain p-button-rounded"
+              icon="pi pi-ellipsis-v"
               @click="$refs.menu1.toggle($event)"
             ></Button>
-            <Menu ref="menu1" :popup="true" :model="items"></Menu>
+            <Menu ref="menu1" :model="items" :popup="true"></Menu>
           </div>
         </div>
 
@@ -363,9 +363,9 @@ watch(
               <i class="pi pi-dollar text-xl text-blue-500"></i>
             </div>
             <span class="text-900 line-height-3"
-              >Richard Jones
+            >Richard Jones
               <span class="text-700"
-                >has purchased a blue t-shirt for <span class="text-blue-500">79$</span></span
+              >has purchased a blue t-shirt for <span class="text-blue-500">79$</span></span
               >
             </span>
           </li>
@@ -376,7 +376,7 @@ watch(
               <i class="pi pi-download text-xl text-orange-500"></i>
             </div>
             <span class="text-700 line-height-3"
-              >Your request for withdrawal of
+            >Your request for withdrawal of
               <span class="text-blue-500 font-medium">2500$</span> has been initiated.</span
             >
           </li>
@@ -391,9 +391,9 @@ watch(
               <i class="pi pi-dollar text-xl text-blue-500"></i>
             </div>
             <span class="text-900 line-height-3"
-              >Keyser Wick
+            >Keyser Wick
               <span class="text-700"
-                >has purchased a black jacket for <span class="text-blue-500">59$</span></span
+              >has purchased a black jacket for <span class="text-blue-500">59$</span></span
               >
             </span>
           </li>
@@ -404,7 +404,7 @@ watch(
               <i class="pi pi-question text-xl text-pink-500"></i>
             </div>
             <span class="text-900 line-height-3"
-              >Jane Davis
+            >Jane Davis
               <span class="text-700">has posted a new questions about your product.</span>
             </span>
           </li>
@@ -424,8 +424,8 @@ watch(
         </div>
         <div class="mt-4 mr-auto md:mt-0 md:mr-0">
           <a
-            href="https://www.primefaces.org/primeblocks-vue"
             class="p-button font-bold px-5 py-3 p-button-warning p-button-rounded p-button-raised"
+            href="https://www.primefaces.org/primeblocks-vue"
           >
             Get Started
           </a>

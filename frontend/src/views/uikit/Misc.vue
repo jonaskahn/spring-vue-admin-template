@@ -1,33 +1,33 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { useLayout } from '@/layout/composables/layout'
+import { onBeforeUnmount, onMounted, ref } from "vue";
+import { useLayout } from "@/layout/composables/layout";
 
-const { contextPath } = useLayout()
+const { contextPath } = useLayout();
 
-const value = ref(0)
-let interval = null
+const value = ref(0);
+let interval = null;
 
 const startProgress = () => {
   interval = setInterval(() => {
-    let newValue = value.value + Math.floor(Math.random() * 10) + 1
+    let newValue = value.value + Math.floor(Math.random() * 10) + 1;
     if (newValue >= 100) {
-      newValue = 100
+      newValue = 100;
     }
-    value.value = newValue
-  }, 2000)
-}
+    value.value = newValue;
+  }, 2000);
+};
 const endProgress = () => {
-  clearInterval(interval)
-  interval = null
-}
+  clearInterval(interval);
+  interval = null;
+};
 
 onMounted(() => {
-  startProgress()
-})
+  startProgress();
+});
 
 onBeforeUnmount(() => {
-  endProgress()
-})
+  endProgress();
+});
 </script>
 
 <template>
@@ -40,7 +40,7 @@ onBeforeUnmount(() => {
             <ProgressBar :value="value"></ProgressBar>
           </div>
           <div class="col">
-            <ProgressBar :value="50" :showValue="false"></ProgressBar>
+            <ProgressBar :showValue="false" :value="50"></ProgressBar>
           </div>
         </div>
       </div>
@@ -51,36 +51,36 @@ onBeforeUnmount(() => {
         <h5>Numbers</h5>
         <div class="badges">
           <Badge :value="2" class="mr-2"></Badge>
-          <Badge :value="8" severity="success" class="mr-2"></Badge>
-          <Badge :value="4" severity="info" class="mr-2"></Badge>
-          <Badge :value="12" severity="warning" class="mr-2"></Badge>
+          <Badge :value="8" class="mr-2" severity="success"></Badge>
+          <Badge :value="4" class="mr-2" severity="info"></Badge>
+          <Badge :value="12" class="mr-2" severity="warning"></Badge>
           <Badge :value="3" severity="danger"></Badge>
         </div>
 
         <h5>Positioned Badge</h5>
-        <i class="pi pi-bell mr-4 p-text-secondary" style="font-size: 2rem" v-badge="2"></i>
+        <i v-badge="2" class="pi pi-bell mr-4 p-text-secondary" style="font-size: 2rem"></i>
         <i
+          v-badge.danger="'10+'"
           class="pi pi-calendar mr-4 p-text-secondary"
           style="font-size: 2rem"
-          v-badge.danger="'10+'"
         ></i>
-        <i class="pi pi-envelope p-text-secondary" style="font-size: 2rem" v-badge.danger></i>
+        <i v-badge.danger class="pi pi-envelope p-text-secondary" style="font-size: 2rem"></i>
 
         <h5>Inline Button Badge</h5>
-        <Button label="Emails" badge="8" class="mr-2"></Button>
+        <Button badge="8" class="mr-2" label="Emails"></Button>
         <Button
-          label="Messages"
-          icon="pi pi-users"
-          class="p-button-warning"
           badge="8"
           badgeClass="p-badge-danger"
+          class="p-button-warning"
+          icon="pi pi-users"
+          label="Messages"
         ></Button>
 
         <h5>Sizes</h5>
         <div class="badges">
           <Badge :value="2" class="mr-2"></Badge>
-          <Badge :value="4" size="large" severity="warning" class="mr-2"></Badge>
-          <Badge :value="6" size="xlarge" severity="success"></Badge>
+          <Badge :value="4" class="mr-2" severity="warning" size="large"></Badge>
+          <Badge :value="6" severity="success" size="xlarge"></Badge>
         </div>
       </div>
 
@@ -90,55 +90,55 @@ onBeforeUnmount(() => {
         <AvatarGroup class="mb-3">
           <Avatar
             :image="contextPath + 'demo/images/avatar/amyelsner.png'"
-            size="large"
             shape="circle"
+            size="large"
           ></Avatar>
           <Avatar
             :image="contextPath + 'demo/images/avatar/asiyajavayant.png'"
-            size="large"
             shape="circle"
+            size="large"
           ></Avatar>
           <Avatar
             :image="contextPath + 'demo/images/avatar/onyamalimba.png'"
-            size="large"
             shape="circle"
+            size="large"
           ></Avatar>
           <Avatar
             :image="contextPath + 'demo/images/avatar/ionibowcher.png'"
-            size="large"
             shape="circle"
+            size="large"
           ></Avatar>
           <Avatar
             :image="contextPath + 'demo/images/avatar/xuxuefeng.png'"
-            size="large"
             shape="circle"
+            size="large"
           ></Avatar>
           <Avatar
+            :style="{ 'background-color': '#9c27b0', color: '#ffffff' }"
             label="+2"
             shape="circle"
             size="large"
-            :style="{ 'background-color': '#9c27b0', color: '#ffffff' }"
           ></Avatar>
         </AvatarGroup>
 
         <h5>Label - Circle</h5>
-        <Avatar label="P" class="mr-2" size="xlarge" shape="circle"></Avatar>
+        <Avatar class="mr-2" label="P" shape="circle" size="xlarge"></Avatar>
         <Avatar
-          label="V"
-          class="mr-2"
-          size="large"
           :style="{ 'background-color': '#2196F3', color: '#ffffff' }"
+          class="mr-2"
+          label="V"
           shape="circle"
+          size="large"
         ></Avatar>
         <Avatar
-          label="U"
-          class="mr-2"
           :style="{ 'background-color': '#9c27b0', color: '#ffffff' }"
+          class="mr-2"
+          label="U"
           shape="circle"
         ></Avatar>
 
         <h5>Icon - Badge</h5>
-        <Avatar icon="pi pi-user" class="mr-2" size="xlarge" v-badge.success="4"></Avatar>
+        <Avatar v-badge.success="4" class="mr-2" icon="pi pi-user" size="xlarge"></Avatar>
       </div>
 
       <div class="card">
@@ -159,7 +159,7 @@ onBeforeUnmount(() => {
             adipiscing bibendum est ultricies integer. Mattis aliquam faucibus purus in massa tempor
             nec.
           </p>
-          <ScrollTop target="parent" :threshold="100" icon="pi pi-arrow-up"></ScrollTop>
+          <ScrollTop :threshold="100" icon="pi pi-arrow-up" target="parent"></ScrollTop>
         </ScrollPanel>
       </div>
     </div>
@@ -174,11 +174,11 @@ onBeforeUnmount(() => {
         <Tag severity="danger" value="Danger"></Tag>
 
         <h5>Pills</h5>
-        <Tag class="mr-2" value="Primary" :rounded="true"></Tag>
-        <Tag class="mr-2" severity="success" value="Success" :rounded="true"></Tag>
-        <Tag class="mr-2" severity="info" value="Info" :rounded="true"></Tag>
-        <Tag class="mr-2" severity="warning" value="Warning" :rounded="true"></Tag>
-        <Tag severity="danger" value="Danger" :rounded="true"></Tag>
+        <Tag :rounded="true" class="mr-2" value="Primary"></Tag>
+        <Tag :rounded="true" class="mr-2" severity="success" value="Success"></Tag>
+        <Tag :rounded="true" class="mr-2" severity="info" value="Info"></Tag>
+        <Tag :rounded="true" class="mr-2" severity="warning" value="Warning"></Tag>
+        <Tag :rounded="true" severity="danger" value="Danger"></Tag>
 
         <h5>Icons</h5>
         <Tag class="mr-2" icon="pi pi-user" value="Primary"></Tag>
@@ -192,36 +192,36 @@ onBeforeUnmount(() => {
         <h4>Chip</h4>
         <h5>Basic</h5>
         <div class="flex align-items-center flex-column sm:flex-row">
-          <Chip label="Action" class="mr-2 mb-2"></Chip>
-          <Chip label="Comedy" class="mr-2 mb-2"></Chip>
-          <Chip label="Mystery" class="mr-2 mb-2"></Chip>
-          <Chip label="Thriller" :removable="true" class="mb-2"></Chip>
+          <Chip class="mr-2 mb-2" label="Action"></Chip>
+          <Chip class="mr-2 mb-2" label="Comedy"></Chip>
+          <Chip class="mr-2 mb-2" label="Mystery"></Chip>
+          <Chip :removable="true" class="mb-2" label="Thriller"></Chip>
         </div>
 
         <h5>Icon</h5>
         <div class="flex align-items-center flex-column sm:flex-row">
-          <Chip label="Apple" icon="pi pi-apple" class="mr-2 mb-2"></Chip>
-          <Chip label="Facebook" icon="pi pi-facebook" class="mr-2 mb-2"></Chip>
-          <Chip label="Google" icon="pi pi-google" class="mr-2 mb-2"></Chip>
-          <Chip label="Microsoft" icon="pi pi-microsoft" :removable="true" class="mb-2"></Chip>
+          <Chip class="mr-2 mb-2" icon="pi pi-apple" label="Apple"></Chip>
+          <Chip class="mr-2 mb-2" icon="pi pi-facebook" label="Facebook"></Chip>
+          <Chip class="mr-2 mb-2" icon="pi pi-google" label="Google"></Chip>
+          <Chip :removable="true" class="mb-2" icon="pi pi-microsoft" label="Microsoft"></Chip>
         </div>
 
         <h5>Image</h5>
         <div class="flex align-items-center flex-column sm:flex-row">
           <Chip
-            label="Amy Elsner"
             :image="contextPath + 'demo/images/avatar/amyelsner.png'"
             class="mr-2 mb-2"
+            label="Amy Elsner"
           ></Chip>
           <Chip
-            label="Asiya Javayant"
             :image="contextPath + 'demo/images/avatar/asiyajavayant.png'"
             class="mr-2 mb-2"
+            label="Asiya Javayant"
           ></Chip>
           <Chip
-            label="Onyama Limba"
             :image="contextPath + 'demo/images/avatar/onyamalimba.png'"
             class="mr-2 mb-2"
+            label="Onyama Limba"
           ></Chip>
         </div>
       </div>
@@ -230,17 +230,17 @@ onBeforeUnmount(() => {
         <h4>Skeleton</h4>
         <div class="border-round border-1 surface-border p-4">
           <div class="flex mb-3">
-            <Skeleton shape="circle" size="4rem" class="mr-2"></Skeleton>
+            <Skeleton class="mr-2" shape="circle" size="4rem"></Skeleton>
             <div>
-              <Skeleton width="10rem" class="mb-2"></Skeleton>
-              <Skeleton width="5rem" class="mb-2"></Skeleton>
+              <Skeleton class="mb-2" width="10rem"></Skeleton>
+              <Skeleton class="mb-2" width="5rem"></Skeleton>
               <Skeleton height=".5rem"></Skeleton>
             </div>
           </div>
-          <Skeleton width="100%" height="150px"></Skeleton>
+          <Skeleton height="150px" width="100%"></Skeleton>
           <div class="flex justify-content-between mt-3">
-            <Skeleton width="4rem" height="2rem"></Skeleton>
-            <Skeleton width="4rem" height="2rem"></Skeleton>
+            <Skeleton height="2rem" width="4rem"></Skeleton>
+            <Skeleton height="2rem" width="4rem"></Skeleton>
           </div>
         </div>
       </div>
