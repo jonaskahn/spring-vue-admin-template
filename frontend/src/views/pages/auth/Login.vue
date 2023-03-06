@@ -55,11 +55,11 @@ async function submit() {
                     <i class="pi pi-user" />
                     <InputText
                       id="username"
-                      type="username"
+                      v-model="username"
+                      :class="{ 'p-invalid': !isUsernameValid }"
                       aria-describedby="username-help"
                       class="p-inputtext-lg"
-                      :class="{ 'p-invalid': !isUsernameValid }"
-                      v-model="username"
+                      type="username"
                     />
                   </span>
 
@@ -76,11 +76,11 @@ async function submit() {
                     <i class="pi pi-key" />
                     <InputText
                       id="password"
-                      type="password"
-                      class="p-inputtext-lg"
-                      aria-describedby="password-help"
-                      :class="{ 'p-invalid': !isPasswordValid }"
                       v-model="password"
+                      :class="{ 'p-invalid': !isPasswordValid }"
+                      aria-describedby="password-help"
+                      class="p-inputtext-lg"
+                      type="password"
                     />
                   </span>
 
@@ -91,13 +91,12 @@ async function submit() {
               </div>
               <div class="col-12 md:col-12">
                 <Button
+                  :loading="isLoading"
                   class="w-full p-3 text-xl"
+                  iconPos="right"
                   label="Sign In"
                   type="button"
-                  icon="pi pi-check"
-                  :loading="isLoading"
                   @click="submit"
-                  iconPos="right"
                 ></Button>
               </div>
             </div>

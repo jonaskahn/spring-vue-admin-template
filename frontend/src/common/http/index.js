@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios'
+import axios from 'axios'
 import Toast from '@/helper/Toast'
 import logger from '@/common/logger'
 import constants from '@/constants'

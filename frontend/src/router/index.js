@@ -2,8 +2,6 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import AppLayout from '@/layout/AppLayout.vue'
 import RouteInfo from '@/constants/routeInfo'
 import constants from '@/constants'
-import routeInfo from '@/constants/routeInfo'
-import AuthService from '@/service/AuthService'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -13,8 +11,8 @@ const router = createRouter({
       component: AppLayout,
       children: [
         {
-          path: routeInfo.APP.DASH_BOARD.path,
-          name: routeInfo.APP.DASH_BOARD.name,
+          path: RouteInfo.APP.DASH_BOARD.path,
+          name: RouteInfo.APP.DASH_BOARD.name,
           component: () => import('@/views/Dashboard.vue')
         },
         {
