@@ -3,6 +3,7 @@ import AppLayout from '@/layout/AppLayout.vue'
 import RouteInfo from '@/constants/routeInfo'
 import constants from '@/constants'
 import routeInfo from '@/constants/routeInfo'
+import AuthService from '@/service/AuthService'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -177,6 +178,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (isTokenInvalid()) {
+    localStorage.clear()
     redirectIfInvalid(to, next)
   } else {
     redirectIfValid(to, next)
@@ -212,6 +214,5 @@ function redirectIfValid(to, next) {
     next()
   }
 }
-
 
 export default router

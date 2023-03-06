@@ -101,6 +101,7 @@ import ConfirmationService from 'primevue/confirmationservice'
 import VueAxios from 'vue-axios'
 import axios from 'axios'
 import logger from '@/common/logger'
+import i18n from '@/i18n'
 
 export function uses(app) {
   app.use(router)
@@ -111,6 +112,7 @@ export function uses(app) {
   app.use(VueAxios, axios)
   app.provide('axios', app.config.globalProperties.axios)
   app.use(logger)
+  app.use(i18n)
 }
 
 export function components(app) {

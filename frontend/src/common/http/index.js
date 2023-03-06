@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { sendErrorMessage } from '@/helper/Toast'
+import axios, { AxiosError } from 'axios'
+import Toast from '@/helper/Toast'
 import logger from '@/common/logger'
 import constants from '@/constants'
 
@@ -30,36 +30,73 @@ function createInstance(headers = {}) {
   })
   instance.interceptors.response.use(
     function (response) {
-      return new ResponseData(response.data.message, response.data.payload)
+      Toast.sendSuccessMessage({
+        body: response.data.message
+      })
+      return Promise.resolve(new ResponseData(ResponseType.SUCCESS, response.data.payload))
     },
     function (error) {
-      if (error.response) {
-        sendErrorMessage(error)
-      } else if (error.request) {
-        sendErrorMessage('Your request is invalid')
-      } else {
-        sendErrorMessage('Something wrong', 'Incorrect API CAll')
-      }
       logger.debug(error)
-      return Promise.reject(error)
+      if (error.response) {
+        return handleResponseError(error.response)
+      } else if (error.request) {
+        return handleRequestError(error)
+      } else {
+        Toast.sendErrorMessage({
+          body: 'Unknown error happen'
+        })
+        return Promise.resolve(new ResponseData(ResponseType.ERROR, null))
+      }
     }
   )
   return instance
 }
 
-const ResponseData = class {
-  constructor(message, payload) {
-    this._message = message
-    this._payload = payload
+async function handleResponseError(data) {
+  let message = data.data.message
+  const details = data.data.payload.details
+  if (details) {
+    message += details instanceof Object ? '\n' + Object.values(details).join('\n') : details
   }
 
-  get message() {
-    return this._message
+  Toast.sendErrorMessage({
+    body: message
+  })
+
+  return Promise.resolve(new ResponseData(ResponseType.ERROR, data.payload))
+}
+
+async function handleRequestError(error) {
+  if (error.message === 'Network Error') {
+    Toast.sendErrorMessage({
+      body: 'Cannot connect to server'
+    })
+  } else {
+    Toast.sendErrorMessage({
+      body: 'Can not process your request, please check again'
+    })
+  }
+  return Promise.resolve(new ResponseData(ResponseType.ERROR, null))
+}
+
+const ResponseData = class {
+  constructor(type, payload) {
+    this._type = type
+    this._payload = payload
   }
 
   get payload() {
     return this._payload
   }
+
+  get type() {
+    return this._type
+  }
+}
+
+const ResponseType = {
+  ERROR: 'error',
+  SUCCESS: 'success'
 }
 
 export function request(settings = { auth: false }) {
@@ -70,4 +107,4 @@ export function upload(settings = { auth: false }) {
   return settings.auth ? authUpload : anonymousUpload
 }
 
-export { ResponseData }
+export { ResponseData, ResponseType }

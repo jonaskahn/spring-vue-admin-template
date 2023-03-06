@@ -1,0 +1,10 @@
+{
+  "common": {
+    "message": {
+      "success": "Your request has been successfully processed",
+      "info": "Be aware",
+      "warn": "Please pay your attention",
+      "error": "Your request has been failed processed"
+    }
+  }
+}
