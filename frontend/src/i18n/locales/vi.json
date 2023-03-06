@@ -6,5 +6,12 @@
       "warn": "Please pay your attention",
       "error": "Your request has been failed processed"
     }
+  },
+  "auth-login": {
+    "label": {
+      "username": "Username",
+      "password": "Password",
+      "remember-me": "Remember me"
+    }
   }
 }

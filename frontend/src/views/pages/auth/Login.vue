@@ -1,32 +1,28 @@
 <script setup>
-import { useLayout } from '@/layout/composables/layout'
-import { computed, ref } from 'vue'
-import AppConfig from '@/layout/AppConfig.vue'
+import { ref } from 'vue'
 import AuthService from '@/service/AuthService'
 import { useRouter } from 'vue-router'
 import routeInfo from '@/constants/routeInfo'
 
-const { layoutConfig, contextPath } = useLayout()
-const email = ref('admin')
+const username = ref('admin')
 const password = ref('admin-password')
-const checked = ref(false)
 
-const logoUrl = computed(() => {
-  return `${contextPath}layout/images/${
-    layoutConfig.darkTheme.value ? 'logo-white' : 'logo-dark'
-  }.svg`
-})
+let isUsernameValid = ref(true)
+let isPasswordValid = ref(true)
+let isLoading = ref(false)
 
 const authService = new AuthService()
 const router = useRouter()
 
 async function submit() {
+  isLoading.value = true
   const result = await authService.login({
-    username: email.value,
+    username: username.value,
     password: password.value
   })
+  isLoading.value = false
   if (result) {
-    router.push({
+    await router.push({
       path: routeInfo.APP.DASH_BOARD.path
     })
   }
@@ -35,85 +31,85 @@ async function submit() {
 
 <template>
   <div
-    class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden"
+    class="surface-ground flex align-items-center justify-content-center login-box min-w-min overflow-hidden"
   >
-    <div class="flex flex-column align-items-center justify-content-center">
-      <img :src="logoUrl" alt="Sakai logo" class="mb-5 w-6rem flex-shrink-0" />
+    <div class="flex flex-column align-items-center justify-content-center m-4">
+      <div class="flex">
+        <img :src="logoUrl" alt="Sakai logo" class="mb-5 w-6rem flex-shrink-0" />
+      </div>
       <div
-        style="
-          border-radius: 56px;
-          padding: 0.3rem;
-          background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);
-        "
+        class="surface-card xl:w-8 lg:w-10 md:w-12 sm:w-full py-8 px-5 sm:px-8"
+        style="border-radius: 50px"
       >
-        <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius: 53px">
-          <div class="text-center mb-5">
-            <img alt="Image" class="mb-3" height="50" src="/demo/images/login/avatar.png" />
-            <div class="text-900 text-3xl font-medium mb-3">Welcome, Isabel!</div>
-            <span class="text-600 font-medium">Sign in to continue</span>
-          </div>
+        <div class="text-center mb-5">
+          <div class="text-900 text-3xl font-medium mb-3">Sign in to continue</div>
+        </div>
 
-          <div>
-            <form>
-              <label class="block text-900 text-xl font-medium mb-2" for="email1">Email</label>
-              <InputText
-                id="email1"
-                v-model="email"
-                class="w-full md:w-30rem mb-5"
-                placeholder="Email address"
-                required
-                style="padding: 1rem"
-                type="text"
-              />
+        <div>
+          <form>
+            <div class="grid p-fluid">
+              <div class="col-12 md:col-12">
+                <div class="field">
+                  <label for="username">{{ $t('auth-login.label.username') }}</label>
+                  <span class="p-input-icon-left">
+                    <i class="pi pi-user" />
+                    <InputText
+                      id="username"
+                      type="username"
+                      aria-describedby="username-help"
+                      class="p-inputtext-lg"
+                      :class="{ 'p-invalid': !isUsernameValid }"
+                      v-model="username"
+                    />
+                  </span>
 
-              <label class="block text-900 font-medium text-xl mb-2" for="password1"
-                >Password</label
-              >
-              <Password
-                id="password1"
-                v-model="password"
-                :toggleMask="true"
-                class="w-full mb-3"
-                inputClass="w-full"
-                inputStyle="padding:1rem"
-                placeholder="Password"
-                required
-              ></Password>
-
-              <div class="flex align-items-center justify-content-between mb-5 gap-5">
-                <div class="flex align-items-center">
-                  <Checkbox id="rememberme1" v-model="checked" binary class="mr-2"></Checkbox>
-                  <label for="rememberme1">Remember me</label>
+                  <small v-if="!isUsernameValid" id="username-help" class="p-error"
+                    >Username is not available.</small
+                  >
                 </div>
-                <a
-                  class="font-medium no-underline ml-2 text-right cursor-pointer"
-                  style="color: var(--primary-color)"
-                  >Forgot password?</a
-                >
               </div>
-              <Button
-                class="w-full p-3 text-xl"
-                label="Sign In"
-                type="button"
-                @click="submit"
-              ></Button>
-            </form>
-          </div>
+
+              <div class="col-12 md:col-12">
+                <div class="field">
+                  <label for="password">{{ $t('auth-login.label.password') }}</label>
+                  <span class="p-input-icon-left">
+                    <i class="pi pi-key" />
+                    <InputText
+                      id="password"
+                      type="password"
+                      class="p-inputtext-lg"
+                      aria-describedby="password-help"
+                      :class="{ 'p-invalid': !isPasswordValid }"
+                      v-model="password"
+                    />
+                  </span>
+
+                  <small v-if="!isPasswordValid" id="password-help" class="p-error"
+                    >Password is not available.</small
+                  >
+                </div>
+              </div>
+              <div class="col-12 md:col-12">
+                <Button
+                  class="w-full p-3 text-xl"
+                  label="Sign In"
+                  type="button"
+                  icon="pi pi-check"
+                  :loading="isLoading"
+                  @click="submit"
+                  iconPos="right"
+                ></Button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
-  <AppConfig simple />
 </template>
 
 <style scoped>
-.pi-eye {
-  transform: scale(1.6);
-  margin-right: 1rem;
-}
-
-.pi-eye-slash {
-  transform: scale(1.6);
-  margin-right: 1rem;
+.login-box {
+  min-height: 80vh !important;
 }
 </style>
