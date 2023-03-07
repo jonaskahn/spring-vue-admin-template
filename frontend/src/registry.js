@@ -102,6 +102,7 @@ import VueAxios from 'vue-axios'
 import axios from 'axios'
 import logger from '@/common/logger'
 import i18n from '@/i18n'
+import VueMobileDetection from 'vue-mobile-detection'
 
 export function uses(app) {
   app.use(router)
@@ -113,6 +114,7 @@ export function uses(app) {
   app.provide('axios', app.config.globalProperties.axios)
   app.use(logger)
   app.use(i18n)
+  app.use(VueMobileDetection)
 }
 
 export function components(app) {

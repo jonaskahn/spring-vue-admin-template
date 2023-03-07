@@ -1,10 +1,15 @@
 {
   "common": {
     "message": {
-      "success": "Your request has been successfully processed",
+      "success": "Successfully",
       "info": "Be aware",
-      "warn": "Please pay your attention",
-      "error": "Your request has been failed processed"
+      "warn": "Pay your attention",
+      "error": "Failure"
+    },
+    "error": {
+      "network": "Can not connect to server",
+      "client": "Your web browser sent an invalid request",
+      "unknown": "Your web browser can not make a request"
     }
   },
   "auth-login": {

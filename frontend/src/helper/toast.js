@@ -1,41 +1,45 @@
 import { ToastSeverity } from 'primevue/api'
 import { app } from '@/main'
 import constants from '@/constants'
-
+import { isMobile, translate } from '@/helper/static'
 class Toast {
   static sendInfoMessage({ title, body = 'Dont let me show' }) {
     app.config.globalProperties.$toast.add({
       severity: ToastSeverity.INFO,
-      summary: !title ? app.config.globalProperties.$t('common.message.info') : title,
+      summary: !title ? translate('common.message.info') : title,
       detail: body,
-      life: constants.TOAST_TIMEOUT.INFO
+      life: constants.TOAST_TIMEOUT.INFO,
+      group: isMobile() ? 'mobile' : ''
     })
   }
 
   static sendWarnMessage({ title, body = 'Dont let me show' }) {
     app.config.globalProperties.$toast.add({
       severity: ToastSeverity.WARN,
-      summary: !title ? app.config.globalProperties.$t('common.message.warn') : title,
+      summary: !title ? translate('common.message.warn') : title,
       detail: body,
-      life: constants.TOAST_TIMEOUT.WARN
+      life: constants.TOAST_TIMEOUT.WARN,
+      group: isMobile() ? 'mobile' : ''
     })
   }
 
   static sendSuccessMessage({ title, body = 'Dont let me show' }) {
     app.config.globalProperties.$toast.add({
       severity: ToastSeverity.SUCCESS,
-      summary: !title ? app.config.globalProperties.$t('common.message.success') : title,
+      summary: !title ? translate('common.message.success') : title,
       detail: body,
-      life: constants.TOAST_TIMEOUT.SUCCESS
+      life: constants.TOAST_TIMEOUT.SUCCESS,
+      group: isMobile() ? 'mobile' : ''
     })
   }
 
   static sendErrorMessage({ title, body = 'Dont let me show' }) {
     app.config.globalProperties.$toast.add({
       severity: ToastSeverity.ERROR,
-      summary: !title ? app.config.globalProperties.$t('common.message.error') : title,
+      summary: !title ? translate('common.message.error') : title,
       detail: body,
-      life: constants.TOAST_TIMEOUT.ERROR
+      life: constants.TOAST_TIMEOUT.ERROR,
+      group: isMobile() ? 'mobile' : ''
     })
   }
 }

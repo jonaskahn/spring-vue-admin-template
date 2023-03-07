@@ -1,7 +1,8 @@
 import axios from 'axios'
-import Toast from '@/helper/Toast'
+import Toast from '@/helper/toast'
 import logger from '@/common/logger'
 import constants from '@/constants'
+import { translate } from '@/helper/static'
 
 const anonymous = createInstance({
   'Content-Type': 'application/json'
@@ -43,7 +44,7 @@ function createInstance(headers = {}) {
         return handleRequestError(error)
       } else {
         Toast.sendErrorMessage({
-          body: 'Unknown error happen'
+          body: translate('common.error.unknown')
         })
         return Promise.resolve(new ResponseData(ResponseType.ERROR, null))
       }
@@ -69,11 +70,11 @@ async function handleResponseError(data) {
 async function handleRequestError(error) {
   if (error.message === 'Network Error') {
     Toast.sendErrorMessage({
-      body: 'Cannot connect to server'
+      body: translate('common.error.network')
     })
   } else {
     Toast.sendErrorMessage({
-      body: 'Can not process your request, please check again'
+      body: translate('common.error.client')
     })
   }
   return Promise.resolve(new ResponseData(ResponseType.ERROR, null))

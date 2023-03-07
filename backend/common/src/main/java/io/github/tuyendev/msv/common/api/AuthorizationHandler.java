@@ -29,7 +29,7 @@ public class AuthorizationHandler {
 	@Operation(summary = "Login API, generate token if success")
 	public Response<JwtAccessToken> authorize(@Valid @RequestBody TokenRequestDto request) {
 		JwtAccessToken token = jwtTokenProvider.generateToken(request.getUsername(), request.getPassword(), request.isRememberMe());
-		return Response.ok(token);
+		return Response.ok(token, "app.auth.message.success");
 	}
 
 	@PostMapping(name = "Renew token", path = "/token/renew")

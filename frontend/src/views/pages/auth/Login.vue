@@ -33,9 +33,13 @@ async function submit() {
   <div
     class="surface-ground flex align-items-center justify-content-center login-box min-w-min overflow-hidden"
   >
-    <div class="flex flex-column align-items-center justify-content-center m-4">
+    <div class="flex flex-column align-items-center justify-content-center m-4 md:m-8">
       <div class="flex">
-        <img :src="logoUrl" alt="Sakai logo" class="mb-5 w-6rem flex-shrink-0" />
+        <img
+          src="@/assets/logo.png"
+          alt="Sakai logo"
+          class="mb-5 sm:w-10rem w-8rem flex-shrink-0"
+        />
       </div>
       <div
         class="surface-card xl:w-8 lg:w-10 md:w-12 sm:w-full py-8 px-5 sm:px-8"

@@ -17,12 +17,6 @@ onBeforeUnmount(() => {
   unbindOutsideClickListener()
 })
 
-const logoUrl = computed(() => {
-  return `${contextPath}layout/images/${
-    layoutConfig.darkTheme.value ? 'logo-white' : 'logo-dark'
-  }.svg`
-})
-
 const onTopBarMenuButton = () => {
   topbarMenuActive.value = !topbarMenuActive.value
 }
@@ -69,12 +63,7 @@ const isOutsideClicked = (event) => {
 
 <template>
   <div class="layout-topbar">
-    <router-link class="layout-topbar-logo" to="/">
-      <img :src="logoUrl" alt="logo" />
-      <span>SAKAI</span>
-    </router-link>
-
-    <button class="p-link layout-menu-button layout-topbar-button" @click="onMenuToggle()">
+    <button class="p-link layout-topbar-button mr-2" @click="onMenuToggle()">
       <i class="pi pi-bars"></i>
     </button>
 
@@ -84,11 +73,14 @@ const isOutsideClicked = (event) => {
     >
       <i class="pi pi-ellipsis-v"></i>
     </button>
-
+    <router-link class="layout-topbar-logo" to="/">
+      <img src="@/assets/logo.png" alt="logo" class="w-3rem h-3rem mr-4" />
+      <span class="hidden md:block">MEE SPRING VUE</span>
+    </router-link>
     <div :class="topbarMenuClasses" class="layout-topbar-menu">
       <button class="p-link layout-topbar-button" @click="onTopBarMenuButton()">
-        <i class="pi pi-calendar"></i>
-        <span>Calendar</span>
+        <i class="pi pi-bell"></i>
+        <span>Notifications</span>
       </button>
       <button class="p-link layout-topbar-button" @click="onTopBarMenuButton()">
         <i class="pi pi-user"></i>
