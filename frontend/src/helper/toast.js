@@ -9,7 +9,7 @@ class Toast {
       summary: !title ? translate('common.message.info') : title,
       detail: body,
       life: constants.TOAST_TIMEOUT.INFO,
-      group: isMobile() ? 'mobile' : ''
+      group: isMobile() ? 'mobile' : 'default'
     })
   }
 
@@ -19,7 +19,7 @@ class Toast {
       summary: !title ? translate('common.message.warn') : title,
       detail: body,
       life: constants.TOAST_TIMEOUT.WARN,
-      group: isMobile() ? 'mobile' : ''
+      group: isMobile() ? 'mobile' : 'default'
     })
   }
 
@@ -29,7 +29,7 @@ class Toast {
       summary: !title ? translate('common.message.success') : title,
       detail: body,
       life: constants.TOAST_TIMEOUT.SUCCESS,
-      group: isMobile() ? 'mobile' : ''
+      group: isMobile() ? 'mobile' : 'default'
     })
   }
 
@@ -39,7 +39,7 @@ class Toast {
       summary: !title ? translate('common.message.error') : title,
       detail: body,
       life: constants.TOAST_TIMEOUT.ERROR,
-      group: isMobile() ? 'mobile' : ''
+      group: isMobile() ? 'mobile' : 'default'
     })
   }
 }

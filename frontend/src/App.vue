@@ -8,6 +8,7 @@
   </router-view>
 
   <Toast
+    group="default"
     error-icon="pi pi-times-circle"
     info-icon="pi pi-info-circle"
     position="top-right"

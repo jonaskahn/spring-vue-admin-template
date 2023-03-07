@@ -4,7 +4,9 @@ import AppTopbar from './AppTopbar.vue'
 import AppFooter from './AppFooter.vue'
 import AppSidebar from './AppSidebar.vue'
 import { useLayout } from '@/layout/composables/layout'
-import { useRoute } from 'vue-router'
+import { useRoute } from "vue-router";
+
+
 
 const { layoutConfig, layoutState, isSidebarActive } = useLayout()
 
@@ -18,11 +20,12 @@ watch(isSidebarActive, (newVal) => {
   }
 })
 
-const route = useRoute()
+const route = useRoute();
 
-const key = computed(() => {
-  return route.path
-})
+const key = computed( () => {
+      return route.path
+    }
+)
 
 const containerClass = computed(() => {
   return {
@@ -77,10 +80,12 @@ const isOutsideClicked = (event) => {
     </div>
     <div class="layout-main-container">
       <div class="layout-main">
-        <router-view v-slot="{ Component }" :key="key">
-          <transition>
-            <component :is="Component" />
-          </transition>
+        <router-view v-slot="{ Component }">
+          <Transition name="fade-transform" mode="out-in">
+            <div :key="key">
+              <component :is="Component"></component>
+            </div>
+          </Transition>
         </router-view>
       </div>
       <app-footer></app-footer>
