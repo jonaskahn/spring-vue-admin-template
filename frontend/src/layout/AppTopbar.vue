@@ -3,7 +3,7 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useLayout } from '@/layout/composables/layout'
 import { useRouter } from 'vue-router'
 
-const { layoutConfig, onMenuToggle, contextPath } = useLayout()
+const { onMenuToggle } = useLayout()
 
 const outsideClickListener = ref(null)
 const topbarMenuActive = ref(false)
@@ -73,10 +73,12 @@ const isOutsideClicked = (event) => {
     >
       <i class="pi pi-ellipsis-v"></i>
     </button>
-    <router-link class="layout-topbar-logo" to="/">
-      <img src="@/assets/logo.png" alt="logo" class="w-3rem h-3rem mr-4" />
+    <div class="layout-topbar-logo" to="/">
+      <router-link to="/">
+        <img src="@/assets/logo.png" alt="logo" class="w-3rem h-3rem mr-4" />
+      </router-link>
       <span class="hidden md:block">MEE SPRING VUE</span>
-    </router-link>
+    </div>
     <div :class="topbarMenuClasses" class="layout-topbar-menu">
       <button class="p-link layout-topbar-button" @click="onTopBarMenuButton()">
         <i class="pi pi-bell"></i>
@@ -94,4 +96,5 @@ const isOutsideClicked = (event) => {
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>
