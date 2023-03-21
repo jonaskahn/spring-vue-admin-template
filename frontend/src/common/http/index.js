@@ -4,7 +4,9 @@ import logger from '@/common/logger'
 import constants from '@/constants'
 import { translate } from '@/helper/static'
 
-const instance = createInstance({})
+const insecure = createInstance({})
+
+const secure = createInstance({})
 
 function createInstance() {
   const instance = axios.create()
@@ -79,11 +81,11 @@ const ResponseData = class {
 
 export function request(settings = { auth: false }) {
   if(settings.auth){
-    instance.defaults.headers.common.Authorization= `Bearer ${localStorage.getItem(constants.TOKEN.ACCESS_TOKEN)}`
+    secure.defaults.headers.common.Authorization= `Bearer ${localStorage.getItem(constants.TOKEN.ACCESS_TOKEN)}`
+    return secure;
   } else {
-    delete instance.defaults.headers.common.Authorization
+    return insecure;
   }
-  return instance;
 }
 
 export { ResponseData }
