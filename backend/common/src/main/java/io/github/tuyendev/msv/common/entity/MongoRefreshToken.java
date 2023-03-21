@@ -24,7 +24,5 @@ public class MongoRefreshToken implements Serializable {
 	@Indexed
 	private Long userId;
 
-	private Integer status;
-
 	private Instant expiredAt;
 }

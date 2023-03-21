@@ -4,37 +4,19 @@ import logger from '@/common/logger'
 import constants from '@/constants'
 import { translate } from '@/helper/static'
 
-const anonymous = createInstance({
-  'Content-Type': 'application/json'
-})
+const instance = createInstance({})
 
-const auth = createInstance({
-  'Content-Type': 'application/json',
-  Authorization: `Bearer ${localStorage.getItem(constants.TOKEN.ACCESS_TOKEN)}`
-})
-
-const anonymousUpload = createInstance({
-  'Content-Type': 'multipart/form-data'
-})
-
-const authUpload = createInstance({
-  'Content-Type': 'multipart/form-data',
-  Authorization: `Bearer ${localStorage.getItem(constants.TOKEN.ACCESS_TOKEN)}`
-})
-
-function createInstance(headers = {}) {
+function createInstance() {
   const instance = axios.create()
   instance.defaults.baseURL = import.meta.env.VITE_API_REQUEST_URL
   instance.defaults.timeout = import.meta.env.VITE_API_REQUEST_TIMEOUT
-  Object.entries(headers).forEach(([key, value]) => {
-    instance.defaults.headers[`${key}`] = `${value}`
-  })
+  instance.defaults.headers.common['Content-Type'] = 'application/json'
   instance.interceptors.response.use(
     function (response) {
       Toast.sendSuccessMessage({
         body: response.data.message
       })
-      return Promise.resolve(new ResponseData(ResponseType.SUCCESS, response.data.payload))
+      return Promise.resolve(new ResponseData(true, response.data.payload))
     },
     function (error) {
       logger.debug(error)
@@ -46,7 +28,7 @@ function createInstance(headers = {}) {
         Toast.sendErrorMessage({
           body: translate('common.error.unknown')
         })
-        return Promise.resolve(new ResponseData(ResponseType.ERROR, null))
+        return Promise.resolve(new ResponseData(false))
       }
     }
   )
@@ -64,7 +46,7 @@ async function handleResponseError(data) {
     body: message
   })
 
-  return Promise.resolve(new ResponseData(ResponseType.ERROR, data.payload))
+  return Promise.resolve(new ResponseData(false, data.payload))
 }
 
 async function handleRequestError(error) {
@@ -77,12 +59,12 @@ async function handleRequestError(error) {
       body: translate('common.error.client')
     })
   }
-  return Promise.resolve(new ResponseData(ResponseType.ERROR, null))
+  return Promise.resolve(new ResponseData(false))
 }
 
 const ResponseData = class {
-  constructor(type, payload) {
-    this._type = type
+  constructor(status, payload) {
+    this._status = status
     this._payload = payload
   }
 
@@ -90,22 +72,18 @@ const ResponseData = class {
     return this._payload
   }
 
-  get type() {
-    return this._type
+  get ok() {
+    return this._status
   }
 }
 
-const ResponseType = {
-  ERROR: 'error',
-  SUCCESS: 'success'
-}
-
 export function request(settings = { auth: false }) {
-  return settings.auth ? auth : anonymous
+  if(settings.auth){
+    instance.defaults.headers.common.Authorization= `Bearer ${localStorage.getItem(constants.TOKEN.ACCESS_TOKEN)}`
+  } else {
+    delete instance.defaults.headers.common.Authorization
+  }
+  return instance;
 }
 
-export function upload(settings = { auth: false }) {
-  return settings.auth ? authUpload : anonymousUpload
-}
-
-export { ResponseData, ResponseType }
+export { ResponseData }

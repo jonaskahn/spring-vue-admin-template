@@ -20,7 +20,6 @@
     "primeicons": "^6.0.1",
     "primevue": "^3.24.0",
     "vue": "^3.2.47",
-    "vue-axios": "^3.5.2",
     "vue-i18n": "^9.2.2",
     "vue-logger-plugin": "^2.2.3",
     "vue-mobile-detection": "^2.0.1",

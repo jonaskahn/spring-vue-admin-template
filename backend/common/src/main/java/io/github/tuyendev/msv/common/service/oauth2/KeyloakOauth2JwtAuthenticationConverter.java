@@ -31,6 +31,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class KeyloakOauth2JwtAuthenticationConverter implements Oauth2JwtAuthenticationConverter {
 
+	private static final String PREFIX = "keycloak_";
+
 	private final UserDetailsChecker postCheckUserStatus = new AccountStatusUserDetailsChecker();
 
 	private final UserDetailsService userDetailsService;
@@ -55,7 +57,7 @@ public class KeyloakOauth2JwtAuthenticationConverter implements Oauth2JwtAuthent
 	}
 
 	private static String buildUsernameFromJwt(Jwt jwt) {
-		return "keyloak_" + jwt.getClaimAsString(Authorization.JwtClaim.PREFERRED_USERNAME);
+		return PREFIX + jwt.getClaimAsString(Authorization.JwtClaim.PREFERRED_USERNAME);
 	}
 
 	@Override

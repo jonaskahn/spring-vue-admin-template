@@ -177,15 +177,14 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (isTokenInvalid()) {
     localStorage.clear()
-    redirectIfInvalid(to, next)
+    redirectIfInvalid(to, from, next)
   } else {
-    redirectIfValid(to, next)
+    redirectIfValid(to, from, next)
   }
 })
 
 function isTokenInvalid() {
-  const accessToken = localStorage.getItem(constants.TOKEN.ACCESS_TOKEN)
-  if (accessToken === null || accessToken === 'undefined') {
+  if (!localStorage.getItem(constants.TOKEN.ACCESS_TOKEN)) {
     return true
   }
   const accessTokenExpired = parseInt(localStorage.getItem(constants.TOKEN.ACCESS_TOKEN_EXPIRED))
@@ -193,8 +192,8 @@ function isTokenInvalid() {
   return !accessTokenExpired && now > accessTokenExpired
 }
 
-function redirectIfInvalid(to, next) {
-  if (to.path !== RouteInfo.AUTH.LOGIN.path) {
+function redirectIfInvalid(to, from, next) {
+  if(to.path !== RouteInfo.AUTH.LOGIN.path){
     router.push({
       path: RouteInfo.AUTH.LOGIN.path
     })
@@ -203,11 +202,9 @@ function redirectIfInvalid(to, next) {
   }
 }
 
-function redirectIfValid(to, next) {
+function redirectIfValid(to, from, next) {
   if (to.path === RouteInfo.AUTH.LOGIN.path) {
-    router.push({
-      path: RouteInfo.APP.DASH_BOARD.path
-    })
+    router.push(RouteInfo.APP.DASH_BOARD.path)
   } else {
     next()
   }

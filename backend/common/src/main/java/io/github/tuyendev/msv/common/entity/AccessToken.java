@@ -23,7 +23,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
-import org.hibernate.annotations.SQLDelete;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -35,7 +34,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @AllArgsConstructor
 @Entity
 @Table(name = "access_tokens")
-@SQLDelete(sql = "update access_tokens set status = 9 where id = ?")
 @EntityListeners(AuditingEntityListener.class)
 public class AccessToken {
 	@Id
@@ -54,10 +52,6 @@ public class AccessToken {
 
 	@Column(name = "expired_at")
 	private Instant expiredAt;
-
-	@NotNull
-	@Column(name = "status", nullable = false)
-	private Integer status;
 
 	@OneToMany(mappedBy = "accessToken")
 	@ToString.Exclude

@@ -3,7 +3,6 @@ package io.github.tuyendev.msv.common.token;
 import java.util.Date;
 
 import io.github.tuyendev.msv.common.annotation.Executor;
-import io.github.tuyendev.msv.common.constant.EntityStatus;
 import io.github.tuyendev.msv.common.entity.AccessToken;
 import io.github.tuyendev.msv.common.entity.RefreshToken;
 import io.github.tuyendev.msv.common.exception.jwt.RevokedJwtTokenException;
@@ -20,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
+@Transactional(rollbackFor = Exception.class)
 public class JpaJwtTokenStoreService implements JwtTokenStore {
 
 	private final AccessTokenRepository accessTokenRepo;
@@ -38,7 +38,6 @@ public class JpaJwtTokenStoreService implements JwtTokenStore {
 				.id(id)
 				.userId(userId)
 				.expiredAt(expiration.toInstant())
-				.status(EntityStatus.ACTIVE)
 				.build();
 		accessTokenRepo.save(accessToken);
 	}
@@ -50,27 +49,26 @@ public class JpaJwtTokenStoreService implements JwtTokenStore {
 				.accessTokenId(accessTokenId)
 				.userId(userId)
 				.expiredAt(expiration.toInstant())
-				.status(EntityStatus.ACTIVE)
 				.build();
 		refreshTokenRepo.save(refreshToken);
 	}
 
 	@Override
 	public Long getUserIdByRefreshTokenId(String refreshTokenId) {
-		return refreshTokenRepo.findActiveRefreshTokenBy(refreshTokenId)
+		return refreshTokenRepo.findById(refreshTokenId)
 				.map(RefreshToken::getUserId)
 				.orElseThrow(RevokedJwtTokenException::new);
 	}
 
 	@Override
 	public void removeTokensByAccessTokenId(String accessTokenId) {
-		accessTokenRepo.deleteById(accessTokenId);
 		refreshTokenRepo.deleteRefreshTokenByAccessTokenId(accessTokenId);
+		accessTokenRepo.deleteById(accessTokenId);
 	}
 
 	@Override
 	public boolean isAccessTokenExisted(String accessTokenId) {
-		return accessTokenRepo.existsActiveAccessTokenById(accessTokenId);
+		return accessTokenRepo.existsAccessTokenById(accessTokenId);
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package io.github.tuyendev.msv.common.api;
 
+import io.github.tuyendev.msv.common.constant.Authorization;
 import io.github.tuyendev.msv.common.dto.Response;
 import io.github.tuyendev.msv.common.dto.token.RenewTokenRequestDto;
 import io.github.tuyendev.msv.common.dto.token.TokenInfoDto;
@@ -7,20 +8,17 @@ import io.github.tuyendev.msv.common.dto.token.TokenInfoRequestDto;
 import io.github.tuyendev.msv.common.dto.token.TokenRequestDto;
 import io.github.tuyendev.msv.common.security.jwt.JwtAccessToken;
 import io.github.tuyendev.msv.common.security.jwt.JwtTokenProvider;
-import io.github.tuyendev.msv.common.utils.DataProcessor;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import static io.github.tuyendev.msv.common.constant.Authorization.AUTHORIZATION_HEADER;
 
 @RequiredArgsConstructor
 @Tag(name = "API provide authenticate, password reset and forgot flows.")
@@ -53,9 +51,8 @@ public class AuthorizationHandler {
 
 	@DeleteMapping(name = "Show token info", path = "/token/revoke")
 	@Operation(summary = "Show the token information")
-	public Response<TokenInfoDto> revoke(HttpServletRequest request) {
-		String token = DataProcessor.extractValueFromBearerToken(request.getHeader(AUTHORIZATION_HEADER));
-		jwtTokenProvider.revokeToken(token);
+	public Response<TokenInfoDto> revoke(@RequestAttribute(Authorization.BEARER_TOKEN_VALUE) String jwt) {
+		jwtTokenProvider.revokeToken(jwt);
 		return Response.ok();
 	}
 }

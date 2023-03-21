@@ -98,8 +98,6 @@ import PrimeVue from 'primevue/config'
 import ToastService from 'primevue/toastservice'
 import DialogService from 'primevue/dialogservice'
 import ConfirmationService from 'primevue/confirmationservice'
-import VueAxios from 'vue-axios'
-import axios from 'axios'
 import logger from '@/common/logger'
 import i18n from '@/i18n'
 import VueMobileDetection from 'vue-mobile-detection'
@@ -110,8 +108,6 @@ export function uses(app) {
   app.use(ToastService)
   app.use(DialogService)
   app.use(ConfirmationService)
-  app.use(VueAxios, axios)
-  app.provide('axios', app.config.globalProperties.axios)
   app.use(logger)
   app.use(i18n)
   app.use(VueMobileDetection)

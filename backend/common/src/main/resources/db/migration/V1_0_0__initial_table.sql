@@ -58,7 +58,6 @@ create table if not exists access_tokens
     id         varchar(255) not null,
     user_id    bigint       not null,
     expired_at datetime(6)  null,
-    status     int(1)       not null,
     primary key (id),
     constraint fk_access_tokens__users foreign key (user_id) references users (id)
 );
@@ -78,7 +77,6 @@ create table if not exists refresh_tokens
     access_token_id varchar(255) not null,
     user_id         bigint       not null,
     expired_at      datetime(6)  null,
-    status          int(1)       not null,
     primary key (id),
     constraint fk_refresh_tokens__access_tokens foreign key (access_token_id) references access_tokens (id)
 );

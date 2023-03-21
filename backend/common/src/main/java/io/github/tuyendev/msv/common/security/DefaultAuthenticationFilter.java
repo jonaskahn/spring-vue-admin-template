@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Objects;
 
+import io.github.tuyendev.msv.common.constant.Authorization;
 import io.github.tuyendev.msv.common.security.jwt.JwtTokenProvider;
-import io.github.tuyendev.msv.common.utils.DataProcessor;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -22,6 +22,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
 import static io.github.tuyendev.msv.common.constant.Authorization.AUTHORIZATION_HEADER;
+import static io.github.tuyendev.msv.common.constant.Authorization.BEARER_TOKEN_PREFIX;
 
 @Slf4j
 public class DefaultAuthenticationFilter extends GenericFilterBean {
@@ -46,6 +47,7 @@ public class DefaultAuthenticationFilter extends GenericFilterBean {
 		String jwt = resolveToken(httpServletRequest);
 		if (StringUtils.hasText(jwt) && jwtTokenProvider.isSelfIssuer(jwt)) {
 			try {
+				request.setAttribute(Authorization.BEARER_TOKEN_VALUE, jwt);
 				this.jwtTokenProvider.authorizeToken(jwt);
 				chain.doFilter(new HiddenTokenRequestWrapper((HttpServletRequest) request), response);
 			}
@@ -62,8 +64,11 @@ public class DefaultAuthenticationFilter extends GenericFilterBean {
 	}
 
 	private String resolveToken(HttpServletRequest request) {
-		String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-		return DataProcessor.extractValueFromBearerToken(bearerToken);
+		String value = request.getHeader(AUTHORIZATION_HEADER);
+		if (StringUtils.hasText(value) && value.startsWith(BEARER_TOKEN_PREFIX)) {
+			return value.substring(7);
+		}
+		return null;
 	}
 
 

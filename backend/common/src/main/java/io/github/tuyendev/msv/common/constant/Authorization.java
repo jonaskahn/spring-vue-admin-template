@@ -16,6 +16,8 @@ public final class Authorization {
 
 	public static final String BEARER_TOKEN_PREFIX = "Bearer ";
 
+	public static final String BEARER_TOKEN_VALUE = "BearerTokenValue";
+
 
 	@NoArgsConstructor(access = AccessLevel.PRIVATE)
 	public enum TokenType {

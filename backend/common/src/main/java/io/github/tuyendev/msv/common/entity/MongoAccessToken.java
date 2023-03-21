@@ -22,8 +22,6 @@ public class MongoAccessToken implements Serializable {
 	@Indexed
 	private Long userId;
 
-	private Integer status;
-
 	private Instant expiredAt;
 
 	@DocumentReference(lazy = true)

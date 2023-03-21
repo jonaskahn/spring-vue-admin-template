@@ -55,10 +55,6 @@ public class RefreshToken {
 	@Column(name = "expired_at")
 	private Instant expiredAt;
 
-	@NotNull
-	@Column(name = "status", nullable = false)
-	private Integer status;
-
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
