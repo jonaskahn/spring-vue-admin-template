@@ -14,4 +14,6 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Stri
 	default Optional<RefreshToken> findActiveRefreshTokenBy(final String id) {
 		return findRefreshTokenByIdAndStatus(id, EntityStatus.ACTIVE);
 	}
+
+	void deleteRefreshTokenByAccessTokenId(final String accessTokenId);
 }

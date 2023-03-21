@@ -63,13 +63,9 @@ public class MongoJwtTokenStoreService implements JwtTokenStore {
 	}
 
 	@Override
-	public void inactiveAccessTokenById(String id) {
-		accessTokenRepo.deactivateAccessTokenById(id);
-	}
-
-	@Override
-	public void inactiveRefreshTokenById(String id) {
-		refreshTokenRepo.deleteById(id);
+	public void removeTokensByAccessTokenId(String accessTokenId) {
+		accessTokenRepo.deactivateAccessTokenById(accessTokenId);
+		refreshTokenRepo.deleteMongoRefreshTokenByAccessTokenId(accessTokenId);
 	}
 
 	@Override

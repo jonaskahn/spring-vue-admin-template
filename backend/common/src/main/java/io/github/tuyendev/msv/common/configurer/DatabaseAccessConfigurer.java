@@ -2,7 +2,7 @@ package io.github.tuyendev.msv.common.configurer;
 
 import java.util.Optional;
 
-import io.github.tuyendev.msv.common.utils.AppContextHelper;
+import io.github.tuyendev.msv.common.utils.ContextHelper;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
@@ -28,7 +28,7 @@ class DatabaseAccessConfigurer {
 	static class DomainAuditorAware implements AuditorAware<Long> {
 		@Override
 		public Optional<Long> getCurrentAuditor() {
-			return Optional.of(AppContextHelper.getCurrentLoginUserId());
+			return Optional.of(ContextHelper.getCurrentLoginUserId());
 		}
 	}
 

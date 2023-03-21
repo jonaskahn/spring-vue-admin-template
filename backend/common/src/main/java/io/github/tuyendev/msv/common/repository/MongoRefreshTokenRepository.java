@@ -14,4 +14,6 @@ public interface MongoRefreshTokenRepository extends MongoRepository<MongoRefres
 	default Optional<MongoRefreshToken> findActiveMongoRefreshTokenById(String id) {
 		return findByIdAndStatus(id, EntityStatus.ACTIVE);
 	}
+
+	void deleteMongoRefreshTokenByAccessTokenId(final String accessTokenId);
 }

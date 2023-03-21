@@ -5,6 +5,7 @@ import java.util.Enumeration;
 import java.util.Objects;
 
 import io.github.tuyendev.msv.common.security.jwt.JwtTokenProvider;
+import io.github.tuyendev.msv.common.utils.DataProcessor;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -20,12 +21,10 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
+import static io.github.tuyendev.msv.common.constant.Authorization.AUTHORIZATION_HEADER;
+
 @Slf4j
 public class DefaultAuthenticationFilter extends GenericFilterBean {
-
-	private static final String AUTHORIZATION_HEADER = "Authorization";
-
-	private static final String BEARER_TOKEN_PREFIX = "Bearer ";
 
 	private final JwtTokenProvider jwtTokenProvider;
 
@@ -64,10 +63,7 @@ public class DefaultAuthenticationFilter extends GenericFilterBean {
 
 	private String resolveToken(HttpServletRequest request) {
 		String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_TOKEN_PREFIX)) {
-			return bearerToken.substring(7);
-		}
-		return null;
+		return DataProcessor.extractValueFromBearerToken(bearerToken);
 	}
 
 

@@ -16,13 +16,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AppContextHelper {
+public class ContextHelper {
 
 	private static ApplicationContext applicationContext;
 
 	@Autowired
-	public AppContextHelper(ApplicationContext applicationContext) {
-		AppContextHelper.applicationContext = applicationContext;
+	public ContextHelper(ApplicationContext applicationContext) {
+		ContextHelper.applicationContext = applicationContext;
 	}
 
 	public static <T> T getBean(Class<T> clazz) {

@@ -10,16 +10,21 @@ import lombok.NoArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class Token {
+public final class Authorization {
+
+	public static final String AUTHORIZATION_HEADER = "Authorization";
+
+	public static final String BEARER_TOKEN_PREFIX = "Bearer ";
+
 
 	@NoArgsConstructor(access = AccessLevel.PRIVATE)
-	public enum Type {
-
+	public enum TokenType {
 
 		ACCESS("ACCESS", "app.common.token.access.name"),
+
 		REFRESH("REFRESH", "app.common.token.refresh.name");
 
-		private static final Map<String, Type> data = Map.of(
+		private static final Map<String, TokenType> data = Map.of(
 				ACCESS.name, ACCESS,
 				REFRESH.name, REFRESH
 		);
@@ -30,12 +35,12 @@ public final class Token {
 
 		String desc;
 
-		Type(String name, String desc) {
+		TokenType(String name, String desc) {
 			this.name = name;
 			this.desc = desc;
 		}
 
-		public static Type typeOf(String type) {
+		public static TokenType typeOf(String type) {
 			return data.get(type);
 		}
 
@@ -50,7 +55,8 @@ public final class Token {
 	}
 
 	@NoArgsConstructor(access = AccessLevel.PRIVATE)
-	public static class Claim {
+	public static class JwtClaim {
+
 		public static final String AUTHORITY = "acs";
 
 		public static final String REMEMBER_ME = "rem";

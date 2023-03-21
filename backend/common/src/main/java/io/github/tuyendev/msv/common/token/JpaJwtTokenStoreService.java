@@ -63,13 +63,9 @@ public class JpaJwtTokenStoreService implements JwtTokenStore {
 	}
 
 	@Override
-	public void inactiveAccessTokenById(String id) {
-		accessTokenRepo.deleteById(id);
-	}
-
-	@Override
-	public void inactiveRefreshTokenById(String id) {
-		refreshTokenRepo.deleteById(id);
+	public void removeTokensByAccessTokenId(String accessTokenId) {
+		accessTokenRepo.deleteById(accessTokenId);
+		refreshTokenRepo.deleteRefreshTokenByAccessTokenId(accessTokenId);
 	}
 
 	@Override

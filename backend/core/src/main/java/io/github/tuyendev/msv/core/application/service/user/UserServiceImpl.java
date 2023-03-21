@@ -11,8 +11,8 @@ import io.github.tuyendev.msv.common.entity.Group;
 import io.github.tuyendev.msv.common.entity.User;
 import io.github.tuyendev.msv.common.repository.GroupRepository;
 import io.github.tuyendev.msv.common.repository.UserRepository;
-import io.github.tuyendev.msv.common.utils.DataUtils;
-import io.github.tuyendev.msv.common.utils.PasswordGeneratorUtils;
+import io.github.tuyendev.msv.common.utils.DataProcessor;
+import io.github.tuyendev.msv.common.utils.PasswordGenerator;
 import io.github.tuyendev.msv.core.application.dto.user.UserCreateRequestDto;
 import io.github.tuyendev.msv.core.application.dto.user.UserRegisterRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 	public void create(UserCreateRequestDto request) {
 		User user = mapper.map(request, User.class);
 		user.setGroupIds(Set.of(GroupEntity.Type.USER.getId()));
-		final String password = PasswordGeneratorUtils.generateStrongPassword();
+		final String password = PasswordGenerator.generateStrongPassword();
 		user.setRawPassword(password);
 		user.setLocked(EntityStatus.UNLOCKED);
 		createUserInternal(user);
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
 			throw new UserExistedException();
 		}
 		Set<Group> groups = groupRepo.findByIdIsIn(user.getGroupIds());
-		user.setName(DataUtils.joinsWithSpaceDelimiter(user.getGivenName(), user.getMiddleName(), user.getFamilyName()));
+		user.setName(DataProcessor.joinsWithSpaceDelimiter(user.getGivenName(), user.getMiddleName(), user.getFamilyName()));
 		user.setGroups(groups);
 		user.setPreferredUsername(UUID.randomUUID().toString());
 		user.setUnsignedName(StringUtils.stripAccents(user.getName()));

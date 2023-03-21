@@ -7,17 +7,19 @@ public interface JwtTokenProvider {
 
 	JwtAccessToken generateToken(final String username, final String password, final boolean rememberMe);
 
-	JwtAccessToken renewToken(final String jwtToken);
+	JwtAccessToken renewToken(final String token);
 
-	void authorizeToken(final String jwtToken);
+	void authorizeToken(final String token);
 
 	/**
-	 * Privately use to distinguish oauth2 token between self-issued jwt token
+	 * Privately use to distinguish between oauth2 token and self-issued jwt token
 	 *
-	 * @param jwtToken
+	 * @param token
 	 * @return
 	 */
-	boolean isSelfIssuer(final String jwtToken);
+	boolean isSelfIssuer(final String token);
 
-	TokenInfoDto getTokenInfo(final String jwtToken);
+	void revokeToken(final String token);
+
+	TokenInfoDto getTokenInfo(final String token);
 }

@@ -11,7 +11,7 @@ import java.util.UUID;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.tuyendev.msv.common.constant.Token;
+import io.github.tuyendev.msv.common.constant.Authorization;
 import io.github.tuyendev.msv.common.dto.jwt.JwtAccessTokenDto;
 import io.github.tuyendev.msv.common.dto.jwt.JwtRefreshTokenDto;
 import io.github.tuyendev.msv.common.dto.token.TokenInfoDto;
@@ -27,7 +27,7 @@ import io.github.tuyendev.msv.common.security.jwt.JwtTokenStore;
 import io.github.tuyendev.msv.common.security.user.DomainUserDetailsService;
 import io.github.tuyendev.msv.common.security.user.SecuredUser;
 import io.github.tuyendev.msv.common.security.user.SecuredUserDetails;
-import io.github.tuyendev.msv.common.utils.AppContextHelper;
+import io.github.tuyendev.msv.common.utils.ContextHelper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtParser;
@@ -117,7 +117,7 @@ public class DomainJwtTokenProvider implements JwtTokenProvider {
 			});
 		}
 		catch (Exception e) {
-			log.error("Cannot parse payload in jwtToken", e);
+			log.error("Cannot parse payload in token", e);
 			throw new InvalidJwtTokenException();
 		}
 	}
@@ -138,7 +138,7 @@ public class DomainJwtTokenProvider implements JwtTokenProvider {
 	}
 
 	private JwtAccessToken createToken(final boolean rememberMe) {
-		SecuredUser currentUser = AppContextHelper.getCurrentLoginUser()
+		SecuredUser currentUser = ContextHelper.getCurrentLoginUser()
 				.orElseThrow(ShouldNeverOccurException::new);
 
 		final JwtAccessTokenDto accessToken = createAccessToken(currentUser, rememberMe);
@@ -174,8 +174,8 @@ public class DomainJwtTokenProvider implements JwtTokenProvider {
 				.setIssuedAt(issuedAt)
 				.setNotBefore(issuedAt)
 				.setExpiration(expirationDate)
-				.claim(Token.Claim.AUTHORITY, user.authorityNames())
-				.claim(Token.Claim.TYPE, Token.Type.ACCESS)
+				.claim(Authorization.JwtClaim.AUTHORITY, user.authorityNames())
+				.claim(Authorization.JwtClaim.TYPE, Authorization.TokenType.ACCESS)
 				.signWith(secretKey)
 				.compact();
 		return JwtAccessTokenDto.builder()
@@ -196,8 +196,8 @@ public class DomainJwtTokenProvider implements JwtTokenProvider {
 				.setIssuedAt(issuedAt)
 				.setNotBefore(issuedAt)
 				.setExpiration(expirationDate)
-				.claim(Token.Claim.REMEMBER_ME, rememberMe)
-				.claim(Token.Claim.TYPE, Token.Type.REFRESH)
+				.claim(Authorization.JwtClaim.REMEMBER_ME, rememberMe)
+				.claim(Authorization.JwtClaim.TYPE, Authorization.TokenType.REFRESH)
 				.signWith(secretKey)
 				.compact();
 		return JwtRefreshTokenDto.builder()
@@ -210,29 +210,28 @@ public class DomainJwtTokenProvider implements JwtTokenProvider {
 	}
 
 	@Override
-	public JwtAccessToken renewToken(final String jwtToken) {
-		Claims claims = getClaims(jwtParser, jwtToken);
+	public JwtAccessToken renewToken(final String token) {
+		Claims claims = getClaims(jwtParser, token);
 		if (!Objects.equals(claims.getIssuer(), issuer)) {
 			throw new UnknownIssuerTokenException();
 		}
-		if (!Objects.equals(claims.get(Token.Claim.TYPE), Token.Type.REFRESH.getName())) {
+		if (!Objects.equals(claims.get(Authorization.JwtClaim.TYPE), Authorization.TokenType.REFRESH.getName())) {
 			throw new InvalidAudienceTokenException();
 		}
 		final Long userId = tokenStore.getUserIdByRefreshTokenId(claims.getId());
-		tokenStore.inactiveAccessTokenById(claims.getSubject());
-		tokenStore.inactiveRefreshTokenById(claims.getId());
+		tokenStore.removeTokensByAccessTokenId(claims.getSubject());
 		setAuthenticationAfterSuccess(userId);
 		return createToken(isPreviousRefreshTokenRememberMe(claims));
 	}
 
 	private boolean isPreviousRefreshTokenRememberMe(final Claims claims) {
-		return claims.get(Token.Claim.REMEMBER_ME, Boolean.class);
+		return claims.get(Authorization.JwtClaim.REMEMBER_ME, Boolean.class);
 	}
 
 	@Override
-	public void authorizeToken(final String jwtToken) {
-		Claims claims = getClaims(jwtParser, jwtToken);
-		if (!Objects.equals(claims.get(Token.Claim.TYPE), Token.Type.ACCESS.getName())) {
+	public void authorizeToken(final String token) {
+		Claims claims = getClaims(jwtParser, token);
+		if (!Objects.equals(claims.get(Authorization.JwtClaim.TYPE), Authorization.TokenType.ACCESS.getName())) {
 			throw new InvalidAudienceTokenException();
 		}
 		if (!tokenStore.isAccessTokenExisted(claims.getId())) {
@@ -263,13 +262,13 @@ public class DomainJwtTokenProvider implements JwtTokenProvider {
 	}
 
 	@Override
-	public boolean isSelfIssuer(final String jwtToken) {
+	public boolean isSelfIssuer(final String token) {
 		try {
-			Map<String, Object> claims = getClaimsWithoutKey(jwtToken);
+			Map<String, Object> claims = getClaimsWithoutKey(token);
 			return Objects.equals(claims.get((Claims.ISSUER)), issuer);
 		}
 		catch (Exception e) {
-			log.error("Cannot parse payload in jwtToken", e);
+			log.error("Cannot parse payload in token", e);
 			throw new InvalidJwtTokenException();
 		}
 	}
@@ -279,18 +278,18 @@ public class DomainJwtTokenProvider implements JwtTokenProvider {
 		final boolean isValid = isJwtTokenValid(jwtParser, jwt);
 		if (isValid) {
 			Map<String, Object> claims = getClaimsWithoutKey(jwt);
-			final String type = (String) claims.get(Token.Claim.TYPE);
+			final String type = (String) claims.get(Authorization.JwtClaim.TYPE);
 			boolean existed;
-			if (Objects.equals(type, Token.Type.ACCESS.getName())) {
+			if (Objects.equals(type, Authorization.TokenType.ACCESS.getName())) {
 				existed = tokenStore.isAccessTokenExisted((String) claims.get(Claims.ID));
 			}
-			else if (Objects.equals(type, Token.Type.REFRESH.getName())) {
+			else if (Objects.equals(type, Authorization.TokenType.REFRESH.getName())) {
 				existed = tokenStore.isRefreshTokenExisted((String) claims.get(Claims.ID));
 			}
 			else throw new ShouldNeverOccurException();
 			return TokenInfoDto.builder()
 					.issuer((String) claims.get(Claims.ISSUER))
-					.type(Token.Type.typeOf(type).getDesc())
+					.type(Authorization.TokenType.typeOf(type).getDesc())
 					.revoked(!existed)
 					.expired(isJwtExpired((Long) claims.get(Claims.EXPIRATION)))
 					.valid(true)
@@ -304,6 +303,12 @@ public class DomainJwtTokenProvider implements JwtTokenProvider {
 	private boolean isJwtExpired(Long expiredDate) {
 		final long nowAsSecond = new Date().getTime() / 1000;
 		return nowAsSecond > expiredDate;
+	}
+
+	@Override
+	public void revokeToken(String token) {
+		Claims claims = getClaims(jwtParser, token);
+		tokenStore.removeTokensByAccessTokenId(claims.getId());
 	}
 
 	static {

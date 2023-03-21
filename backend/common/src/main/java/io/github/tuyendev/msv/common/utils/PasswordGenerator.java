@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
  * @see <a href="https://mkyong.com/java/java-password-generator-example/>Ref source</a>
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public final class PasswordGeneratorUtils {
+public final class PasswordGenerator {
 	private static final String CHAR_LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
 
 	private static final String CHAR_UPPERCASE = CHAR_LOWERCASE.toUpperCase();

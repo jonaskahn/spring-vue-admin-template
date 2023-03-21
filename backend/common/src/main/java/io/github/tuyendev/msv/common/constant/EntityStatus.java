@@ -20,6 +20,4 @@ public final class EntityStatus {
 
 	public static final Integer DELETED = 9;
 
-
-
 }

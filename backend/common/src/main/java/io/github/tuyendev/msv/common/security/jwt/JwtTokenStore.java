@@ -19,9 +19,7 @@ public interface JwtTokenStore {
 
 	Long getUserIdByRefreshTokenId(String refreshTokenId);
 
-	void inactiveAccessTokenById(String id);
-
-	void inactiveRefreshTokenById(String id);
+	void removeTokensByAccessTokenId(String accessTokenId);
 
 	boolean isAccessTokenExisted(String accessTokenId);
 
