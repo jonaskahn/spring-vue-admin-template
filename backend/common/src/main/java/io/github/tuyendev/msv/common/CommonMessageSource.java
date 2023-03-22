@@ -5,12 +5,12 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 
 public class CommonMessageSource extends ResourceBundleMessageSource {
 
-	public CommonMessageSource() {
-		setBasename("io.github.tuyendev.msv.common.messages");
-		setDefaultEncoding("UTF-8");
-	}
+    public CommonMessageSource() {
+        setBasename("io.github.tuyendev.msv.common.messages");
+        setDefaultEncoding("UTF-8");
+    }
 
-	public static MessageSourceAccessor getAccessor() {
-		return new MessageSourceAccessor(new CommonMessageSource());
-	}
+    public static MessageSourceAccessor getAccessor() {
+        return new MessageSourceAccessor(new CommonMessageSource());
+    }
 }

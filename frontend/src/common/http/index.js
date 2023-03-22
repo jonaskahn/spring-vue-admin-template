@@ -3,16 +3,20 @@ import Toast from '@/helper/toast'
 import logger from '@/common/logger'
 import constants from '@/constants'
 import { translate } from '@/helper/static'
+import router from '@/router'
+import RouteInfo from '@/constants/routeInfo'
 
-const insecure = createInstance({})
+const insecure = createInstance({ 'Content-Type': 'application/json' })
 
-const secure = createInstance({})
+const secure = createInstance({ 'Content-Type': 'application/json' })
 
-function createInstance() {
+function createInstance(headers = {}) {
   const instance = axios.create()
   instance.defaults.baseURL = import.meta.env.VITE_API_REQUEST_URL
   instance.defaults.timeout = import.meta.env.VITE_API_REQUEST_TIMEOUT
-  instance.defaults.headers.common['Content-Type'] = 'application/json'
+  Object.entries(headers).forEach(([key, value]) => {
+    instance.defaults.headers.common[`${key}`] = `${value}`
+  })
   instance.interceptors.response.use(
     function (response) {
       Toast.sendSuccessMessage({
@@ -37,18 +41,36 @@ function createInstance() {
   return instance
 }
 
-async function handleResponseError(data) {
-  let message = data.data.message
-  const details = data.data.payload.details
-  if (details) {
-    message += details instanceof Object ? '\n' + Object.values(details).join('\n') : details
+async function handleResponseError(res) {
+  logger.debug(res)
+  let message = res.data.message
+  const details = res.data.payload.details
+  switch (res.status) {
+    case 401:
+      localStorage.clear()
+      Toast.sendErrorMessage({
+        body: translate('Your access token is expired. Please login to continue')
+      })
+      return router.push(RouteInfo.AUTH.LOGIN.path)
+    case 403:
+      Toast.sendErrorMessage({
+        body: translate("You don't have right to access this page")
+      })
+      return router.push(RouteInfo.AUTH.ACCESS_DENIED.path)
+    case 404:
+      Toast.sendErrorMessage({
+        body: translate('You tried to access non exising page')
+      })
+      return router.push(RouteInfo.AUTH.NOT_FOUND.path)
+    default:
+      if (details) {
+        message += details instanceof Object ? '\n' + Object.values(details).join('\n') : details
+      }
+      Toast.sendErrorMessage({
+        body: message
+      })
+      return Promise.resolve(new ResponseData(false, res.payload))
   }
-
-  Toast.sendErrorMessage({
-    body: message
-  })
-
-  return Promise.resolve(new ResponseData(false, data.payload))
 }
 
 async function handleRequestError(error) {
@@ -80,11 +102,13 @@ const ResponseData = class {
 }
 
 export function request(settings = { auth: false }) {
-  if(settings.auth){
-    secure.defaults.headers.common.Authorization= `Bearer ${localStorage.getItem(constants.TOKEN.ACCESS_TOKEN)}`
-    return secure;
+  if (settings.auth) {
+    secure.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem(
+      constants.TOKEN.ACCESS_TOKEN
+    )}`
+    return secure
   } else {
-    return insecure;
+    return insecure
   }
 }
 

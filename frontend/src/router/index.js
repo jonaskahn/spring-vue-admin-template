@@ -193,7 +193,7 @@ function isTokenInvalid() {
 }
 
 function redirectIfInvalid(to, from, next) {
-  if(to.path !== RouteInfo.AUTH.LOGIN.path){
+  if (to.path !== RouteInfo.AUTH.LOGIN.path) {
     router.push({
       path: RouteInfo.AUTH.LOGIN.path
     })

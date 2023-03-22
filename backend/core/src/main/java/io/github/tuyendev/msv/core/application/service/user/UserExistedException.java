@@ -4,7 +4,7 @@ import io.github.tuyendev.msv.common.exception.LogicException;
 
 public class UserExistedException extends LogicException {
 
-	public UserExistedException() {
-		super("");
-	}
+    public UserExistedException() {
+        super("");
+    }
 }

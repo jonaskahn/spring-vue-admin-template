@@ -5,7 +5,7 @@ import io.github.tuyendev.msv.core.application.dto.user.UserRegisterRequestDto;
 
 public interface UserService extends ViewUserService {
 
-	void create(UserCreateRequestDto request);
+    void create(UserCreateRequestDto request);
 
-	void register(UserRegisterRequestDto request);
+    void register(UserRegisterRequestDto request);
 }

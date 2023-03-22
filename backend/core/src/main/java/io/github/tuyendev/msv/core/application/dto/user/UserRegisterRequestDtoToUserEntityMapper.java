@@ -8,8 +8,8 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface UserRegisterRequestDtoToUserEntityMapper extends UnidirectionalMapper<UserRegisterRequestDto, User>, UserRequestDtoBaseMapper {
 
-	@Mapping(target = "gender", source = "gender", qualifiedByName = "convertGenderEnumToValue")
-	@Mapping(target = "username", source = "username", qualifiedByName = "convertToLowerCase")
-	@Mapping(target = "email", source = "email", qualifiedByName = "convertToLowerCase")
-	User map(UserRegisterRequestDto source);
+    @Mapping(target = "gender", source = "gender", qualifiedByName = "convertGenderEnumToValue")
+    @Mapping(target = "username", source = "username", qualifiedByName = "convertToLowerCase")
+    @Mapping(target = "email", source = "email", qualifiedByName = "convertToLowerCase")
+    User map(UserRegisterRequestDto source);
 }

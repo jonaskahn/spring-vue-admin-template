@@ -2,8 +2,8 @@
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useLayout } from '@/layout/composables/layout'
 import { useRouter } from 'vue-router'
-import AuthService from "@/service/AuthService";
-import RouteInfo from "@/constants/routeInfo";
+import AuthService from '@/service/AuthService'
+import RouteInfo from '@/constants/routeInfo'
 
 const { onMenuToggle } = useLayout()
 
@@ -24,10 +24,8 @@ const onTopBarMenuButton = () => {
   topbarMenuActive.value = !topbarMenuActive.value
 }
 const onLogoutClick = async () => {
-  if (await authService.logout()) {
-    await router.push(RouteInfo.AUTH.LOGIN.path)
-  }
-
+  await authService.logout()
+  await router.push(RouteInfo.AUTH.LOGIN.path)
 }
 const topbarMenuClasses = computed(() => {
   return {
@@ -101,5 +99,4 @@ const isOutsideClicked = (event) => {
   </div>
 </template>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

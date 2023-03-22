@@ -13,10 +13,9 @@ export default class AuthService {
   }
 
   async logout() {
-    const res = await request({auth: true}).delete(api.AUTH.TOKEN_REVOKE)
-    if (res.ok) {
-      localStorage.clear()
-    }
-    return res.ok
+    // Ignored response, always clear storage
+    await request({ auth: true }).delete(api.AUTH.TOKEN_REVOKE)
+    localStorage.clear()
+    return Promise.resolve()
   }
 }

@@ -6,10 +6,10 @@ export default {
     REFRESH_TOKEN_EXPIRED: 'TOKEN_REFRESH_TOKEN_EXPIRED'
   },
   TOAST_TIMEOUT: {
-    ERROR: 4000,
-    WARN: 4000,
-    INFO: 4000,
-    SUCCESS: 3000
+    ERROR: 3500,
+    WARN: 3500,
+    INFO: 3000,
+    SUCCESS: 2000
   },
   APP: {
     LANGUAGE: 'user-language'

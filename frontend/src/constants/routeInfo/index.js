@@ -9,6 +9,16 @@ export default {
       path: '/auth/sign-in',
       name: 'sign-in',
       title: 'Sign in'
+    },
+    ACCESS_DENIED: {
+      path: '/access/denied',
+      name: 'access-denied',
+      title: 'Access denied'
+    },
+    NOT_FOUND: {
+      path: '/access/not-found',
+      name: 'not-found',
+      title: 'Not found'
     }
   },
   APP: {

@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,20 +21,20 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "API handler User flow")
 public class UserController {
 
-	private final UserService userService;
+    private final UserService userService;
 
-	@PostMapping(path = "/create")
-	@Operation(summary = "Create user, only for admin role")
-	@PreAuthorize("hasAuthority('" + AuthorityType.ADMIN_VALUE + "')")
-	public Response createUser(@Valid @RequestBody UserCreateRequestDto request) {
-		userService.create(request);
-		return Response.ok();
-	}
+    @PostMapping(path = "/create")
+    @Operation(summary = "Create user, only for admin role")
+    @PreAuthorize("hasAuthority('" + AuthorityType.ADMIN_VALUE + "')")
+    public Response createUser(@Valid @RequestBody UserCreateRequestDto request) {
+        userService.create(request);
+        return Response.ok();
+    }
 
-	@PostMapping(path = "/public/register")
-	@Operation(summary = "Self register user")
-	public Response registerUser(@Valid @RequestBody UserRegisterRequestDto request) {
-		userService.register(request);
-		return Response.ok();
-	}
+    @PostMapping(path = "/public/register")
+    @Operation(summary = "Self register user")
+    public Response registerUser(@Valid @RequestBody UserRegisterRequestDto request) {
+        userService.register(request);
+        return Response.ok();
+    }
 }

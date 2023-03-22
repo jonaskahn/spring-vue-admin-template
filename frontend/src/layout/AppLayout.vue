@@ -4,9 +4,7 @@ import AppTopbar from './AppTopbar.vue'
 import AppFooter from './AppFooter.vue'
 import AppSidebar from './AppSidebar.vue'
 import { useLayout } from '@/layout/composables/layout'
-import { useRoute } from "vue-router";
-
-
+import { useRoute } from 'vue-router'
 
 const { layoutConfig, layoutState, isSidebarActive } = useLayout()
 
@@ -20,12 +18,11 @@ watch(isSidebarActive, (newVal) => {
   }
 })
 
-const route = useRoute();
+const route = useRoute()
 
-const key = computed( () => {
-      return route.path
-    }
-)
+const key = computed(() => {
+  return route.path
+})
 
 const containerClass = computed(() => {
   return {
@@ -33,7 +30,8 @@ const containerClass = computed(() => {
     'layout-theme-dark': layoutConfig.darkTheme.value === 'dark',
     'layout-overlay': layoutConfig.menuMode.value === 'overlay',
     'layout-static': layoutConfig.menuMode.value === 'static',
-    'layout-static-inactive': layoutState.staticMenuDesktopInactive.value && layoutConfig.menuMode.value === 'static',
+    'layout-static-inactive':
+      layoutState.staticMenuDesktopInactive.value && layoutConfig.menuMode.value === 'static',
     'layout-overlay-active': layoutState.overlayMenuActive.value,
     'layout-mobile-active': layoutState.staticMenuMobileActive.value,
     'p-input-filled': layoutConfig.inputStyle.value === 'filled',

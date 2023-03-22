@@ -9,24 +9,24 @@ import lombok.Data;
 @AllArgsConstructor
 public class UserCreateRequestDto {
 
-	@NotNull
-	private String username;
+    @NotNull
+    private String username;
 
-	@NotNull
-	private String email;
+    @NotNull
+    private String email;
 
-	private UserEntity.Gender gender;
+    private UserEntity.Gender gender;
 
-	private UserEntity.EmailVerify emailVerified;
+    private UserEntity.EmailVerify emailVerified;
 
-	private UserEntity.PhoneVerify phoneVerified;
+    private UserEntity.PhoneVerify phoneVerified;
 
-	private String familyName;
+    private String familyName;
 
-	private String middleName;
+    private String middleName;
 
-	@NotNull
-	private String givenName;
+    @NotNull
+    private String givenName;
 
-	private String phoneNumber;
+    private String phoneNumber;
 }
