@@ -1,16 +1,17 @@
 <script>
-  export default {
-    name: 'LangPlate',
-    methods: {
-      toggle(e) {
-          this.$refs.menuLang.toggle(e)
-      }
+export default {
+  name: 'LangPlate',
+  props: ['classLayout'],
+  methods: {
+    toggle(e) {
+      this.$refs.menuLang.toggle(e)
     }
   }
+}
 </script>
 
 <template>
-  <div>
+  <div :class="classLayout">
     <Button icon="fi fi-vn" outlined raised rounded text @click="toggle" />
     <OverlayPanel ref="menuLang" class="">
       <div class="flex flex-column">

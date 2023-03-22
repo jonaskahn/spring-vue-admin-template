@@ -71,21 +71,26 @@ function invalidInput() {
         <img alt="app-logo" class="mb-5 sm:w-10rem w-8rem flex-shrink-0" src="@/assets/logo.png" />
       </div>
       <div
-        class="surface-card xl:w-8 lg:w-10 md:w-12 sm:w-full py-8 px-5 sm:px-8"
+        class="surface-card lg:w-10 md:w-12 sm:w-full py-8 px-5 sm:px-8"
         style="border-radius: 50px"
       >
-        <lang-plate />
-        <div class="text-center mb-5">
-          <div class="text-900 text-3xl font-medium mb-3">
+        <div class="mb-5 flex flex-row">
+          <div
+            class="flex-1 flex align-items-center justify-content-start text-center text-900 text-3xl font-medium mb-3"
+          >
             {{ $t('page.login.message.welcome') }}
           </div>
+          <lang-plate class-layout="flex-1 flex align-items-center justify-content-end" />
         </div>
 
         <form>
           <div v-focustrap class="grid p-fluid">
             <div class="col-12 md:col-12">
               <div class="field">
-                <label for="username">{{ $t('page.login.label.input-username') }} <span class="text-red-500">*</span></label>
+                <label for="username"
+                  >{{ $t('page.login.label.input-username') }}
+                  <span class="text-red-500">*</span></label
+                >
                 <span class="p-input-icon-left">
                   <i class="pi pi-user" />
                   <InputText
@@ -106,7 +111,10 @@ function invalidInput() {
 
             <div class="col-12 md:col-12">
               <div class="field">
-                <label for="password">{{ $t('page.login.label.input-password') }} <span class="text-red-500">*</span></label>
+                <label for="password"
+                  >{{ $t('page.login.label.input-password') }}
+                  <span class="text-red-500">*</span></label
+                >
                 <span class="p-input-icon-left">
                   <i class="pi pi-key" />
                   <InputText
