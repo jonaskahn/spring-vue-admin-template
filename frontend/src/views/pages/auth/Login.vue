@@ -4,6 +4,7 @@ import AuthService from '@/service/AuthService'
 import { useRouter } from 'vue-router'
 import routeInfo from '@/constants/routeInfo'
 import { translate } from '@/helper/static'
+import LangPlate from '@/layout/LangPlate.vue'
 
 const usernameRef = ref(null)
 const passwordRef = ref(null)
@@ -73,6 +74,7 @@ function invalidInput() {
         class="surface-card xl:w-8 lg:w-10 md:w-12 sm:w-full py-8 px-5 sm:px-8"
         style="border-radius: 50px"
       >
+        <lang-plate />
         <div class="text-center mb-5">
           <div class="text-900 text-3xl font-medium mb-3">
             {{ $t('page.login.message.welcome') }}
@@ -83,7 +85,7 @@ function invalidInput() {
           <div v-focustrap class="grid p-fluid">
             <div class="col-12 md:col-12">
               <div class="field">
-                <label for="username">{{ $t('page.login.label.input-username') }}</label>
+                <label for="username">{{ $t('page.login.label.input-username') }} <span class="text-red-500">*</span></label>
                 <span class="p-input-icon-left">
                   <i class="pi pi-user" />
                   <InputText
@@ -104,7 +106,7 @@ function invalidInput() {
 
             <div class="col-12 md:col-12">
               <div class="field">
-                <label for="password">{{ $t('page.login.label.input-password') }}</label>
+                <label for="password">{{ $t('page.login.label.input-password') }} <span class="text-red-500">*</span></label>
                 <span class="p-input-icon-left">
                   <i class="pi pi-key" />
                   <InputText
