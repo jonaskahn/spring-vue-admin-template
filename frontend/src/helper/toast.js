@@ -3,40 +3,40 @@ import { app } from '@/main'
 import constants from '@/constants'
 import { isMobile, translate } from '@/helper/static'
 class Toast {
-  static sendInfoMessage({ title, body = 'Dont let me show' }) {
+  static sendInfoMessage({ title, body = 'Replace me, please !!!' }) {
     app.config.globalProperties.$toast.add({
       severity: ToastSeverity.INFO,
-      summary: !title ? translate('common.message.info') : title,
+      summary: !title ? translate('global.notification.default-title.info') : title,
       detail: body,
       life: constants.TOAST_TIMEOUT.INFO,
       group: isMobile() ? 'mobile' : 'default'
     })
   }
 
-  static sendWarnMessage({ title, body = 'Dont let me show' }) {
+  static sendWarnMessage({ title, body = 'Replace me, please !!!' }) {
     app.config.globalProperties.$toast.add({
       severity: ToastSeverity.WARN,
-      summary: !title ? translate('common.message.warn') : title,
+      summary: !title ? translate('global.notification.default-title.warn') : title,
       detail: body,
       life: constants.TOAST_TIMEOUT.WARN,
       group: isMobile() ? 'mobile' : 'default'
     })
   }
 
-  static sendSuccessMessage({ title, body = 'Dont let me show' }) {
+  static sendSuccessMessage({ title, body = 'Replace me, please !!!' }) {
     app.config.globalProperties.$toast.add({
       severity: ToastSeverity.SUCCESS,
-      summary: !title ? translate('common.message.success') : title,
+      summary: !title ? translate('global.notification.default-title.success') : title,
       detail: body,
       life: constants.TOAST_TIMEOUT.SUCCESS,
       group: isMobile() ? 'mobile' : 'default'
     })
   }
 
-  static sendErrorMessage({ title, body = 'Dont let me show' }) {
+  static sendErrorMessage({ title, body = 'Replace me, please !!!' }) {
     app.config.globalProperties.$toast.add({
       severity: ToastSeverity.ERROR,
-      summary: !title ? translate('common.message.error') : title,
+      summary: !title ? translate('global.notification.default-title.error') : title,
       detail: body,
       life: constants.TOAST_TIMEOUT.ERROR,
       group: isMobile() ? 'mobile' : 'default'

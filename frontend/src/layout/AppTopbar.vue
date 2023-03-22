@@ -4,6 +4,8 @@ import { useLayout } from '@/layout/composables/layout'
 import { useRouter } from 'vue-router'
 import AuthService from '@/service/AuthService'
 import RouteInfo from '@/constants/routeInfo'
+import { useConfirm } from 'primevue/useconfirm'
+import { isMobile, translate } from '@/helper/static'
 
 const { onMenuToggle } = useLayout()
 
@@ -11,6 +13,8 @@ const outsideClickListener = ref(null)
 const topbarMenuActive = ref(false)
 const router = useRouter()
 const authService = new AuthService()
+
+const confirm = useConfirm()
 
 onMounted(() => {
   bindOutsideClickListener()
@@ -24,9 +28,25 @@ const onTopBarMenuButton = () => {
   topbarMenuActive.value = !topbarMenuActive.value
 }
 const onLogoutClick = async () => {
-  await authService.logout()
-  await router.push(RouteInfo.AUTH.LOGIN.path)
+  confirm.require({
+    message: translate('global.confirmation.logout.message'),
+    header: translate('global.confirmation.default-title'),
+    icon: 'pi pi-exclamation-triangle',
+    group: 'confirmLogout',
+    position: isMobile() ? 'center' : 'topright',
+    rejectLabel: translate('global.confirmation.logout.label.reject'),
+    rejectClass: 'Primary',
+    acceptLabel: translate('global.confirmation.logout.label.accept'),
+    acceptClass: 'p-button-secondary p-button-text',
+    defaultFocus: 'reject',
+    accept: async () => {
+      await authService.logout()
+      await router.push(RouteInfo.AUTH.LOGIN.path)
+    },
+    reject: () => {}
+  })
 }
+
 const topbarMenuClasses = computed(() => {
   return {
     'layout-topbar-menu-mobile-active': topbarMenuActive.value
@@ -78,11 +98,12 @@ const isOutsideClicked = (event) => {
     </button>
     <div class="layout-topbar-logo" to="/">
       <router-link to="/">
-        <img src="@/assets/logo.png" alt="logo" class="w-3rem h-3rem mr-4" />
+        <img alt="logo" class="w-3rem h-3rem mr-4" src="@/assets/logo.png" />
       </router-link>
       <span class="hidden md:block">MEE SPRING VUE</span>
     </div>
     <div :class="topbarMenuClasses" class="layout-topbar-menu">
+      <ConfirmDialog group="confirmLogout"></ConfirmDialog>
       <button class="p-link layout-topbar-button" @click="onTopBarMenuButton()">
         <i class="pi pi-bell"></i>
         <span>Notifications</span>
@@ -91,7 +112,7 @@ const isOutsideClicked = (event) => {
         <i class="pi pi-user"></i>
         <span>Profile</span>
       </button>
-      <button class="p-link layout-topbar-button" @click="onLogoutClick()">
+      <button class="p-link layout-topbar-button" label="Logout" @click="onLogoutClick()">
         <i class="pi pi-sign-out"></i>
         <span>Logout</span>
       </button>

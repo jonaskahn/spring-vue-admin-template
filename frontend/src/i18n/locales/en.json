@@ -1,22 +1,57 @@
 {
-  "common": {
-    "message": {
-      "success": "Successfully",
-      "info": "Be aware",
-      "warn": "Pay your attention",
-      "error": "Failure"
+  "global": {
+    "notification": {
+      "default-title": {
+        "success": "Successfully",
+        "info": "Be aware",
+        "warn": "Pay your attention",
+        "error": "Something went wrong"
+      }
     },
-    "error": {
-      "network": "Can not connect to server",
-      "client": "Your web browser sent an invalid request",
-      "unknown": "Your web browser can not make a request"
+    "confirmation": {
+      "default-title": "Confirmation",
+      "default-message": "Are you sure you want to continue?",
+      "default-label": {
+        "reject": "Cancel",
+        "accept": "Ok"
+      },
+      "logout": {
+        "message": "Are you sure you want to sign out?",
+        "label": {
+          "reject": "Stay in",
+          "accept": "Sign out"
+        }
+      }
     }
   },
-  "auth-login": {
-    "label": {
-      "username": "Username",
-      "password": "Password",
-      "remember-me": "Remember me"
+  "service": {
+    "default-message": {
+      "api-error-network": "Can not connect to server",
+      "api-error-client": "Your web browser sent an invalid request",
+      "api-error-unknown": "Your web browser can not make a request",
+      "response-status-401": "Please sign in to continue using MSV",
+      "response-status-403": "You don't have right to access this page",
+      "response-status-404": "You accessed to a non exising page"
+    }
+  },
+  "page": {
+    "login": {
+      "title": "Sign in",
+      "message": {
+        "welcome": "Sign in to continue",
+        "validation": {
+          "username-incorrect": "This username may be incorrect",
+          "username-required": "The username is required",
+          "password-incorrect": "This password may be incorrect",
+          "password-required": "The password is required"
+        }
+      },
+      "label": {
+        "input-username": "Username",
+        "input-password": "Password",
+        "input-remember-me": "Remember me",
+        "btn-submit": "Sign in"
+      }
     }
   }
 }

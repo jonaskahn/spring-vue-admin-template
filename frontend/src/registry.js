@@ -101,6 +101,7 @@ import ConfirmationService from 'primevue/confirmationservice'
 import logger from '@/common/logger'
 import i18n from '@/i18n'
 import VueMobileDetection from 'vue-mobile-detection'
+import FocusTrap from 'primevue/focustrap'
 
 export function uses(app) {
   app.use(router)
@@ -213,4 +214,5 @@ export function directives(app) {
   app.directive('badge', BadgeDirective)
   app.directive('ripple', Ripple)
   app.directive('styleclass', StyleClass)
+  app.directive('focustrap', FocusTrap)
 }

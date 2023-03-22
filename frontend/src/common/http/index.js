@@ -32,7 +32,7 @@ function createInstance(headers = {}) {
         return handleRequestError(error)
       } else {
         Toast.sendErrorMessage({
-          body: translate('common.error.unknown')
+          body: translate('service.default-message.api-error-unknown')
         })
         return Promise.resolve(new ResponseData(false))
       }
@@ -49,17 +49,17 @@ async function handleResponseError(res) {
     case 401:
       localStorage.clear()
       Toast.sendErrorMessage({
-        body: translate('Your access token is expired. Please login to continue')
+        body: translate('service.default-message.response-status-401')
       })
       return router.push(RouteInfo.AUTH.LOGIN.path)
     case 403:
       Toast.sendErrorMessage({
-        body: translate("You don't have right to access this page")
+        body: translate('service.default-message.response-status-403')
       })
       return router.push(RouteInfo.AUTH.ACCESS_DENIED.path)
     case 404:
       Toast.sendErrorMessage({
-        body: translate('You tried to access non exising page')
+        body: translate('service.default-message.response-status-404')
       })
       return router.push(RouteInfo.AUTH.NOT_FOUND.path)
     default:
@@ -76,11 +76,11 @@ async function handleResponseError(res) {
 async function handleRequestError(error) {
   if (error.message === 'Network Error') {
     Toast.sendErrorMessage({
-      body: translate('common.error.network')
+      body: translate('service.default-message.api-error-network')
     })
   } else {
     Toast.sendErrorMessage({
-      body: translate('common.error.client')
+      body: translate('service.default-message.api-error-client')
     })
   }
   return Promise.resolve(new ResponseData(false))
