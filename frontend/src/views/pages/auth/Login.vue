@@ -3,7 +3,6 @@ import { reactive, ref } from 'vue'
 import AuthService from '@/service/AuthService'
 import { useRouter } from 'vue-router'
 import routeInfo from '@/constants/routeInfo'
-import { translate } from '@/helper/static'
 import LangPlate from '@/layout/LangPlate.vue'
 
 const usernameRef = ref(null)
@@ -40,8 +39,8 @@ async function submit() {
           path: routeInfo.APP.DASH_BOARD.path
         })
       } else {
-        validation.username = translate('page.login.message.validation.username-incorrect')
-        validation.password = translate('page.login.message.validation.password-incorrect')
+        validation.username = 'page.login.message.validation.username-incorrect'
+        validation.password = 'page.login.message.validation.password-incorrect'
         usernameRef.value.$el.focus()
       }
     }
@@ -51,11 +50,11 @@ async function submit() {
 
 function invalidInput() {
   if (!data.password.trim()) {
-    validation.password = translate('page.login.message.validation.password-required')
+    validation.password = 'page.login.message.validation.password-required'
     passwordRef.value.$el.focus()
   }
   if (!data.username.trim()) {
-    validation.username = translate('page.login.message.validation.username-required')
+    validation.username = 'page.login.message.validation.username-required'
     usernameRef.value.$el.focus()
   }
   return validation.username || validation.password
@@ -76,7 +75,7 @@ function invalidInput() {
       >
         <div class="mb-5 flex flex-row">
           <div
-            class="flex-1 flex align-items-center justify-content-start text-center text-900 text-3xl font-medium mb-3"
+            class="flex-1 flex align-items-center justify-content-start text-center text-900 text-3xl font-medium"
           >
             {{ $t('page.login.message.welcome') }}
           </div>
@@ -104,7 +103,7 @@ function invalidInput() {
                   />
                 </span>
                 <small v-if="validation.username" id="username-help" class="p-error font-italic">
-                  {{ validation.username }}
+                  {{ $t(validation.username) }}
                 </small>
               </div>
             </div>
@@ -129,7 +128,7 @@ function invalidInput() {
                 </span>
 
                 <small v-if="validation.password" id="password-help" class="p-error font-italic">
-                  {{ validation.password }}
+                  {{ $t(validation.password) }}
                 </small>
               </div>
             </div>

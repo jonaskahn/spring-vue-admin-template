@@ -12,6 +12,6 @@ export default {
     SUCCESS: 1500
   },
   APP: {
-    LANGUAGE: 'user-language'
+    CURRENT_LOCALE: 'user-locale'
   }
 }

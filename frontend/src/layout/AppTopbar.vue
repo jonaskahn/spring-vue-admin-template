@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router'
 import AuthService from '@/service/AuthService'
 import RouteInfo from '@/constants/routeInfo'
 import { useConfirm } from 'primevue/useconfirm'
-import { isMobile, translate } from '@/helper/static'
+import { isMobile, translate } from '@/helper'
 
 const { onMenuToggle } = useLayout()
 

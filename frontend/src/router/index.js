@@ -2,6 +2,8 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import AppLayout from '@/layout/AppLayout.vue'
 import RouteInfo from '@/constants/routeInfo'
 import constants from '@/constants'
+import logger from '@/common/logger'
+import { resetLocalStorage } from '@/helper'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -174,12 +176,12 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (isTokenInvalid()) {
-    localStorage.clear()
-    redirectIfInvalid(to, from, next)
+    resetLocalStorage()
+    await redirectIfInvalid(to, from, next)
   } else {
-    redirectIfValid(to, from, next)
+    await redirectIfValid(to, from, next)
   }
 })
 
@@ -192,9 +194,9 @@ function isTokenInvalid() {
   return !accessTokenExpired && now > accessTokenExpired
 }
 
-function redirectIfInvalid(to, from, next) {
+async function redirectIfInvalid(to, from, next) {
   if (to.path !== RouteInfo.AUTH.LOGIN.path) {
-    router.push({
+    await router.push({
       path: RouteInfo.AUTH.LOGIN.path
     })
   } else {
@@ -202,9 +204,9 @@ function redirectIfInvalid(to, from, next) {
   }
 }
 
-function redirectIfValid(to, from, next) {
+async function redirectIfValid(to, from, next) {
   if (to.path === RouteInfo.AUTH.LOGIN.path) {
-    router.push(RouteInfo.APP.DASH_BOARD.path)
+    await router.push(RouteInfo.APP.DASH_BOARD.path)
   } else {
     next()
   }

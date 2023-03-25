@@ -2,13 +2,13 @@ import axios from 'axios'
 import Toast from '@/helper/toast'
 import logger from '@/common/logger'
 import constants from '@/constants'
-import { translate } from '@/helper/static'
+import { getCurrentLocale, translate } from '@/helper'
 import router from '@/router'
 import RouteInfo from '@/constants/routeInfo'
 
-const insecure = createInstance({ 'Content-Type': 'application/json' })
+const insecure = createInstance({ 'Content-Type': 'application/json;charset=utf-8' })
 
-const secure = createInstance({ 'Content-Type': 'application/json' })
+const secure = createInstance({ 'Content-Type': 'application/json;charset=utf-8' })
 
 function createInstance(headers = {}) {
   const instance = axios.create()
@@ -106,8 +106,10 @@ export function request(settings = { auth: false }) {
     secure.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem(
       constants.TOKEN.ACCESS_TOKEN
     )}`
+    secure.defaults.headers.common['Accept-Language'] = getCurrentLocale()
     return secure
   } else {
+    insecure.defaults.headers.common['Accept-Language'] = getCurrentLocale()
     return insecure
   }
 }

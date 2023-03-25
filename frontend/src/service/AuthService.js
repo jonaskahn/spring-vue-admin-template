@@ -1,6 +1,7 @@
 import { request } from '@/common/http'
 import api from '@/constants/api'
 import constants from '@/constants'
+import { resetLocalStorage } from '@/helper'
 
 export default class AuthService {
   async login(params) {
@@ -13,9 +14,8 @@ export default class AuthService {
   }
 
   async logout() {
-    // Ignored response, always clear storage
     await request({ auth: true }).delete(api.AUTH.TOKEN_REVOKE)
-    localStorage.clear()
+    resetLocalStorage()
     return Promise.resolve()
   }
 }

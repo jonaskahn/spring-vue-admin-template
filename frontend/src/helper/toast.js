@@ -1,7 +1,7 @@
 import { ToastSeverity } from 'primevue/api'
 import { app } from '@/main'
 import constants from '@/constants'
-import { isMobile, translate } from '@/helper/static'
+import { isMobile, translate } from '@/helper/index'
 class Toast {
   static sendInfoMessage({ title, body = 'Replace me, please !!!' }) {
     app.config.globalProperties.$toast.add({
