@@ -16,7 +16,7 @@
         "accept": "Chấp nhận"
       },
       "logout": {
-        "message": "Bạn có chắc chắn muốn đăng xuất cập hệ thống không?",
+        "message": "Bạn có chắc chắn muốn đăng xuất khỏi hệ thống không?",
         "label": {
           "reject": "Ở lại",
           "accept": "Đăng xuất"
