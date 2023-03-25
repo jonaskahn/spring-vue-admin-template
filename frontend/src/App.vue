@@ -15,6 +15,7 @@ onBeforeMount(() => {
   </router-view>
 
   <Toast
+    draggable="false"
     error-icon="pi pi-times-circle"
     group="default"
     info-icon="pi pi-info-circle"
@@ -23,6 +24,7 @@ onBeforeMount(() => {
     warn-icon="pi pi-exclamation-circle"
   />
   <Toast
+    draggable="false"
     error-icon="pi pi-times-circle"
     group="mobile"
     info-icon="pi pi-info-circle"

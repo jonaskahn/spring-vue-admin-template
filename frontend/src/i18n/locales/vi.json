@@ -5,7 +5,7 @@
         "success": "Xử lý thành công",
         "info": "Thông tin",
         "warn": "Chú ý",
-        "error": "Xử lý thất bại"
+        "error": "Đã có sự cố xảy ra"
       }
     },
     "confirmation": {
@@ -31,7 +31,8 @@
       "api-error-unknown": "Đã xảy ra lỗi chưa xác định",
       "response-status-401": "Vui lòng đăng nhập để tiếp tục sử dụng MSV",
       "response-status-403": "Bạn không có quyền truy cập tài nguyên hay trang này",
-      "response-status-404": "Bạn đã truy cập vào đường dẫn không tồn tại"
+      "response-status-404": "Bạn đã truy cập vào đường dẫn không tồn tại",
+      "invalid-token": "Phiên làm việc của bạn đã hết hạn. Vui lòng đăng nhập lại"
     }
   },
   "page": {
@@ -39,6 +40,10 @@
       "title": "Đăng nhập",
       "message": {
         "welcome": "Đăng nhập để tiếp tục",
+        "expired-dialog": {
+          "title": "Phiên làm việc hết hạn",
+          "message": "Phiên làm việc của bạn đã hết hạn. Vui lòng đăng nhập để tiếp tục sử dụng hệ thống MSV, nếu bạn có bất cứ thắc mắc nào, hãy liên hệ với chúng tôi."
+        },
         "validation": {
           "username-incorrect": "Vui lòng kiểm tra lại tên người dùng",
           "username-required": "Tên người dùng không được bỏ trống",
@@ -50,7 +55,9 @@
         "input-username": "Tên người dùng",
         "input-password": "Mật khẩu",
         "input-remember-me": "Ghi nhớ tôi",
-        "btn-submit": "Đăng nhập"
+        "btn-submit": "Đăng nhập",
+        "btn-expired-accept-ok": "Đã hiểu",
+        "btn-expired-accept-off": "Không nhắc lại"
       }
     }
   }

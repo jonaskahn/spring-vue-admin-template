@@ -2,8 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import AppLayout from '@/layout/AppLayout.vue'
 import RouteInfo from '@/constants/routeInfo'
 import constants from '@/constants'
-import logger from '@/common/logger'
-import { resetLocalStorage } from '@/helper'
+import { resetLocalStorage, updateSigninState } from '@/helper'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -177,21 +176,29 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  if (isTokenInvalid()) {
-    resetLocalStorage()
+  if (isTokenNonExisted() || isTokenExpired()) {
+    resetLocalData()
     await redirectIfInvalid(to, from, next)
   } else {
     await redirectIfValid(to, from, next)
   }
 })
 
-function isTokenInvalid() {
-  if (!localStorage.getItem(constants.TOKEN.ACCESS_TOKEN)) {
-    return true
+function resetLocalData() {
+  const isSigninStateExisted = localStorage.getItem(constants.APP.SIGNIN_STATE)
+  resetLocalStorage()
+  if (isSigninStateExisted) {
+    updateSigninState()
   }
+}
+
+function isTokenNonExisted() {
+  return !localStorage.getItem(constants.TOKEN.ACCESS_TOKEN)
+}
+function isTokenExpired() {
   const accessTokenExpired = parseInt(localStorage.getItem(constants.TOKEN.ACCESS_TOKEN_EXPIRED))
-  const now = new Date().getTime()
-  return !accessTokenExpired && now > accessTokenExpired
+  const now = new Date().getTime() / 1000
+  return !!accessTokenExpired && now > accessTokenExpired
 }
 
 async function redirectIfInvalid(to, from, next) {

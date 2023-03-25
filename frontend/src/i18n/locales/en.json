@@ -31,7 +31,8 @@
       "api-error-unknown": "Your web browser can not make a request",
       "response-status-401": "Please sign in to continue using MSV",
       "response-status-403": "You don't have right to access this page",
-      "response-status-404": "You accessed to a non exising page"
+      "response-status-404": "You accessed to a non exising page",
+      "invalid-token": "Your session is expired. Please sign in again."
     }
   },
   "page": {
@@ -39,6 +40,10 @@
       "title": "Sign in",
       "message": {
         "welcome": "Sign in to continue",
+        "expired-dialog": {
+          "title": "Session is expired",
+          "message": "Your session is expired. Please sign in again to continue using MSV, if you have any questions, feel free to contact us."
+        },
         "validation": {
           "username-incorrect": "This username may be incorrect",
           "username-required": "The username is required",
@@ -50,7 +55,9 @@
         "input-username": "Username",
         "input-password": "Password",
         "input-remember-me": "Remember me",
-        "btn-submit": "Sign in"
+        "btn-submit": "Sign in",
+        "btn-expired-accept-ok": "Ok",
+        "btn-expired-accept-off": "Don't show again"
       }
     }
   }

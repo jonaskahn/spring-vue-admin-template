@@ -1,8 +1,7 @@
 import axios from 'axios'
-import Toast from '@/helper/toast'
 import logger from '@/common/logger'
 import constants from '@/constants'
-import { getCurrentLocale, translate } from '@/helper'
+import { getCurrentLocale, resetLocalStorage, translate, Toast } from '@/helper'
 import router from '@/router'
 import RouteInfo from '@/constants/routeInfo'
 
@@ -47,7 +46,7 @@ async function handleResponseError(res) {
   const details = res.data.payload.details
   switch (res.status) {
     case 401:
-      localStorage.clear()
+      resetLocalStorage()
       Toast.sendErrorMessage({
         body: translate('service.default-message.response-status-401')
       })

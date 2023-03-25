@@ -1,7 +1,9 @@
 import { ToastSeverity } from 'primevue/api'
 import { app } from '@/main'
 import constants from '@/constants'
-import { isMobile, translate } from '@/helper/index'
+import { isMobileDevice } from '@/helper/common'
+import { translate } from '@/helper/locale'
+
 class Toast {
   static sendInfoMessage({ title, body = 'Replace me, please !!!' }) {
     app.config.globalProperties.$toast.add({
@@ -9,7 +11,7 @@ class Toast {
       summary: !title ? translate('global.notification.default-title.info') : title,
       detail: body,
       life: constants.TOAST_TIMEOUT.INFO,
-      group: isMobile() ? 'mobile' : 'default'
+      group: isMobileDevice() ? 'mobile' : 'default'
     })
   }
 
@@ -19,7 +21,7 @@ class Toast {
       summary: !title ? translate('global.notification.default-title.warn') : title,
       detail: body,
       life: constants.TOAST_TIMEOUT.WARN,
-      group: isMobile() ? 'mobile' : 'default'
+      group: isMobileDevice() ? 'mobile' : 'default'
     })
   }
 
@@ -29,7 +31,7 @@ class Toast {
       summary: !title ? translate('global.notification.default-title.success') : title,
       detail: body,
       life: constants.TOAST_TIMEOUT.SUCCESS,
-      group: isMobile() ? 'mobile' : 'default'
+      group: isMobileDevice() ? 'mobile' : 'default'
     })
   }
 
@@ -39,7 +41,7 @@ class Toast {
       summary: !title ? translate('global.notification.default-title.error') : title,
       detail: body,
       life: constants.TOAST_TIMEOUT.ERROR,
-      group: isMobile() ? 'mobile' : 'default'
+      group: isMobileDevice() ? 'mobile' : 'default'
     })
   }
 }

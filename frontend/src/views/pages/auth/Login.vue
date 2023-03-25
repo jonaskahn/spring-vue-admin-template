@@ -1,12 +1,16 @@
 <script setup>
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import AuthService from '@/service/AuthService'
 import { useRouter } from 'vue-router'
 import routeInfo from '@/constants/routeInfo'
 import LangPlate from '@/layout/LangPlate.vue'
+import constants from '@/constants'
+import { updateSigninState, removeSigninState } from '@/helper'
 
 const usernameRef = ref(null)
 const passwordRef = ref(null)
+
+const dialogVisibleRef = ref(false)
 
 const data = reactive({
   username: 'admin',
@@ -19,6 +23,12 @@ const validation = reactive({
 })
 
 let isLoading = ref(false)
+
+onMounted(() => {
+  if (localStorage.getItem(constants.APP.SIGNIN_STATE)) {
+    dialogVisibleRef.value = true
+  }
+})
 
 const authService = new AuthService()
 const router = useRouter()
@@ -35,6 +45,7 @@ async function submit() {
         password: data.password.trim()
       })
       if (result) {
+        updateSigninState()
         await router.push({
           path: routeInfo.APP.DASH_BOARD.path
         })
@@ -59,12 +70,44 @@ function invalidInput() {
   }
   return validation.username || validation.password
 }
+
+function permanentCloseExpiredSessionDialog() {
+  dialogVisibleRef.value = false
+  removeSigninState()
+}
 </script>
 
 <template>
   <div
     class="surface-ground flex align-items-center justify-content-center login-box min-w-min overflow-hidden"
   >
+    <Dialog
+      v-model:visible="dialogVisibleRef"
+      :closable="false"
+      :draggable="false"
+      :header="$t('page.login.message.expired-dialog.title')"
+      :modal="true"
+      class="sm:w-1 md:w-6 lg:w-4"
+      position="top"
+    >
+      <p class="m-0">
+        {{ $t('page.login.message.expired-dialog.message') }}
+      </p>
+      <template #footer>
+        <Button
+          :label="$t('page.login.label.btn-expired-accept-ok')"
+          autofocus
+          raised
+          @click="dialogVisibleRef = false"
+        />
+        <Button
+          :label="$t('page.login.label.btn-expired-accept-off')"
+          severity="warning"
+          text
+          @click="permanentCloseExpiredSessionDialog()"
+        />
+      </template>
+    </Dialog>
     <div class="flex flex-column align-items-center justify-content-center m-4 md:m-8">
       <div class="flex">
         <img alt="app-logo" class="mb-5 sm:w-10rem w-8rem flex-shrink-0" src="@/assets/logo.png" />

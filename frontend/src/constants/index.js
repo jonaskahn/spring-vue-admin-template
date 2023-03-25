@@ -12,6 +12,7 @@ export default {
     SUCCESS: 1500
   },
   APP: {
-    CURRENT_LOCALE: 'user-locale'
+    CURRENT_LOCALE: 'USER_LOCALE',
+    SIGNIN_STATE: 'USER_SIGNIN_STATE'
   }
 }

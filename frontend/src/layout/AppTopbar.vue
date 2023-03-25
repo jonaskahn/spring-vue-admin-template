@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router'
 import AuthService from '@/service/AuthService'
 import RouteInfo from '@/constants/routeInfo'
 import { useConfirm } from 'primevue/useconfirm'
-import { isMobile, translate } from '@/helper'
+import { isMobileDevice, translate } from '@/helper'
 
 const { onMenuToggle } = useLayout()
 
@@ -33,11 +33,11 @@ const onLogoutClick = async () => {
     header: translate('global.confirmation.default-title'),
     icon: 'pi pi-exclamation-triangle',
     group: 'confirmLogout',
-    position: isMobile() ? 'center' : 'topright',
+    position: isMobileDevice() ? 'center' : 'topright',
     rejectLabel: translate('global.confirmation.logout.label.reject'),
-    rejectClass: 'Primary',
+    rejectClass: 'p-button-primary',
     acceptLabel: translate('global.confirmation.logout.label.accept'),
-    acceptClass: 'p-button-secondary p-button-text',
+    acceptClass: 'p-button-warning p-button-text',
     defaultFocus: 'reject',
     accept: async () => {
       await authService.logout()
@@ -103,7 +103,7 @@ const isOutsideClicked = (event) => {
       <span class="hidden md:block">MEE SPRING VUE</span>
     </div>
     <div :class="topbarMenuClasses" class="layout-topbar-menu">
-      <ConfirmDialog group="confirmLogout"></ConfirmDialog>
+      <ConfirmDialog :draggable="false" group="confirmLogout"></ConfirmDialog>
       <button class="p-link layout-topbar-button" @click="onTopBarMenuButton()">
         <i class="pi pi-bell"></i>
         <span>Notifications</span>
