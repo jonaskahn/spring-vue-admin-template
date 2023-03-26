@@ -2,6 +2,7 @@
 import { onBeforeMount, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useLayout } from '@/layout/composables/layout'
+import AppMenuBadge from '@/layout/AppMenuBadge.vue'
 
 const route = useRoute()
 
@@ -91,7 +92,8 @@ const checkActiveRoute = (item) => {
     >
       <i :class="item.icon" class="layout-menuitem-icon"></i>
       <span class="layout-menuitem-text">{{ item.label }}</span>
-      <i v-if="item.items" class="pi pi-fw pi-angle-down layout-submenu-toggler"></i>
+      <app-menu-badge :badge="item.badge"></app-menu-badge>
+      <i v-if="item.items" class="pi pi-fw pi-angle-down layout-submenu-toggler"> </i>
     </a>
     <router-link
       v-if="item.to && !item.items && item.visible !== false"
@@ -102,6 +104,7 @@ const checkActiveRoute = (item) => {
     >
       <i :class="item.icon" class="layout-menuitem-icon"></i>
       <span class="layout-menuitem-text">{{ item.label }}</span>
+      <app-menu-badge :badge="item.badge"></app-menu-badge>
       <i v-if="item.items" class="pi pi-fw pi-angle-down layout-submenu-toggler"></i>
     </router-link>
     <Transition v-if="item.items && item.visible !== false" name="layout-submenu">

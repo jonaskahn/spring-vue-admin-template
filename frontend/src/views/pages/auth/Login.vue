@@ -89,6 +89,7 @@ function permanentCloseExpiredSessionDialog() {
       :modal="true"
       class="sm:w-1 md:w-6 lg:w-4"
       position="top"
+      @keyup.esc="dialogVisibleRef = false"
     >
       <p class="m-0">
         {{ $t('page.login.message.expired-dialog.message') }}

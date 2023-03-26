@@ -6,12 +6,24 @@ import AppMenuItem from './AppMenuItem.vue'
 const model = ref([
   {
     label: 'Home',
-    items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' }]
+    items: [
+      {
+        label: 'Dashboard',
+        icon: 'pi pi-fw pi-home',
+        to: '/',
+        badge: { value: 'New release', severity: 'success' }
+      }
+    ]
   },
   {
     label: 'UI Components',
     items: [
-      { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/uikit/formlayout' },
+      {
+        label: 'Form Layout',
+        icon: 'pi pi-fw pi-id-card',
+        to: '/uikit/formlayout',
+        badge: { value: 'Alpha', severity: 'danger' }
+      },
       { label: 'Input', icon: 'pi pi-fw pi-check-square', to: '/uikit/input' },
       { label: 'Float Label', icon: 'pi pi-fw pi-bookmark', to: '/uikit/floatlabel' },
       { label: 'Invalid State', icon: 'pi pi-fw pi-exclamation-circle', to: '/uikit/invalidstate' },
@@ -32,7 +44,12 @@ const model = ref([
   {
     label: 'Prime Blocks',
     items: [
-      { label: 'Free Blocks', icon: 'pi pi-fw pi-eye', to: '/blocks', badge: 'NEW' },
+      {
+        label: 'Free Blocks',
+        icon: 'pi pi-fw pi-eye',
+        to: '/blocks',
+        badge: { value: 'Beta', severity: 'warning' }
+      },
       {
         label: 'All Blocks',
         icon: 'pi pi-fw pi-globe',
@@ -112,6 +129,7 @@ const model = ref([
       {
         label: 'Submenu 1',
         icon: 'pi pi-fw pi-bookmark',
+        badge: { value: 'Beta@20232603', severity: 'warning' },
         items: [
           {
             label: 'Submenu 1.1',
