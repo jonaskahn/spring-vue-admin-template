@@ -1,6 +1,6 @@
 import { request } from '@/common/http'
 import api from '@/constants/api'
-import { StorageManager } from '@/helper'
+import { LocalStorageManager } from '@/helper'
 import jwt_decode from 'jwt-decode'
 
 export default class AuthService {
@@ -16,13 +16,13 @@ export default class AuthService {
     const token = res.payload.accessToken
     const expiration = res.payload.accessTokenExpiredAt
     const authorities = jwt_decode(res.payload.accessToken)['x-authority']
-    StorageManager.updateTokenInfo(token, expiration, authorities)
-    StorageManager.updateSigninState()
+    LocalStorageManager.updateTokenInfo(token, expiration, authorities)
+    LocalStorageManager.updateSigninState()
   }
 
   async logout() {
     await request({ auth: true }).delete(api.AUTH.TOKEN_REVOKE)
-    StorageManager.reset()
+    LocalStorageManager.reset()
     return Promise.resolve()
   }
 }

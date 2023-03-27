@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router'
 import routeInfo from '@/constants/page'
 import LangPlate from '@/layout/LangPlate.vue'
 import constants from '@/constants'
-import { StorageManager } from '@/helper'
+import { LocalStorageManager } from '@/helper'
 
 const usernameRef = ref(null)
 const passwordRef = ref(null)
@@ -72,7 +72,7 @@ function invalidInput() {
 
 function permanentCloseExpiredSessionDialog() {
   dialogVisibleRef.value = false
-  StorageManager.clearSigninState()
+  LocalStorageManager.clearSigninState()
 }
 
 function userDefaultAccount(type) {
@@ -189,7 +189,6 @@ function userDefaultAccount(type) {
             <div class="col-12 md:col-12">
               <Button
                 :label="$t('page.login.label.btn-submit')"
-                :loading="isLoading"
                 class="w-full p-3 text-xl"
                 iconPos="right"
                 type="button"

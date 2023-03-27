@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import AppLayout from '@/layout/AppLayout.vue'
 import Page from '@/constants/page'
 import constants from '@/constants'
-import { StorageManager, translate } from '@/helper'
+import { LocalStorageManager, translate } from '@/helper'
 import { nextTick } from 'vue'
 import { containsAny } from '@/utils/arrays'
 
@@ -79,9 +79,9 @@ router.beforeEach(async (to, from, next) => {
 
 function resetLocalData() {
   const isSigninStateExisted = localStorage.getItem(constants.APP.SIGNIN_STATE)
-  StorageManager.reset()
+  LocalStorageManager.reset()
   if (isSigninStateExisted) {
-    StorageManager.updateSigninState()
+    LocalStorageManager.updateSigninState()
   }
 }
 
@@ -118,7 +118,9 @@ async function redirectIfValid(to, from, next) {
 }
 
 function hasPermission(permissions) {
-  return permissions.length === 0 || containsAny(permissions, StorageManager.getTokenAuthorities())
+  return (
+    permissions.length === 0 || containsAny(permissions, LocalStorageManager.getTokenAuthorities())
+  )
 }
 
 router.afterEach(async (to) => {

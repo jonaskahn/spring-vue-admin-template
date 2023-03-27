@@ -3,7 +3,7 @@ import { onBeforeMount, ref, toRaw, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useLayout } from '@/layout/composables/layout'
 import AppMenuBadge from '@/layout/AppMenuBadge.vue'
-import { StorageManager } from '@/helper'
+import { LocalStorageManager } from '@/helper'
 import { containsAny } from '@/utils/arrays'
 import { hasAnyPermissionChildren } from '@/layout/composables/permission'
 
@@ -81,7 +81,9 @@ const checkActiveRoute = (item) => {
 
 const hasPermission = () => {
   const permissions = props.item.permissions ?? []
-  return permissions.length === 0 || containsAny(permissions, StorageManager.getTokenAuthorities())
+  return (
+    permissions.length === 0 || containsAny(permissions, LocalStorageManager.getTokenAuthorities())
+  )
 }
 </script>
 

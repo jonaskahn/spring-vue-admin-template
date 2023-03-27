@@ -1,5 +1,5 @@
 import { containsAny } from '@/utils/arrays'
-import { StorageManager } from '@/helper'
+import { LocalStorageManager } from '@/helper'
 
 export const hasAnyPermissionChildren = (menu) => {
   if (menu.items) {
@@ -9,7 +9,7 @@ export const hasAnyPermissionChildren = (menu) => {
       hasPermission =
         hasPermission ||
         permissions.length === 0 ||
-        containsAny(permissions, StorageManager.getTokenAuthorities())
+        containsAny(permissions, LocalStorageManager.getTokenAuthorities())
     })
     return hasPermission
   }

@@ -6,7 +6,7 @@ export function isMobileDevice() {
   return app.config.globalProperties.$isMobile()
 }
 
-export class StorageManager {
+export class LocalStorageManager {
   static reset() {
     const locale = getCurrentLocale()
     localStorage.clear()
