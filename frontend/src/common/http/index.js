@@ -1,9 +1,9 @@
 import axios from 'axios'
 import logger from '@/common/logger'
 import constants from '@/constants'
-import { getCurrentLocale, resetLocalStorage, translate, Toast } from '@/helper'
+import { getCurrentLocale, Toast, translate } from '@/helper'
 import router from '@/router'
-import RouteInfo from '@/constants/routeInfo'
+import RouteInfo from '@/constants/page'
 
 const insecure = createInstance({ 'Content-Type': 'application/json;charset=utf-8' })
 
@@ -46,7 +46,7 @@ async function handleResponseError(res) {
   const details = res.data.payload.details
   switch (res.status) {
     case 401:
-      resetLocalStorage()
+      StorageManager.reset()
       Toast.sendErrorMessage({
         body: translate('service.default-message.response-status-401')
       })

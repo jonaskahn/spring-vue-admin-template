@@ -58,11 +58,11 @@ public final class Authorization {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class JwtClaim {
 
-        public static final String AUTHORITY = "acs";
+        public static final String AUTHORITY = "x-authority";
 
         public static final String REMEMBER_ME = "rem";
 
-        public static final String TYPE = "typ";
+        public static final String TYPE = "x-type";
 
         public static final String EMAIL = "email";
 

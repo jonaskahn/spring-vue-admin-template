@@ -1,8 +1,12 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import AppLayout from '@/layout/AppLayout.vue'
-import RouteInfo from '@/constants/routeInfo'
+import Page from '@/constants/page'
 import constants from '@/constants'
-import { resetLocalStorage, updateSigninState } from '@/helper'
+import { StorageManager, translate } from '@/helper'
+import { nextTick } from 'vue'
+import { containsAny } from '@/utils/arrays'
+
+const whiteListUrl = [Page.AUTH.ACCESS_DENIED.path, Page.AUTH.NOT_FOUND.path, Page.AUTH.ERROR.path]
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -12,144 +16,33 @@ const router = createRouter({
       component: AppLayout,
       children: [
         {
-          path: RouteInfo.APP.DASH_BOARD.path,
-          name: RouteInfo.APP.DASH_BOARD.name,
+          path: Page.APP.DASH_BOARD.path,
+          name: Page.APP.DASH_BOARD.name,
+          meta: {
+            title: Page.APP.DASH_BOARD.title,
+            permissions: Page.APP.DASH_BOARD.permissions
+          },
           component: () => import('@/views/Dashboard.vue')
         },
         {
-          path: '/uikit/formlayout',
-          name: 'formlayout',
-          component: () => import('@/views/uikit/FormLayout.vue')
+          path: Page.APP.PERMISSION.ADMIN.path,
+          name: Page.APP.PERMISSION.ADMIN.name,
+          meta: {
+            title: Page.APP.PERMISSION.ADMIN.title,
+            permissions: Page.APP.PERMISSION.ADMIN.permissions
+          },
+          component: () => import('@/views/permission/Admin.vue')
         },
         {
-          path: '/uikit/input',
-          name: 'input',
-          component: () => import('@/views/uikit/Input.vue')
-        },
-        {
-          path: '/uikit/floatlabel',
-          name: 'floatlabel',
-          component: () => import('@/views/uikit/FloatLabel.vue')
-        },
-        {
-          path: '/uikit/invalidstate',
-          name: 'invalidstate',
-          component: () => import('@/views/uikit/InvalidState.vue')
-        },
-        {
-          path: '/uikit/button',
-          name: 'button',
-          component: () => import('@/views/uikit/Button.vue')
-        },
-        {
-          path: '/uikit/table',
-          name: 'table',
-          component: () => import('@/views/uikit/Table.vue')
-        },
-        {
-          path: '/uikit/list',
-          name: 'list',
-          component: () => import('@/views/uikit/List.vue')
-        },
-        {
-          path: '/uikit/tree',
-          name: 'tree',
-          component: () => import('@/views/uikit/Tree.vue')
-        },
-        {
-          path: '/uikit/panel',
-          name: 'panel',
-          component: () => import('@/views/uikit/Panels.vue')
-        },
-
-        {
-          path: '/uikit/overlay',
-          name: 'overlay',
-          component: () => import('@/views/uikit/Overlay.vue')
-        },
-        {
-          path: '/uikit/media',
-          name: 'media',
-          component: () => import('@/views/uikit/Media.vue')
-        },
-        {
-          path: '/uikit/menu',
-          component: () => import('@/views/uikit/Menu.vue'),
-          children: [
-            {
-              path: '/uikit/menu',
-              component: () => import('@/views/uikit/menu/PersonalDemo.vue')
-            },
-            {
-              path: '/uikit/menu/seat',
-              component: () => import('@/views/uikit/menu/SeatDemo.vue')
-            },
-            {
-              path: '/uikit/menu/payment',
-              component: () => import('@/views/uikit/menu/PaymentDemo.vue')
-            },
-            {
-              path: '/uikit/menu/confirmation',
-              component: () => import('@/views/uikit/menu/ConfirmationDemo.vue')
-            }
-          ]
-        },
-        {
-          path: '/uikit/message',
-          name: 'message',
-          component: () => import('@/views/uikit/Messages.vue')
-        },
-        {
-          path: '/uikit/file',
-          name: 'file',
-          component: () => import('@/views/uikit/File.vue')
-        },
-        {
-          path: '/uikit/charts',
-          name: 'charts',
-          component: () => import('@/views/uikit/Chart.vue')
-        },
-        {
-          path: '/uikit/misc',
-          name: 'misc',
-          component: () => import('@/views/uikit/Misc.vue')
-        },
-        {
-          path: '/blocks',
-          name: 'blocks',
-          component: () => import('@/views/utilities/Blocks.vue')
-        },
-        {
-          path: '/utilities/icons',
-          name: 'icons',
-          component: () => import('@/views/utilities/Icons.vue')
-        },
-        {
-          path: '/pages/timeline',
-          name: 'timeline',
-          component: () => import('@/views/pages/Timeline.vue')
-        },
-        {
-          path: '/pages/empty',
-          name: 'empty',
-          component: () => import('@/views/pages/Empty.vue')
-        },
-        {
-          path: '/pages/crud',
-          name: 'crud',
-          component: () => import('@/views/pages/Crud.vue')
-        },
-        {
-          path: '/documentation',
-          name: 'documentation',
-          component: () => import('@/views/utilities/Documentation.vue')
+          path: Page.APP.PERMISSION.EDITOR.path,
+          name: Page.APP.PERMISSION.EDITOR.name,
+          meta: {
+            title: Page.APP.PERMISSION.EDITOR.title,
+            permissions: Page.APP.PERMISSION.EDITOR.permissions
+          },
+          component: () => import('@/views/permission/Editor.vue')
         }
       ]
-    },
-    {
-      path: '/landing',
-      name: 'landing',
-      component: () => import('@/views/pages/Landing.vue')
     },
     {
       path: '/:pathMatch(.*)*',
@@ -158,13 +51,13 @@ const router = createRouter({
     },
 
     {
-      path: RouteInfo.AUTH.LOGIN.path,
-      name: RouteInfo.AUTH.LOGIN.name,
+      path: Page.AUTH.LOGIN.path,
+      name: Page.AUTH.LOGIN.name,
       component: () => import('@/views/pages/auth/Login.vue')
     },
     {
-      path: '/auth/access',
-      name: 'accessDenied',
+      path: Page.AUTH.ACCESS_DENIED.path,
+      name: Page.AUTH.ACCESS_DENIED.name,
       component: () => import('@/views/pages/auth/Access.vue')
     },
     {
@@ -186,15 +79,16 @@ router.beforeEach(async (to, from, next) => {
 
 function resetLocalData() {
   const isSigninStateExisted = localStorage.getItem(constants.APP.SIGNIN_STATE)
-  resetLocalStorage()
+  StorageManager.reset()
   if (isSigninStateExisted) {
-    updateSigninState()
+    StorageManager.updateSigninState()
   }
 }
 
 function isTokenNonExisted() {
   return !localStorage.getItem(constants.TOKEN.ACCESS_TOKEN)
 }
+
 function isTokenExpired() {
   const accessTokenExpired = parseInt(localStorage.getItem(constants.TOKEN.ACCESS_TOKEN_EXPIRED))
   const now = new Date().getTime() / 1000
@@ -202,9 +96,9 @@ function isTokenExpired() {
 }
 
 async function redirectIfInvalid(to, from, next) {
-  if (to.path !== RouteInfo.AUTH.LOGIN.path) {
+  if (to.path !== Page.AUTH.LOGIN.path) {
     await router.push({
-      path: RouteInfo.AUTH.LOGIN.path
+      path: Page.AUTH.LOGIN.path
     })
   } else {
     next()
@@ -212,11 +106,26 @@ async function redirectIfInvalid(to, from, next) {
 }
 
 async function redirectIfValid(to, from, next) {
-  if (to.path === RouteInfo.AUTH.LOGIN.path) {
-    await router.push(RouteInfo.APP.DASH_BOARD.path)
-  } else {
+  if (whiteListUrl.includes(to.path)) {
     next()
+  } else if (to.path === Page.AUTH.LOGIN.path) {
+    await router.push(Page.APP.DASH_BOARD.path)
+  } else if (hasPermission(to.meta.permissions ?? [])) {
+    next()
+  } else {
+    await router.push(Page.AUTH.ACCESS_DENIED)
   }
 }
+
+function hasPermission(permissions) {
+  return permissions.length === 0 || containsAny(permissions, StorageManager.getTokenAuthorities())
+}
+
+router.afterEach(async (to) => {
+  await nextTick(() => {
+    const pageTitle = translate(to.meta.title ?? to.name.toUpperCase() + '')
+    document.title = translate('global.menu-title.default') + ' - ' + pageTitle
+  })
+})
 
 export default router

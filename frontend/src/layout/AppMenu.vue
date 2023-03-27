@@ -1,186 +1,105 @@
 <script setup>
-import { ref } from 'vue'
+import { reactive, toRaw } from 'vue'
 
 import AppMenuItem from './AppMenuItem.vue'
+import Page from '@/constants/page'
+import { hasAnyPermissionChildren } from '@/layout/composables/permission'
 
-const model = ref([
+const model = reactive([
   {
     label: 'Home',
     items: [
       {
-        label: 'Dashboard',
+        label: Page.APP.DASH_BOARD.title,
         icon: 'pi pi-fw pi-home',
-        to: '/',
-        badge: { value: 'New release', severity: 'success' }
+        to: Page.APP.DASH_BOARD.path,
+        permissions: Page.APP.DASH_BOARD.permissions
       }
     ]
   },
   {
-    label: 'UI Components',
+    label: 'Permissions',
     items: [
       {
-        label: 'Form Layout',
-        icon: 'pi pi-fw pi-id-card',
-        to: '/uikit/formlayout',
-        badge: { value: 'Alpha', severity: 'danger' }
-      },
-      { label: 'Input', icon: 'pi pi-fw pi-check-square', to: '/uikit/input' },
-      { label: 'Float Label', icon: 'pi pi-fw pi-bookmark', to: '/uikit/floatlabel' },
-      { label: 'Invalid State', icon: 'pi pi-fw pi-exclamation-circle', to: '/uikit/invalidstate' },
-      { label: 'Button', icon: 'pi pi-fw pi-mobile', to: '/uikit/button', class: 'rotated-icon' },
-      { label: 'Table', icon: 'pi pi-fw pi-table', to: '/uikit/table' },
-      { label: 'List', icon: 'pi pi-fw pi-list', to: '/uikit/list' },
-      { label: 'Tree', icon: 'pi pi-fw pi-share-alt', to: '/uikit/tree' },
-      { label: 'Panel', icon: 'pi pi-fw pi-tablet', to: '/uikit/panel' },
-      { label: 'Overlay', icon: 'pi pi-fw pi-clone', to: '/uikit/overlay' },
-      { label: 'Media', icon: 'pi pi-fw pi-image', to: '/uikit/media' },
-      { label: 'Menu', icon: 'pi pi-fw pi-bars', to: '/uikit/menu', preventExact: true },
-      { label: 'Message', icon: 'pi pi-fw pi-comment', to: '/uikit/message' },
-      { label: 'File', icon: 'pi pi-fw pi-file', to: '/uikit/file' },
-      { label: 'Chart', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/charts' },
-      { label: 'Misc', icon: 'pi pi-fw pi-circle', to: '/uikit/misc' }
-    ]
-  },
-  {
-    label: 'Prime Blocks',
-    items: [
-      {
-        label: 'Free Blocks',
-        icon: 'pi pi-fw pi-eye',
-        to: '/blocks',
-        badge: { value: 'Beta', severity: 'warning' }
+        label: Page.APP.PERMISSION.EDITOR.title,
+        icon: 'pi pi-fw pi-file-edit',
+        to: Page.APP.PERMISSION.EDITOR.path,
+        permissions: Page.APP.PERMISSION.EDITOR.permissions,
+        badge: {
+          value: 'Demo',
+          severity: 'danger'
+        }
       },
       {
-        label: 'All Blocks',
-        icon: 'pi pi-fw pi-globe',
-        url: 'https://www.primefaces.org/primeblocks-vue',
-        target: '_blank'
-      }
-    ]
-  },
-  {
-    label: 'Utilities',
-    items: [
-      { label: 'PrimeIcons', icon: 'pi pi-fw pi-prime', to: '/utilities/icons' },
-      {
-        label: 'PrimeFlex',
-        icon: 'pi pi-fw pi-desktop',
-        url: 'https://www.primefaces.org/primeflex/',
-        target: '_blank'
-      }
-    ]
-  },
-  {
-    label: 'Pages',
-    icon: 'pi pi-fw pi-briefcase',
-    to: '/pages',
-    items: [
-      {
-        label: 'Landing',
-        icon: 'pi pi-fw pi-globe',
-        to: '/landing'
+        label: Page.APP.PERMISSION.ADMIN.title,
+        icon: 'pi pi-fw pi-bolt',
+        to: Page.APP.PERMISSION.ADMIN.path,
+        permissions: Page.APP.PERMISSION.ADMIN.permissions,
+        badge: {
+          value: 'Demo',
+          severity: 'danger'
+        }
       },
       {
-        label: 'Auth',
-        icon: 'pi pi-fw pi-user',
+        label: 'Sub-Permission 1',
+        icon: 'pi pi-fw pi-clock',
         items: [
           {
-            label: 'Login',
-            icon: 'pi pi-fw pi-sign-in',
-            to: '/auth/login'
+            label: 'Faker 1',
+            icon: 'pi pi-fw pi-angle-double-right',
+            to: '/faker1',
+            permissions: ['faker']
           },
           {
-            label: 'Error',
-            icon: 'pi pi-fw pi-times-circle',
-            to: '/auth/error'
-          },
-          {
-            label: 'Access Denied',
-            icon: 'pi pi-fw pi-lock',
-            to: '/auth/access'
+            label: 'Faker 2',
+            icon: 'pi pi-fw pi-angle-double-right',
+            to: '/faker2',
+            permissions: ['faker']
           }
         ]
       },
       {
-        label: 'Crud',
-        icon: 'pi pi-fw pi-pencil',
-        to: '/pages/crud'
-      },
-      {
-        label: 'Timeline',
-        icon: 'pi pi-fw pi-calendar',
-        to: '/pages/timeline'
-      },
-      {
-        label: 'Not Found',
-        icon: 'pi pi-fw pi-exclamation-circle',
-        to: '/pages/notfound'
-      },
-      {
-        label: 'Empty',
-        icon: 'pi pi-fw pi-circle-off',
-        to: '/pages/empty'
-      }
-    ]
-  },
-  {
-    label: 'Hierarchy',
-    items: [
-      {
-        label: 'Submenu 1',
-        icon: 'pi pi-fw pi-bookmark',
-        badge: { value: 'Beta@20232603', severity: 'warning' },
+        label: 'Sub-Permission 2',
+        icon: 'pi pi-fw pi-clock',
+        badge: {
+          value: 'Demo',
+          severity: 'danger'
+        },
         items: [
           {
-            label: 'Submenu 1.1',
-            icon: 'pi pi-fw pi-bookmark',
-            items: [
-              { label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-bookmark' },
-              { label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-bookmark' },
-              { label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-bookmark' }
-            ]
+            label: 'Faker 1',
+            icon: 'pi pi-fw pi-angle-double-right',
+            to: '/faker1'
           },
           {
-            label: 'Submenu 1.2',
-            icon: 'pi pi-fw pi-bookmark',
-            items: [{ label: 'Submenu 1.2.1', icon: 'pi pi-fw pi-bookmark' }]
-          }
-        ]
-      },
-      {
-        label: 'Submenu 2',
-        icon: 'pi pi-fw pi-bookmark',
-        items: [
-          {
-            label: 'Submenu 2.1',
-            icon: 'pi pi-fw pi-bookmark',
-            items: [
-              { label: 'Submenu 2.1.1', icon: 'pi pi-fw pi-bookmark' },
-              { label: 'Submenu 2.1.2', icon: 'pi pi-fw pi-bookmark' }
-            ]
-          },
-          {
-            label: 'Submenu 2.2',
-            icon: 'pi pi-fw pi-bookmark',
-            items: [{ label: 'Submenu 2.2.1', icon: 'pi pi-fw pi-bookmark' }]
+            label: 'Faker 2',
+            icon: 'pi pi-fw pi-angle-double-right',
+            to: '/faker2',
+            permissions: ['faker']
           }
         ]
       }
     ]
   },
   {
-    label: 'Get Started',
+    label: 'Primvue',
+    badge: {
+      value: 'Official',
+      severity: 'warning'
+    },
     items: [
       {
-        label: 'Documentation',
+        label: 'Document',
         icon: 'pi pi-fw pi-question',
-        to: '/documentation'
+        url: 'https://primevue.org/',
+        target: '_bank'
       },
       {
-        label: 'View Source',
-        icon: 'pi pi-fw pi-search',
-        url: 'https://github.com/primefaces/sakai-vue',
-        target: '_blank'
+        label: 'Sakai Theme',
+        icon: 'pi pi-fw pi-bookmark',
+        url: 'https://www.primefaces.org/sakai-vue',
+        target: '_bank',
+        permissions: []
       }
     ]
   }
@@ -190,14 +109,13 @@ const model = ref([
 <template>
   <ul class="layout-menu">
     <template v-for="(item, i) in model" :key="item">
-      <app-menu-item v-if="!item.separator" :index="i" :item="item"></app-menu-item>
+      <app-menu-item
+        v-if="!item.separator && hasAnyPermissionChildren(toRaw(item))"
+        :index="i"
+        :item="item"
+      ></app-menu-item>
       <li v-if="item.separator" class="menu-separator"></li>
     </template>
-    <li>
-      <a href="https://www.primefaces.org/primeblocks-vue/#/" target="_blank">
-        <img alt="Prime Blocks" class="w-full mt-3" src="/layout/images/banner-primeblocks.png" />
-      </a>
-    </li>
   </ul>
 </template>
 

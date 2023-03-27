@@ -1,7 +1,7 @@
 import { ToastSeverity } from 'primevue/api'
 import { app } from '@/main'
 import constants from '@/constants'
-import { isMobileDevice } from '@/helper/common'
+import { isMobileDevice } from '@/helper/shared'
 import { translate } from '@/helper/locale'
 
 class Toast {

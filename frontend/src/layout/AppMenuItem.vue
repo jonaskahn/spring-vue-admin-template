@@ -1,8 +1,11 @@
 <script setup>
-import { onBeforeMount, ref, watch } from 'vue'
+import { onBeforeMount, ref, toRaw, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useLayout } from '@/layout/composables/layout'
 import AppMenuBadge from '@/layout/AppMenuBadge.vue'
+import { StorageManager } from '@/helper'
+import { containsAny } from '@/utils/arrays'
+import { hasAnyPermissionChildren } from '@/layout/composables/permission'
 
 const route = useRoute()
 
@@ -75,15 +78,23 @@ const itemClick = (event, item) => {
 const checkActiveRoute = (item) => {
   return route.path === item.to
 }
+
+const hasPermission = () => {
+  const permissions = props.item.permissions ?? []
+  return permissions.length === 0 || containsAny(permissions, StorageManager.getTokenAuthorities())
+}
 </script>
 
 <template>
-  <li :class="{ 'layout-root-menuitem': root, 'active-menuitem': isActiveMenu }">
+  <li
+    v-if="hasAnyPermissionChildren(toRaw(item))"
+    :class="{ 'layout-root-menuitem': root, 'active-menuitem': isActiveMenu }"
+  >
     <div v-if="root && item.visible !== false" class="layout-menuitem-root-text">
-      {{ item.label }}
+      {{ $t(item.label) }}
     </div>
     <a
-      v-if="(!item.to || item.items) && item.visible !== false"
+      v-if="(!item.to || item.items) && item.visible !== false && hasPermission()"
       :class="item.class"
       :href="item.url"
       :target="item.target"
@@ -91,32 +102,32 @@ const checkActiveRoute = (item) => {
       @click="itemClick($event, item, index)"
     >
       <i :class="item.icon" class="layout-menuitem-icon"></i>
-      <span class="layout-menuitem-text">{{ item.label }}</span>
+      <span class="layout-menuitem-text">{{ $t(item.label) }}</span>
       <app-menu-badge :badge="item.badge"></app-menu-badge>
       <i v-if="item.items" class="pi pi-fw pi-angle-down layout-submenu-toggler"> </i>
     </a>
     <router-link
-      v-if="item.to && !item.items && item.visible !== false"
+      v-if="item.to && !item.items && item.visible !== false && hasPermission()"
       :class="[item.class, { 'active-route': checkActiveRoute(item) }]"
       :to="item.to"
       tabindex="0"
       @click="itemClick($event, item, index)"
     >
       <i :class="item.icon" class="layout-menuitem-icon"></i>
-      <span class="layout-menuitem-text">{{ item.label }}</span>
+      <span class="layout-menuitem-text">{{ $t(item.label) }}</span>
       <app-menu-badge :badge="item.badge"></app-menu-badge>
       <i v-if="item.items" class="pi pi-fw pi-angle-down layout-submenu-toggler"></i>
     </router-link>
     <Transition v-if="item.items && item.visible !== false" name="layout-submenu">
       <ul v-show="root ? true : isActiveMenu" class="layout-submenu">
-        <app-menu-item
-          v-for="(child, i) in item.items"
-          :key="child"
-          :index="i"
-          :item="child"
-          :parentItemKey="itemKey"
-          :root="false"
-        ></app-menu-item>
+        <template v-for="(child, i) in item.items" :key="child">
+          <app-menu-item
+            :index="i"
+            :item="child"
+            :parentItemKey="itemKey"
+            :root="false"
+          ></app-menu-item>
+        </template>
       </ul>
     </Transition>
   </li>

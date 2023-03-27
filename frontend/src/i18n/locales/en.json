@@ -1,5 +1,13 @@
 {
   "global": {
+    "menu-title": {
+      "default": "Mee Spring Vue",
+      "dashboard": "Dashboard",
+      "permission": {
+        "admin": "Admin",
+        "editor": "Editor"
+      }
+    },
     "notification": {
       "default-title": {
         "success": "Successfully",
@@ -31,7 +39,7 @@
       "api-error-unknown": "Your web browser can not make a request",
       "response-status-401": "Please sign in to continue using MSV",
       "response-status-403": "You don't have right to access this page",
-      "response-status-404": "You accessed to a non exising page",
+      "response-status-404": "You accessed to a non exising resource",
       "invalid-token": "Your session is expired. Please sign in again."
     }
   },

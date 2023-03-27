@@ -12,6 +12,8 @@ public final class UserEntity {
 
     public static final Long DEFAULT_USER_ADMIN_ID = 1L;
 
+    public static final Long DEFAULT_USER_EDITOR_ID = 2L;
+
     public static final Long DEFAULT_USER_ANONYMOUS_ID = 0L;
 
     public static final Integer EMAIL_VERIFIED = 1;

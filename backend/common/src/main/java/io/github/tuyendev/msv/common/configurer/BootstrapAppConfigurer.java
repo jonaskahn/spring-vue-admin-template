@@ -130,7 +130,6 @@ public class BootstrapAppConfigurer {
         if (userRepo.nonExistedById(UserEntity.DEFAULT_USER_ADMIN_ID)) {
             final String defaultAdminUsername = env.getProperty("app.common.user.admin.username");
             final String defaultAdminPassword = env.getProperty("app.common.user.admin.password");
-            final Instant now = Instant.now();
             final Set<Authority> authorities = StreamEx.of(authorityRepo.findAll()).toImmutableSet();
             final Group group = groupRepo.findById(GroupEntity.Type.ADMIN.getId()).orElseThrow(ShouldNeverOccurException::new);
             User admin = User.builder()
@@ -149,6 +148,28 @@ public class BootstrapAppConfigurer {
                     .build();
             userRepo.save(admin);
             log.debug(String.format("User [ admin ]  created with password [ %s ]", defaultAdminPassword));
+        }
+        if (userRepo.nonExistedById(UserEntity.DEFAULT_USER_EDITOR_ID)) {
+            final String defaultEditorUsername = env.getProperty("app.common.user.editor.username");
+            final String defaultEditorPassword = env.getProperty("app.common.user.editor.password");
+            final Set<Authority> authorities = StreamEx.of(authorityRepo.findAuthorityByName(AuthorityType.EDITOR_VALUE)).toImmutableSet();
+            final Group group = groupRepo.findById(GroupEntity.Type.USER.getId()).orElseThrow(ShouldNeverOccurException::new);
+            User editor = User.builder()
+                    .id(UserEntity.DEFAULT_USER_EDITOR_ID)
+                    .name(defaultEditorUsername)
+                    .unsignedName(defaultEditorUsername)
+                    .username(defaultEditorUsername)
+                    .email(defaultEditorUsername)
+                    .emailVerified(UserEntity.EMAIL_VERIFIED)
+                    .preferredUsername(UUID.randomUUID().toString())
+                    .password(passwordEncoder.encode(defaultEditorPassword))
+                    .enabled(EntityStatus.ENABLED)
+                    .locked(EntityStatus.UNLOCKED)
+                    .authorities(authorities)
+                    .groups(Set.of(group))
+                    .build();
+            userRepo.save(editor);
+            log.debug(String.format("User [ editor ]  created with password [ %s ]", defaultEditorPassword));
         }
     }
 }

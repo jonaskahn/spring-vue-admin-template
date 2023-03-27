@@ -2,10 +2,10 @@
 import { onMounted, reactive, ref } from 'vue'
 import AuthService from '@/service/AuthService'
 import { useRouter } from 'vue-router'
-import routeInfo from '@/constants/routeInfo'
+import routeInfo from '@/constants/page'
 import LangPlate from '@/layout/LangPlate.vue'
 import constants from '@/constants'
-import { updateSigninState, removeSigninState } from '@/helper'
+import { StorageManager } from '@/helper'
 
 const usernameRef = ref(null)
 const passwordRef = ref(null)
@@ -13,8 +13,8 @@ const passwordRef = ref(null)
 const dialogVisibleRef = ref(false)
 
 const data = reactive({
-  username: 'admin',
-  password: 'admin-password'
+  username: '',
+  password: ''
 })
 
 const validation = reactive({
@@ -45,7 +45,6 @@ async function submit() {
         password: data.password.trim()
       })
       if (result) {
-        updateSigninState()
         await router.push({
           path: routeInfo.APP.DASH_BOARD.path
         })
@@ -73,7 +72,18 @@ function invalidInput() {
 
 function permanentCloseExpiredSessionDialog() {
   dialogVisibleRef.value = false
-  removeSigninState()
+  StorageManager.clearSigninState()
+}
+
+function userDefaultAccount(type) {
+  if (type === 'admin') {
+    data.username = 'admin'
+    data.password = 'admin-password'
+  } else if (type === 'editor') {
+    data.username = 'editor'
+    data.password = 'editor-password'
+  }
+  submit()
 }
 </script>
 
@@ -189,6 +199,31 @@ function permanentCloseExpiredSessionDialog() {
             </div>
           </div>
         </form>
+        <Divider type="dotted" />
+        <div class="col-12 md:col-12">
+          <Panel class="Card" header="Default users">
+            <div class="flex card-container indigo-container">
+              <div class="flex-1 align-items-center justify-content-center">
+                <Button
+                  aria-label="Filter"
+                  icon="pi pi-user"
+                  label="use admin account"
+                  outlined
+                  @click="userDefaultAccount('admin')"
+                />
+              </div>
+              <div class="flex-1 align-items-center justify-content-center">
+                <Button
+                  aria-label="Filter"
+                  icon="pi pi-user"
+                  label="use editor account"
+                  outlined
+                  @click="userDefaultAccount('editor')"
+                />
+              </div>
+            </div>
+          </Panel>
+        </div>
       </div>
     </div>
   </div>
