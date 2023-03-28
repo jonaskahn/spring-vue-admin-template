@@ -1,4 +1,7 @@
 <script>
+/**
+ * This component wrote in Option API as intended
+ */
 import { supportedLanguages } from '@/i18n'
 import { getCurrentLocale, switchLanguage } from '@/helper'
 
@@ -36,7 +39,7 @@ export default {
 
 <template>
   <div :class="classLayout">
-    <Button :icon="flag" outlined raised rounded text @click="toggle" />
+    <Button :icon="flag" outlined raised rounded @click="toggle" />
     <OverlayPanel ref="menuLang" class="lang-plate">
       <div class="flex flex-column">
         <div
@@ -63,9 +66,11 @@ export default {
 .lang-plate {
   border-radius: 1.25rem;
 }
+
 .lang-plate .p-overlaypanel-content {
   padding: 0.5rem;
 }
+
 .lang-plate:before {
   border-bottom-color: white;
 }

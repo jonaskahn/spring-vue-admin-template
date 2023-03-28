@@ -2,65 +2,68 @@
 import { inject, onMounted, reactive, ref } from 'vue'
 import AuthService from '@/service/AuthService'
 import { useRouter } from 'vue-router'
-import routeInfo from '@/constants/page'
 import LangPlate from '@/layout/LangPlate.vue'
 import constants from '@/constants'
 import { LocalStorageManager } from '@/helper'
+import Page from '@/constants/page'
 
 const usernameRef = ref(null)
 const passwordRef = ref(null)
 const data = reactive({
   username: '',
-  password: ''
+  password: '',
+  rememberMe: false
 })
-
-const dialogVisibleRef = ref(false)
-onMounted(() => {
-  if (localStorage.getItem(constants.STORAGE.SIGNIN_STATE)) {
-    dialogVisibleRef.value = true
-  }
-})
-
-function permanentCloseExpiredSessionDialog() {
-  dialogVisibleRef.value = false
-  LocalStorageManager.clearSigninState()
-}
-
 const validation = reactive({
   username: null,
   password: null
 })
+const showDefaultUserBox = reactive(import.meta.env.VITE_SHOW_DEFAULT_USER === 'true')
+const defaultUserBoxRef = ref(null)
+const expiredDialogVisible = ref(false)
 
-function invalidInput() {
-  if (!data.password.trim()) {
+const authService = new AuthService()
+const router = useRouter()
+const $loading = inject('$loading')
+
+onMounted(() => {
+  if (localStorage.getItem(constants.STORAGE.SIGNIN_STATE)) {
+    expiredDialogVisible.value = true
+  }
+})
+
+const permanentCloseExpiredSessionDialog = () => {
+  expiredDialogVisible.value = false
+  LocalStorageManager.clearSigninState()
+}
+
+const isInputInvalid = () => {
+  if (!data.password) {
     validation.password = 'page.login.message.validation.password-required'
     passwordRef.value.$el.focus()
   }
-  if (!data.username.trim()) {
+  if (!data.username) {
     validation.username = 'page.login.message.validation.username-required'
     usernameRef.value.$el.focus()
   }
   return validation.username || validation.password
 }
 
-const authService = new AuthService()
-const router = useRouter()
-const $loading = inject('$loading')
-
-async function submit() {
+const doLogin = async () => {
   validation.username = null
   validation.password = null
-  if (!invalidInput()) {
+  if (!isInputInvalid()) {
     const loader = $loading.show(constants.SETTINGS.LOADER)
     //Prevent user submit too quick
     setTimeout(async () => {
       const result = await authService.login({
-        username: data.username.trim(),
-        password: data.password.trim()
+        username: data.username,
+        password: data.password,
+        rememberMe: data.rememberMe
       })
       if (result) {
         await router.push({
-          path: routeInfo.APP.DASH_BOARD.path
+          path: Page.APP.DASH_BOARD.path
         })
       } else {
         validation.username = 'page.login.message.validation.username-incorrect'
@@ -72,7 +75,16 @@ async function submit() {
   }
 }
 
-function userDefaultAccount(type) {
+const onForgotPassword = async () => {
+  await router.push({
+    path: Page.AUTH.RESET_PASSWORD.path
+  })
+}
+
+const openDefaultUserDialog = (event) => {
+  defaultUserBoxRef.value.toggle(event)
+}
+const fillReservedUserAccount = (type) => {
   if (type === 'admin') {
     data.username = 'admin'
     data.password = 'admin-password'
@@ -80,7 +92,7 @@ function userDefaultAccount(type) {
     data.username = 'editor'
     data.password = 'editor-password'
   }
-  submit()
+  doLogin()
 }
 </script>
 
@@ -89,14 +101,14 @@ function userDefaultAccount(type) {
     class="surface-ground flex align-items-center justify-content-center login-box min-w-min overflow-hidden"
   >
     <Dialog
-      v-model:visible="dialogVisibleRef"
+      v-model:visible="expiredDialogVisible"
       :closable="false"
       :draggable="false"
       :header="$t('page.login.message.expired-dialog.title')"
       :modal="true"
       class="sm:w-1 md:w-6 lg:w-4"
       position="top"
-      @keyup.esc="dialogVisibleRef = false"
+      @keyup.esc="expiredDialogVisible = false"
     >
       <p class="m-0">
         {{ $t('page.login.message.expired-dialog.message') }}
@@ -106,7 +118,7 @@ function userDefaultAccount(type) {
           :label="$t('page.login.label.btn-expired-accept-ok')"
           autofocus
           raised
-          @click="dialogVisibleRef = false"
+          @click="expiredDialogVisible = false"
         />
         <Button
           :label="$t('page.login.label.btn-expired-accept-off')"
@@ -116,28 +128,28 @@ function userDefaultAccount(type) {
         />
       </template>
     </Dialog>
-    <div class="flex flex-column align-items-center justify-content-center m-4 md:m-8">
+    <div class="flex flex-column align-items-center justify-content-center m-4 md:m-6">
       <div class="flex">
         <img alt="app-logo" class="mb-5 sm:w-10rem w-8rem flex-shrink-0" src="@/assets/logo.png" />
       </div>
-      <div
-        class="surface-card lg:w-10 md:w-12 sm:w-full py-8 px-5 sm:px-8"
-        style="border-radius: 50px"
-      >
+      <div class="surface-card sm:w-10 md:w-8 lg:w-6 sm:px-8 pt-8 px-4" style="border-radius: 50px">
         <div class="mb-5 flex flex-row">
           <div
-            class="flex-1 flex align-items-center justify-content-start text-center text-900 text-3xl font-medium"
+            class="flex-1 flex align-items-center justify-content-start text-center text-900 text-2xl"
           >
-            {{ $t('page.login.message.welcome') }}
+            <span class="text-left hidden md:inline">{{ $t('page.login.message.welcome') }}</span>
+            <span class="text-left inline md:hidden">{{
+              $t('page.login.message.welcome-short')
+            }}</span>
           </div>
           <lang-plate class-layout="flex-1 flex align-items-center justify-content-end" />
         </div>
 
-        <form @keyup.enter.prevent="submit">
+        <form @keyup.enter.prevent="doLogin">
           <div v-focustrap class="grid p-fluid">
-            <div class="col-12 md:col-12">
+            <div class="col-12">
               <div class="field">
-                <label for="username"
+                <label class="text-lg" for="username"
                   >{{ $t('page.login.label.input-username') }}
                   <span class="text-red-500">*</span></label
                 >
@@ -146,7 +158,7 @@ function userDefaultAccount(type) {
                   <InputText
                     id="username"
                     ref="usernameRef"
-                    v-model="data.username"
+                    v-model.trim="data.username"
                     :class="{ 'p-invalid': validation.username }"
                     aria-describedby="username-help"
                     class="p-inputtext-lg"
@@ -158,10 +170,9 @@ function userDefaultAccount(type) {
                 </small>
               </div>
             </div>
-
-            <div class="col-12 md:col-12">
+            <div class="col-12">
               <div class="field">
-                <label for="password"
+                <label class="text-lg" for="password"
                   >{{ $t('page.login.label.input-password') }}
                   <span class="text-red-500">*</span></label
                 >
@@ -170,9 +181,10 @@ function userDefaultAccount(type) {
                   <InputText
                     id="password"
                     ref="passwordRef"
-                    v-model="data.password"
+                    v-model.trim="data.password"
                     :class="{ 'p-invalid': validation.password }"
                     aria-describedby="password-help"
+                    autocomplete=""
                     class="p-inputtext-lg"
                     type="password"
                   />
@@ -183,45 +195,84 @@ function userDefaultAccount(type) {
                 </small>
               </div>
             </div>
-            <div class="col-12 md:col-12">
+            <div class="col-12">
+              <div class="align-items-center justify-content-start">
+                <Checkbox id="remember-me" v-model="data.rememberMe" :binary="true" />
+                <label class="remember-me text-lg" for="remember-me">
+                  {{ $t('page.login.label.input-remember-me') }}</label
+                >
+              </div>
+            </div>
+            <div class="col-12">
               <Button
                 :label="$t('page.login.label.btn-submit')"
                 class="w-full p-3 text-xl"
                 iconPos="right"
                 type="button"
-                @click="submit"
+                @click.prevent="doLogin"
               >
               </Button>
             </div>
-          </div>
-        </form>
-        <Divider type="dotted" />
-        <div class="col-12 md:col-12">
-          <Panel class="Card" header="Default users">
-            <div class="flex card-container indigo-container">
-              <div class="flex-1 align-items-center justify-content-center">
+            <Divider class="ml-0 mr-0 pl-0 pr-0" type="dotted" />
+            <div class="col-12 pl-0 pr-0 pt-0 pb-3 ml-0 mr-0 flex flex-column">
+              <div class="flex align-items-center justify-content-end font-italic">
                 <Button
-                  aria-label="Filter"
-                  icon="pi pi-user"
-                  label="use admin account"
-                  outlined
-                  type="button"
-                  @click="userDefaultAccount('admin')"
+                  :label="$t('page.login.label.btn-send-me-link')"
+                  class="font-italic w-auto"
+                  icon="pi pi-send"
+                  iconPos="right"
+                  link
+                  @click.prevent
                 />
               </div>
-              <div class="flex-1 align-items-center justify-content-center">
+              <div class="flex align-items-center justify-content-end font-italic">
                 <Button
-                  aria-label="Filter"
-                  icon="pi pi-user"
-                  label="use editor account"
-                  outlined
-                  type="button"
-                  @click="userDefaultAccount('editor')"
+                  :label="$t('page.login.label.btn-reset-password')"
+                  class="font-italic w-auto"
+                  icon="pi pi-search"
+                  iconPos="right"
+                  link
+                  @click.prevent="onForgotPassword"
                 />
+              </div>
+              <div
+                v-if="showDefaultUserBox"
+                class="flex align-items-center justify-content-end font-italic"
+              >
+                <Button
+                  class="font-italic w-auto"
+                  icon="pi pi-question-circle"
+                  iconPos="right"
+                  label="[Development - Use default users]"
+                  link
+                  @click.prevent="openDefaultUserDialog"
+                />
+                <OverlayPanel ref="defaultUserBoxRef">
+                  <div class="flex text-center">
+                    <div class="flex-1 align-items-center justify-content-center">
+                      <Button
+                        label="ADMIN"
+                        outlined
+                        text
+                        type="button"
+                        @click="fillReservedUserAccount('admin')"
+                      />
+                    </div>
+                    <div class="flex-1 align-items-center justify-content-center">
+                      <Button
+                        label="EDITOR"
+                        outlined
+                        text
+                        type="button"
+                        @click="fillReservedUserAccount('editor')"
+                      />
+                    </div>
+                  </div>
+                </OverlayPanel>
               </div>
             </div>
-          </Panel>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -230,5 +281,9 @@ function userDefaultAccount(type) {
 <style scoped>
 .login-box {
   min-height: 80vh !important;
+}
+
+.remember-me {
+  margin-left: 0.5rem;
 }
 </style>

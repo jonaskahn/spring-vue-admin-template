@@ -17,7 +17,7 @@ onBeforeMount(() => {
   <Toast
     draggable="false"
     error-icon="pi pi-times-circle"
-    group="default"
+    group="desktop"
     info-icon="pi pi-info-circle"
     position="top-right"
     success-icon="pi pi-check-circle"

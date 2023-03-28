@@ -48,6 +48,7 @@
       "title": "Đăng nhập",
       "message": {
         "welcome": "Đăng nhập để tiếp tục",
+        "welcome-short": "Đăng nhập",
         "expired-dialog": {
           "title": "Phiên làm việc hết hạn",
           "message": "Phiên làm việc của bạn đã hết hạn. Vui lòng đăng nhập để tiếp tục sử dụng hệ thống MSV, nếu bạn có bất cứ thắc mắc nào, hãy liên hệ với chúng tôi."
@@ -64,8 +65,24 @@
         "input-password": "Mật khẩu",
         "input-remember-me": "Ghi nhớ tôi",
         "btn-submit": "Đăng nhập",
+        "btn-send-me-link": "Gửi tôi đăng nhập qua thư điện tử",
+        "btn-reset-password": "Tôi không nhớ mật khẩu",
         "btn-expired-accept-ok": "Đã hiểu",
         "btn-expired-accept-off": "Không nhắc lại"
+      }
+    },
+    "reset-password": {
+      "title": "Đặt lại mật khẩu",
+      "message": {
+        "welcome": "Đặt lại mật khẩu",
+        "validation": {
+          "username-required": "Tên người dùng không được bỏ trống"
+        }
+      },
+      "label": {
+        "input-username": "Tên người dùng",
+        "btn-back": "Quay lại",
+        "btn-reset-password": "Đặt lại"
       }
     }
   }

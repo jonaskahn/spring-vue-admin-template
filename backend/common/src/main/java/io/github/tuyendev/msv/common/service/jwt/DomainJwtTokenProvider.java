@@ -140,7 +140,8 @@ public class DomainJwtTokenProvider implements JwtTokenProvider {
     }
 
     private Date getExpirationDate(final Date issuedAt, final long defaultExpiration, final boolean rememberMe) {
-        return new Date(issuedAt.getTime() + (rememberMe ? (defaultExpiration + rememberMeExpirationInMinutes) : defaultExpiration) * 1000 * 60);
+        final long expiration = rememberMe ? (defaultExpiration + rememberMeExpirationInMinutes) : defaultExpiration;
+        return new Date(issuedAt.getTime() + expiration * 1000 * 60);
     }
 
     private JwtAccessTokenDto createAccessToken(final SecuredUser user, final boolean rememberMe) {

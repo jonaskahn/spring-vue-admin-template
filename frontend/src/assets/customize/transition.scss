@@ -37,7 +37,8 @@
   opacity: 0;
   transform: translateX(-40px);
 }
+
 .slide-fade-enter {
-  opacity: 0;
+  opacity: 1;
   transform: translateX(40px);
 }

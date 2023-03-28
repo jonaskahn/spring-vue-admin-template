@@ -6,7 +6,12 @@ import { LocalStorageManager, translate } from '@/helper'
 import { nextTick } from 'vue'
 import { containsAny } from '@/utils/arrays'
 
-const whiteListUrl = [Page.AUTH.ACCESS_DENIED.path, Page.AUTH.NOT_FOUND.path, Page.AUTH.ERROR.path]
+const whiteListUrl = [
+  Page.ACCESS.DENIED.path,
+  Page.ACCESS.NOT_FOUND.path,
+  Page.ACCESS.ERROR.path,
+  Page.AUTH.RESET_PASSWORD.path
+]
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -45,31 +50,53 @@ const router = createRouter({
       ]
     },
     {
-      path: '/:pathMatch(.*)*',
-      name: 'notfound',
-      component: () => import('@/views/pages/NotFound.vue')
-    },
-
-    {
       path: Page.AUTH.LOGIN.path,
       name: Page.AUTH.LOGIN.name,
+      meta: {
+        title: Page.AUTH.LOGIN.title,
+        permissions: Page.AUTH.LOGIN.permissions
+      },
       component: () => import('@/views/pages/auth/Login.vue')
     },
     {
-      path: Page.AUTH.ACCESS_DENIED.path,
-      name: Page.AUTH.ACCESS_DENIED.name,
-      component: () => import('@/views/pages/auth/Access.vue')
+      path: Page.AUTH.RESET_PASSWORD.path,
+      name: Page.AUTH.RESET_PASSWORD.name,
+      meta: {
+        title: Page.AUTH.RESET_PASSWORD.title,
+        permissions: Page.AUTH.RESET_PASSWORD.permissions
+      },
+      component: () => import('@/views/pages/auth/ResetPassword.vue')
     },
     {
-      path: '/auth/error',
-      name: 'error',
-      component: () => import('@/views/pages/auth/Error.vue')
+      path: Page.ACCESS.NOT_FOUND.path,
+      name: Page.ACCESS.NOT_FOUND.name,
+      meta: {
+        title: Page.ACCESS.NOT_FOUND.title,
+        permissions: Page.ACCESS.NOT_FOUND.permissions
+      },
+      component: () => import('@/views/pages/NotFound.vue')
+    },
+    {
+      path: Page.ACCESS.DENIED.path,
+      name: Page.ACCESS.DENIED.name,
+      component: () => import('@/views/pages/Access.vue')
+    },
+    {
+      path: Page.ACCESS.ERROR.path,
+      name: Page.ACCESS.ERROR.name,
+      meta: {
+        title: Page.ACCESS.ERROR.title,
+        permissions: Page.ACCESS.ERROR.permissions
+      },
+      component: () => import('@/views/pages/Error.vue')
     }
   ]
 })
 
 router.beforeEach(async (to, from, next) => {
-  if (isTokenNonExisted() || isTokenExpired()) {
+  if (whiteListUrl.includes(to.path)) {
+    next()
+  } else if (isTokenNonExisted() || isTokenExpired()) {
     resetLocalData()
     await redirectIfInvalid(to, from, next)
   } else {

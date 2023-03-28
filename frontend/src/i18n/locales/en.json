@@ -47,7 +47,8 @@
     "login": {
       "title": "Sign in",
       "message": {
-        "welcome": "Sign in to continue",
+        "welcome": "Welcome \uD83D\uDC08",
+        "welcome-short": "Welcome",
         "expired-dialog": {
           "title": "Session is expired",
           "message": "Your session is expired. Please sign in again to continue using MSV, if you have any questions, feel free to contact us."
@@ -64,8 +65,24 @@
         "input-password": "Password",
         "input-remember-me": "Remember me",
         "btn-submit": "Sign in",
+        "btn-send-me-link": "Send me a magic link",
+        "btn-reset-password": "I forgot my password",
         "btn-expired-accept-ok": "Ok",
         "btn-expired-accept-off": "Don't show again"
+      }
+    },
+    "reset-password": {
+      "title": "Reset my password",
+      "message": {
+        "welcome": "Reset password",
+        "validation": {
+          "username-required": "The username is required"
+        }
+      },
+      "label": {
+        "input-username": "Username",
+        "btn-back": "Back",
+        "btn-reset-password": "Reset now"
       }
     }
   }

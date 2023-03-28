@@ -11,7 +11,7 @@ class Toast {
       summary: !title ? translate('global.notification.default-title.info') : title,
       detail: body,
       life: constants.TOAST_TIMEOUT.INFO,
-      group: isMobileDevice() ? 'mobile' : 'default'
+      group: isMobileDevice() ? 'mobile' : 'desktop'
     })
   }
 
@@ -21,7 +21,7 @@ class Toast {
       summary: !title ? translate('global.notification.default-title.warn') : title,
       detail: body,
       life: constants.TOAST_TIMEOUT.WARN,
-      group: isMobileDevice() ? 'mobile' : 'default'
+      group: isMobileDevice() ? 'mobile' : 'desktop'
     })
   }
 
@@ -31,7 +31,7 @@ class Toast {
       summary: !title ? translate('global.notification.default-title.success') : title,
       detail: body,
       life: constants.TOAST_TIMEOUT.SUCCESS,
-      group: isMobileDevice() ? 'mobile' : 'default'
+      group: isMobileDevice() ? 'mobile' : 'desktop'
     })
   }
 
@@ -41,7 +41,7 @@ class Toast {
       summary: !title ? translate('global.notification.default-title.error') : title,
       detail: body,
       life: constants.TOAST_TIMEOUT.ERROR,
-      group: isMobileDevice() ? 'mobile' : 'default'
+      group: isMobileDevice() ? 'mobile' : 'desktop'
     })
   }
 }

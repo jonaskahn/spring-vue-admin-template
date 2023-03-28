@@ -14,14 +14,22 @@ export default {
       title: 'Sign in',
       permissions: []
     },
-    ACCESS_DENIED: {
+    RESET_PASSWORD: {
+      path: '/auth/reset-password',
+      name: 'reset-password',
+      title: 'Reset password',
+      permissions: []
+    }
+  },
+  ACCESS: {
+    DENIED: {
       path: '/access/denied',
       name: 'access-denied',
       title: 'Access denied',
       permissions: []
     },
     NOT_FOUND: {
-      path: '/access/not-found',
+      path: '/:pathMatch(.*)*',
       name: 'not-found',
       title: 'Not found',
       permissions: []
