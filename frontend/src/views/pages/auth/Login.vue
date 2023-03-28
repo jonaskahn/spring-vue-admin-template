@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive, ref } from 'vue'
+import { inject, onMounted, reactive, ref } from 'vue'
 import AuthService from '@/service/AuthService'
 import { useRouter } from 'vue-router'
 import routeInfo from '@/constants/page'
@@ -9,54 +9,27 @@ import { LocalStorageManager } from '@/helper'
 
 const usernameRef = ref(null)
 const passwordRef = ref(null)
-
-const dialogVisibleRef = ref(false)
-
 const data = reactive({
   username: '',
   password: ''
 })
 
-const validation = reactive({
-  username: null,
-  password: null
-})
-
-let isLoading = ref(false)
-
+const dialogVisibleRef = ref(false)
 onMounted(() => {
-  if (localStorage.getItem(constants.APP.SIGNIN_STATE)) {
+  if (localStorage.getItem(constants.STORAGE.SIGNIN_STATE)) {
     dialogVisibleRef.value = true
   }
 })
 
-const authService = new AuthService()
-const router = useRouter()
-
-async function submit() {
-  //Prevent user submit too quick
-  setTimeout(async () => {
-    isLoading.value = true
-    validation.username = null
-    validation.password = null
-    if (!invalidInput()) {
-      const result = await authService.login({
-        username: data.username.trim(),
-        password: data.password.trim()
-      })
-      if (result) {
-        await router.push({
-          path: routeInfo.APP.DASH_BOARD.path
-        })
-      } else {
-        validation.username = 'page.login.message.validation.username-incorrect'
-        validation.password = 'page.login.message.validation.password-incorrect'
-        usernameRef.value.$el.focus()
-      }
-    }
-    isLoading.value = false
-  }, 500)
+function permanentCloseExpiredSessionDialog() {
+  dialogVisibleRef.value = false
+  LocalStorageManager.clearSigninState()
 }
+
+const validation = reactive({
+  username: null,
+  password: null
+})
 
 function invalidInput() {
   if (!data.password.trim()) {
@@ -70,9 +43,33 @@ function invalidInput() {
   return validation.username || validation.password
 }
 
-function permanentCloseExpiredSessionDialog() {
-  dialogVisibleRef.value = false
-  LocalStorageManager.clearSigninState()
+const authService = new AuthService()
+const router = useRouter()
+const $loading = inject('$loading')
+
+async function submit() {
+  validation.username = null
+  validation.password = null
+  if (!invalidInput()) {
+    const loader = $loading.show(constants.SETTINGS.LOADER)
+    //Prevent user submit too quick
+    setTimeout(async () => {
+      const result = await authService.login({
+        username: data.username.trim(),
+        password: data.password.trim()
+      })
+      if (result) {
+        await router.push({
+          path: routeInfo.APP.DASH_BOARD.path
+        })
+      } else {
+        validation.username = 'page.login.message.validation.username-incorrect'
+        validation.password = 'page.login.message.validation.password-incorrect'
+        usernameRef.value.$el.focus()
+      }
+      loader.hide()
+    }, 1000)
+  }
 }
 
 function userDefaultAccount(type) {
@@ -136,7 +133,7 @@ function userDefaultAccount(type) {
           <lang-plate class-layout="flex-1 flex align-items-center justify-content-end" />
         </div>
 
-        <form>
+        <form @keyup.enter.prevent="submit">
           <div v-focustrap class="grid p-fluid">
             <div class="col-12 md:col-12">
               <div class="field">
@@ -208,6 +205,7 @@ function userDefaultAccount(type) {
                   icon="pi pi-user"
                   label="use admin account"
                   outlined
+                  type="button"
                   @click="userDefaultAccount('admin')"
                 />
               </div>
@@ -217,6 +215,7 @@ function userDefaultAccount(type) {
                   icon="pi pi-user"
                   label="use editor account"
                   outlined
+                  type="button"
                   @click="userDefaultAccount('editor')"
                 />
               </div>

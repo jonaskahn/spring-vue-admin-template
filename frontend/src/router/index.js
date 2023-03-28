@@ -78,7 +78,7 @@ router.beforeEach(async (to, from, next) => {
 })
 
 function resetLocalData() {
-  const isSigninStateExisted = localStorage.getItem(constants.APP.SIGNIN_STATE)
+  const isSigninStateExisted = localStorage.getItem(constants.STORAGE.SIGNIN_STATE)
   LocalStorageManager.reset()
   if (isSigninStateExisted) {
     LocalStorageManager.updateSigninState()

@@ -10,8 +10,17 @@ export default {
     INFO: 2500,
     SUCCESS: 1500
   },
-  APP: {
+  STORAGE: {
     CURRENT_LOCALE: 'USER_LOCALE',
     SIGNIN_STATE: 'USER_SIGNIN_STATE'
+  },
+  SETTINGS: {
+    LOADER: {
+      loader: 'bars',
+      opacity: 0.75,
+      color: '#4f46e5',
+      width: '5rem',
+      height: '5rem'
+    }
   }
 }

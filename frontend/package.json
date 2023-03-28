@@ -20,9 +20,10 @@
     "pinia": "^2.0.33",
     "primeflex": "^3.3.0",
     "primeicons": "^6.0.1",
-    "primevue": "^3.26.0",
+    "primevue": "^3.26.1",
     "vue": "^3.2.47",
     "vue-i18n": "^9.2.2",
+    "vue-loading-overlay": "^6.0.3",
     "vue-logger-plugin": "^2.2.3",
     "vue-mobile-detection": "^2.0.1",
     "vue-router": "^4.1.6"

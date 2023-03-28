@@ -14,11 +14,11 @@ export class LocalStorageManager {
   }
 
   static updateSigninState() {
-    localStorage.setItem(constants.APP.SIGNIN_STATE, 'INVOKED')
+    localStorage.setItem(constants.STORAGE.SIGNIN_STATE, 'INVOKED')
   }
 
   static clearSigninState() {
-    localStorage.removeItem(constants.APP.SIGNIN_STATE)
+    localStorage.removeItem(constants.STORAGE.SIGNIN_STATE)
   }
 
   static updateTokenInfo(token, expiration, authorities) {

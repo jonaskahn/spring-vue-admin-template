@@ -103,6 +103,8 @@ import i18n from '@/i18n'
 import VueMobileDetection from 'vue-mobile-detection'
 import FocusTrap from 'primevue/focustrap'
 import { createPinia } from 'pinia'
+import { LoadingPlugin } from 'vue-loading-overlay'
+
 export function uses(app) {
   app.use(router)
   app.use(PrimeVue, { ripple: true })
@@ -113,6 +115,7 @@ export function uses(app) {
   app.use(i18n)
   app.use(VueMobileDetection)
   app.use(createPinia())
+  app.use(LoadingPlugin)
 }
 
 export function components(app) {
