@@ -68,7 +68,10 @@ public class UserServiceImpl implements UserService {
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void create(UserCreateRequestDto request) {
 		User user = mapper.map(request, User.class);
-		user.setGroupIds(Set.of(GroupEntity.Type.USER.getId()));
+		Set<Long> filteredGroupIds = StreamEx.of(request.getGroupIds())
+				.filter(groupId -> !Objects.equals(groupId, GroupEntity.Type.ADMIN.getId()))
+				.toImmutableSet();
+		user.setGroupIds(filteredGroupIds);
 		final String password = PasswordGenerator.generateStrongPassword();
 		user.setRawPassword(password);
 		user.setLocked(EntityStatus.UNLOCKED);
@@ -80,7 +83,7 @@ public class UserServiceImpl implements UserService {
 		EmailContentDto email = EmailContentDto.builder()
 				.from(defaultMailSender)
 				.to(user.getEmail())
-				.subject(eval(""))
+				.subject(eval("app.user.message.verify-account"))
 				.template(DataProcessor.getTemplateByLocale(MailTemplate.CONFIRM_ACCOUNT))
 				.props(Map.of(
 						"name", user.getGivenName(),
@@ -121,10 +124,7 @@ public class UserServiceImpl implements UserService {
 	@Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 	public void register(UserRegisterRequestDto request) {
 		User user = mapper.map(request, User.class);
-		Set<Long> filteredGroupIds = StreamEx.of(request.getGroupIds())
-				.filter(groupId -> !Objects.equals(groupId, GroupEntity.Type.ADMIN.getId()))
-				.toImmutableSet();
-		user.setGroupIds(filteredGroupIds);
+		user.setGroupIds(Set.of(GroupEntity.Type.USER.getId()));
 		user.setLocked(EntityStatus.LOCKED);
 		createUserInternal(user);
 		sendNotify(user);

@@ -30,9 +30,6 @@ public class UserRegisterRequestDto {
 	private String phoneNumber;
 
 	@NotNull
-	private List<Long> groupIds;
-
-	@NotNull
 	@JsonProperty(value = "password")
 	private String rawPassword;
 }

@@ -10,7 +10,6 @@ public interface UserCreateRequestDtoToUserEntityMapper extends UnidirectionalMa
 
 	@Mapping(target = "gender", source = "gender", qualifiedByName = "convertGenderEnumToValue")
 	@Mapping(target = "emailVerified", source = "emailVerified", qualifiedByName = "convertEmailVerifyEnumToValue")
-	@Mapping(target = "phoneNumberVerified", source = "phoneVerified", qualifiedByName = "convertPhoneVerifyEnumToValue")
 	@Mapping(target = "username", source = "username", qualifiedByName = "convertToLowerCase")
 	@Mapping(target = "email", source = "email", qualifiedByName = "convertToLowerCase")
 	User map(UserCreateRequestDto source);

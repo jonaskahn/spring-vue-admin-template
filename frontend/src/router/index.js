@@ -143,7 +143,7 @@ async function redirectIfInvalid(to, from, next) {
 }
 
 async function redirectIfValid(to, from, next) {
-  if (whiteListUrl.includes(to.path)) {
+  if (whiteListUrl.includes(to.name)) {
     next()
   } else if (to.path === Page.AUTH.LOGIN.path) {
     await router.push(Page.APP.DASH_BOARD.path)
