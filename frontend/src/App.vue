@@ -9,7 +9,7 @@ onBeforeMount(() => {
 
 <template>
   <router-view v-slot="{ Component }">
-    <transition :duration="500" name="slide-fade">
+    <transition :duration="500" mode="out-in" name="slide-fade">
       <component :is="Component" />
     </transition>
   </router-view>

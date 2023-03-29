@@ -19,6 +19,12 @@ export default {
       name: 'reset-password',
       title: 'Reset password',
       permissions: []
+    },
+    VERIFY: {
+      path: '/auth/verify/:code',
+      name: 'verify-account',
+      title: 'Verify Account',
+      permissions: []
     }
   },
   ACCESS: {

@@ -3,7 +3,7 @@
 /* fade */
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.28s;
+  transition: opacity 0.2s;
 }
 
 .fade-enter,
@@ -35,10 +35,10 @@
 
 .slide-fade-leave-to {
   opacity: 0;
-  transform: translateX(-40px);
+  transform: translateX(-20px);
 }
 
 .slide-fade-enter {
-  opacity: 1;
-  transform: translateX(40px);
+  opacity: 0;
+  transform: translateX(20px);
 }

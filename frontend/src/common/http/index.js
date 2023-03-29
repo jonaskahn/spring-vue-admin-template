@@ -48,13 +48,11 @@ async function handleResponseError(res) {
     case 401:
       LocalStorageManager.reset()
       Toast.sendErrorMessage({
-        body: translate('service.default-message.response-status-401')
+        body: message ?? translate('service.default-message.response-status-401')
       })
       return router.push(RouteInfo.AUTH.LOGIN.path)
     case 403:
-      Toast.sendErrorMessage({
-        body: translate('service.default-message.response-status-403')
-      })
+      Toast.sendErrorMessage({})
       return router.push(RouteInfo.AUTH.ACCESS_DENIED.path)
     case 404:
       Toast.sendErrorMessage({

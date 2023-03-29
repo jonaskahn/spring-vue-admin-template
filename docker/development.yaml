@@ -38,3 +38,12 @@ services:
       - 27017:27017
     volumes:
       - mongodb:/data/db
+  mail-server:
+    image: dockage/mailcatcher
+    hostname: mail-server
+    restart: always
+    container_name: mail-server
+    ports:
+      - 8125:1025
+      - 8180:1080
+      

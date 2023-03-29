@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông báo tạo tài khoản thành công</title>
+</head>
+
+<body>
+<h3>Chào mừng đến với Mee Spring Vue Template</h3>
+<p>Xin chào, <span th:text="${name}"></span>.</p>
+<p>Tài khoản của bạn đã được tạo thành công với mật khẩu: <span th:text="${password}" class="color: blue;font-weight: 900;"></span></p>
+<h4>Vui lòng <a th:href="${verifyLink}">truy cập địa chỉ này</a> để tiếp tục xác minh tài khoản.</h4>
+</body>
+
+</html>

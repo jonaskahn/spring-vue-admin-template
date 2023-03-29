@@ -13,7 +13,7 @@
         "success": "Xử lý thành công",
         "info": "Thông tin",
         "warn": "Chú ý",
-        "error": "Đã có sự cố xảy ra"
+        "error": "Xử lý không thành công"
       }
     },
     "confirmation": {
@@ -47,7 +47,7 @@
     "login": {
       "title": "Đăng nhập",
       "message": {
-        "welcome": "Đăng nhập để tiếp tục",
+        "welcome": "Xin chào bạn \uD83D\uDC08",
         "welcome-short": "Đăng nhập",
         "expired-dialog": {
           "title": "Phiên làm việc hết hạn",
@@ -65,7 +65,7 @@
         "input-password": "Mật khẩu",
         "input-remember-me": "Ghi nhớ tôi",
         "btn-submit": "Đăng nhập",
-        "btn-send-me-link": "Gửi tôi đăng nhập qua thư điện tử",
+        "btn-send-me-link": "Gửi đăng nhập qua thư điện tử",
         "btn-reset-password": "Tôi không nhớ mật khẩu",
         "btn-expired-accept-ok": "Đã hiểu",
         "btn-expired-accept-off": "Không nhắc lại"

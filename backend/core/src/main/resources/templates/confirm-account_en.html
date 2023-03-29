@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>New account inform</title>
+</head>
+
+<body>
+<h3>Welcome to Mee Spring Vue Template</h3>
+<p>Hello, <span th:text="${name}"></span>.</p>
+<p>Your account has been created successfully with password: <span th:text="${password}" class="color: blue;font-weight: 900;"></span></p>
+<h4>Please <a th:href="${verifyLink}">click to this link</a> to verify your new account.</h4>
+</body>
+
+</html>

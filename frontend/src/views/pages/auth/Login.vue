@@ -86,10 +86,10 @@ const openDefaultUserDialog = (event) => {
 }
 const fillReservedUserAccount = (type) => {
   if (type === 'admin') {
-    data.username = 'admin'
+    data.username = 'admin@localhost'
     data.password = 'admin-password'
   } else if (type === 'editor') {
-    data.username = 'editor'
+    data.username = 'editor@localhost'
     data.password = 'editor-password'
   }
   doLogin()
@@ -132,7 +132,10 @@ const fillReservedUserAccount = (type) => {
       <div class="flex">
         <img alt="app-logo" class="mb-5 sm:w-10rem w-8rem flex-shrink-0" src="@/assets/logo.png" />
       </div>
-      <div class="surface-card sm:w-10 md:w-8 lg:w-6 sm:px-8 pt-8 px-4" style="border-radius: 50px">
+      <div
+        class="surface-card sm:w-10 md:w-8 lg:w-5 pt-6 md:pt-8 px-4 md:px-8"
+        style="border-radius: 50px"
+      >
         <div class="mb-5 flex flex-row">
           <div
             class="flex-1 flex align-items-center justify-content-start text-center text-900 text-2xl"
@@ -196,10 +199,14 @@ const fillReservedUserAccount = (type) => {
               </div>
             </div>
             <div class="col-12">
-              <div class="align-items-center justify-content-start">
+              <div class="flex align-items-center">
                 <Checkbox id="remember-me" v-model="data.rememberMe" :binary="true" />
-                <label class="remember-me text-lg" for="remember-me">
-                  {{ $t('page.login.label.input-remember-me') }}</label
+                <label
+                  :class="{ 'font-medium': data.rememberMe }"
+                  class="remember-me text-lg my-0 py-0"
+                  for="remember-me"
+                  @click="data.rememberMe = !data.rememberMe"
+                  >{{ $t('page.login.label.input-remember-me') }}</label
                 >
               </div>
             </div>
@@ -214,7 +221,7 @@ const fillReservedUserAccount = (type) => {
               </Button>
             </div>
             <Divider class="ml-0 mr-0 pl-0 pr-0" type="dotted" />
-            <div class="col-12 pl-0 pr-0 pt-0 pb-3 ml-0 mr-0 flex flex-column">
+            <div class="col-12 p-2 mx-0 flex flex-column">
               <div class="flex align-items-center justify-content-end font-italic">
                 <Button
                   :label="$t('page.login.label.btn-send-me-link')"

@@ -6,6 +6,7 @@ import io.github.tuyendev.msv.common.security.RestAuthenticationEntryPoint;
 import io.github.tuyendev.msv.common.security.jwt.JwtSecurityAdapter;
 import io.github.tuyendev.msv.common.security.jwt.JwtTokenProvider;
 import io.github.tuyendev.msv.common.security.oauth2.Oauth2JwtAuthenticationConverter;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,37 +26,37 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 class DefaultWebSecurityConfigurer {
 
-    private static final String[] IGNORED_API = new String[]{
-            "/webjars/**", "/error/**",
-            "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html",
-            "/auth/token",
-            "/auth/token/renew",
-            "/auth/token/info",
-            "/auth/password/forgot",
-            "/auth/password/forgot-complete",
-            "/auth/password/reset",
-            "/auth/password/reset-complete",
-            "/public/**",
-            "/**/public/**"
-    };
+	private static final String[] IGNORED_API = new String[] {
+			"/webjars/**", "/error/**",
+			"/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html",
+			"/auth/token",
+			"/auth/token/renew",
+			"/auth/token/info",
+			"/auth/password/forgot",
+			"/auth/password/forgot-complete",
+			"/auth/password/reset",
+			"/auth/password/reset-complete",
+			"/public/**",
+			"/**/public/**"
+	};
 
-    private final JwtTokenProvider jwtTokenProvider;
+	private final JwtTokenProvider jwtTokenProvider;
 
-    private final Oauth2JwtAuthenticationConverter oauth2JwtAuthenticationConverter;
+	private final Oauth2JwtAuthenticationConverter oauth2JwtAuthenticationConverter;
 
-    private final HandlerExceptionResolver resolver;
+	private final HandlerExceptionResolver resolver;
 
-    public DefaultWebSecurityConfigurer(JwtTokenProvider jwtTokenProvider,
-                                        Oauth2JwtAuthenticationConverter oauth2JwtAuthenticationConverter,
-                                        @Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver) {
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.oauth2JwtAuthenticationConverter = oauth2JwtAuthenticationConverter;
-        this.resolver = resolver;
-    }
+	public DefaultWebSecurityConfigurer(JwtTokenProvider jwtTokenProvider,
+			Oauth2JwtAuthenticationConverter oauth2JwtAuthenticationConverter,
+			@Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver) {
+		this.jwtTokenProvider = jwtTokenProvider;
+		this.oauth2JwtAuthenticationConverter = oauth2JwtAuthenticationConverter;
+		this.resolver = resolver;
+	}
 
-    @Bean
-    public SecurityFilterChain web(HttpSecurity http) throws Exception {
-        // @formatter:off
+	@Bean
+	public SecurityFilterChain web(HttpSecurity http) throws Exception {
+		// @formatter:off
         http.cors().and().csrf().disable()
                 .headers()
                 .referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
@@ -86,21 +87,21 @@ class DefaultWebSecurityConfigurer {
                 .authenticationEntryPoint(new RestAuthenticationEntryPoint(resolver));
         return http.build();
         // @formatter:on
-    }
+	}
 
-    private JwtSecurityAdapter securityConfigurerAdapter() {
-        return new JwtSecurityAdapter(jwtTokenProvider, new RestAuthenticationEntryPoint(resolver));
-    }
+	private JwtSecurityAdapter securityConfigurerAdapter() {
+		return new JwtSecurityAdapter(jwtTokenProvider, new RestAuthenticationEntryPoint(resolver));
+	}
 
-    @Bean
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOriginPattern("*");
-        config.addAllowedMethod("*");
-        config.addAllowedHeader("*");
-        config.setAllowCredentials(true);
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
-    }
+	@Bean
+	public CorsFilter corsFilter() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration();
+		config.addAllowedOriginPattern("*");
+		config.addAllowedMethod("*");
+		config.addAllowedHeader("*");
+		config.setAllowCredentials(true);
+		source.registerCorsConfiguration("/**", config);
+		return new CorsFilter(source);
+	}
 }

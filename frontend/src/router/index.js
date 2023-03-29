@@ -7,10 +7,11 @@ import { nextTick } from 'vue'
 import { containsAny } from '@/utils/arrays'
 
 const whiteListUrl = [
-  Page.ACCESS.DENIED.path,
-  Page.ACCESS.NOT_FOUND.path,
-  Page.ACCESS.ERROR.path,
-  Page.AUTH.RESET_PASSWORD.path
+  Page.ACCESS.DENIED.name,
+  Page.ACCESS.NOT_FOUND.name,
+  Page.ACCESS.ERROR.name,
+  Page.AUTH.RESET_PASSWORD.name,
+  Page.AUTH.VERIFY.name
 ]
 
 const router = createRouter({
@@ -68,6 +69,15 @@ const router = createRouter({
       component: () => import('@/views/pages/auth/ResetPassword.vue')
     },
     {
+      path: Page.AUTH.VERIFY.path,
+      name: Page.AUTH.VERIFY.name,
+      meta: {
+        title: Page.AUTH.VERIFY.title,
+        permissions: Page.AUTH.VERIFY.permissions
+      },
+      component: () => import('@/views/pages/auth/VerifyAccount.vue')
+    },
+    {
       path: Page.ACCESS.NOT_FOUND.path,
       name: Page.ACCESS.NOT_FOUND.name,
       meta: {
@@ -94,7 +104,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  if (whiteListUrl.includes(to.path)) {
+  if (whiteListUrl.includes(to.name)) {
     next()
   } else if (isTokenNonExisted() || isTokenExpired()) {
     resetLocalData()

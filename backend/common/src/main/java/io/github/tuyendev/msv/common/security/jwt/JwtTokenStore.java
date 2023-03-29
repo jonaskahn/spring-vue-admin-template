@@ -1,28 +1,28 @@
 package io.github.tuyendev.msv.common.security.jwt;
 
-import io.github.tuyendev.msv.common.annotation.Executor;
-
 import java.util.Date;
+
+import io.github.tuyendev.msv.common.annotation.Executor;
 
 public interface JwtTokenStore {
 
-    /**
-     * This method used as an indicator to generate token in transaction (for internal use)
-     *
-     * @param callback function execute real call
-     * @return {@link JwtAccessToken}
-     */
-    JwtAccessToken generateTokenInTransaction(Executor<JwtAccessToken> callback);
+	/**
+	 * This method used as an indicator to generate token in transaction (for internal use)
+	 *
+	 * @param callback function execute real call
+	 * @return {@link JwtAccessToken}
+	 */
+	JwtAccessToken generateTokenInTransaction(Executor<JwtAccessToken> callback);
 
-    void saveAccessToken(String id, Long userId, Date expiration);
+	void saveAccessToken(String id, Long userId, Date expiration);
 
-    void saveRefreshToken(String id, String accessTokenId, Long userId, Date expiration);
+	void saveRefreshToken(String id, String accessTokenId, Long userId, Date expiration);
 
-    Long getUserIdByRefreshTokenId(String refreshTokenId);
+	Long getUserIdByRefreshTokenId(String refreshTokenId);
 
-    void removeTokensByAccessTokenId(String accessTokenId);
+	void removeTokensByAccessTokenId(String accessTokenId);
 
-    boolean isAccessTokenExisted(String accessTokenId);
+	boolean isAccessTokenExisted(String accessTokenId);
 
-    boolean isRefreshTokenExisted(String refreshTokenId);
+	boolean isRefreshTokenExisted(String refreshTokenId);
 }
