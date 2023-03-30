@@ -1,11 +1,10 @@
 <script setup>
-import { onBeforeMount, ref, toRaw, watch } from 'vue'
+import { onBeforeMount, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useLayout } from '@/layout/composables/layout'
 import AppMenuBadge from '@/layout/AppMenuBadge.vue'
 import { LocalStorageManager } from '@/helper'
 import { containsAny } from '@/utils/arrays'
-import { hasAnyPermissionChildren } from '@/layout/composables/permission'
 
 const route = useRoute()
 
@@ -78,25 +77,18 @@ const itemClick = (event, item) => {
 const checkActiveRoute = (item) => {
   return route.path === item.to
 }
-
-const hasPermission = () => {
-  const permissions = props.item.permissions ?? []
-  return (
-    permissions.length === 0 || containsAny(permissions, LocalStorageManager.getTokenAuthorities())
-  )
-}
 </script>
 
 <template>
   <li
-    v-if="hasAnyPermissionChildren(toRaw(item))"
+    v-if="item.hasPermissionVisibility"
     :class="{ 'layout-root-menuitem': root, 'active-menuitem': isActiveMenu }"
   >
     <div v-if="root && item.visible !== false" class="layout-menuitem-root-text">
       {{ $t(item.label) }}
     </div>
     <a
-      v-if="(!item.to || item.items) && item.visible !== false && hasPermission()"
+      v-if="(!item.to || item.items) && item.visible !== false"
       :class="item.class"
       :href="item.url"
       :target="item.target"
@@ -109,7 +101,7 @@ const hasPermission = () => {
       <i v-if="item.items" class="pi pi-fw pi-angle-down layout-submenu-toggler"> </i>
     </a>
     <router-link
-      v-if="item.to && !item.items && item.visible !== false && hasPermission()"
+      v-if="item.to && !item.items && item.visible !== false"
       :class="[item.class, { 'active-route': checkActiveRoute(item) }]"
       :to="item.to"
       tabindex="0"

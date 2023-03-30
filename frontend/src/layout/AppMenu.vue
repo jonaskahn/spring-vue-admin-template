@@ -1,11 +1,12 @@
 <script setup>
-import { reactive, toRaw } from 'vue'
+import { computed } from 'vue'
 
 import AppMenuItem from './AppMenuItem.vue'
 import Page from '@/constants/page'
-import { hasAnyPermissionChildren } from '@/layout/composables/permission'
+import { containsAny } from '@/utils/arrays'
+import { LocalStorageManager } from '@/helper'
 
-const model = reactive([
+const model = [
   {
     label: 'Home',
     items: [
@@ -103,14 +104,46 @@ const model = reactive([
       }
     ]
   }
-])
+]
+
+const displayMenu = computed(() => {
+  model.forEach((menu) => calculatePermissionVisibility(menu))
+  return model
+})
+
+const calculatePermissionVisibility = (node) => {
+  if (node.items) {
+    node.hasPermissionVisibility = hasAnyPermissionInChildren(node)
+    node.items.forEach((sub) => {
+      calculatePermissionVisibility(sub)
+    })
+  } else {
+    node.hasPermissionVisibility = hasAnyPermissionInChildren(node)
+  }
+}
+
+const hasAnyPermissionInChildren = (menu) => {
+  if (menu && menu.items) {
+    let hasPermission = false
+    menu.items.forEach((item) => {
+      const permissions = item.permissions ?? []
+      hasPermission =
+        (hasPermission ||
+          permissions.length === 0 ||
+          containsAny(permissions, LocalStorageManager.getTokenAuthorities())) &&
+        hasAnyPermissionInChildren(item)
+    })
+    return hasPermission
+  }
+  return true
+}
 </script>
 
 <template>
   <ul class="layout-menu">
-    <template v-for="(item, i) in model" :key="item">
+    <template v-for="(item, i) in displayMenu" :key="item">
       <app-menu-item
-        v-if="!item.separator && hasAnyPermissionChildren(toRaw(item))"
+        v-if="!item.separator && item.hasPermissionVisibility"
         :index="i"
         :item="item"
       ></app-menu-item>
