@@ -150,7 +150,7 @@ async function redirectIfValid(to, from, next) {
   } else if (hasPermission(to.meta.permissions ?? [])) {
     next()
   } else {
-    await router.push(Page.AUTH.ACCESS_DENIED)
+    await router.push(Page.ACCESS.DENIED)
   }
 }
 
