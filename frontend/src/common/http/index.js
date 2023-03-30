@@ -1,9 +1,7 @@
 import axios from 'axios'
 import logger from '@/common/logger'
 import constants from '@/constants'
-import { getCurrentLocale, LocalStorageManager, Toast, translate } from '@/helper'
-import router from '@/router'
-import RouteInfo from '@/constants/page'
+import { getCurrentLocale } from '@/helper'
 
 const insecure = createInstance({ 'Content-Type': 'application/json;charset=utf-8' })
 
@@ -18,10 +16,9 @@ function createInstance(headers = {}) {
   })
   instance.interceptors.response.use(
     function (response) {
-      Toast.sendSuccessMessage({
-        body: response.data.message
-      })
-      return Promise.resolve(new ResponseData(true, response.data.payload))
+      return Promise.resolve(
+        new ResponseData(ResponseType.SUCCESS, response.data.message, response.data.payload)
+      )
     },
     function (error) {
       logger.debug(error)
@@ -30,10 +27,7 @@ function createInstance(headers = {}) {
       } else if (error.request) {
         return handleRequestError(error)
       } else {
-        Toast.sendErrorMessage({
-          body: translate('service.default-message.api-error-unknown')
-        })
-        return Promise.resolve(new ResponseData(false))
+        return Promise.resolve(new ResponseData(ResponseType.UNDEFINED))
       }
     }
   )
@@ -41,64 +35,89 @@ function createInstance(headers = {}) {
 }
 
 async function handleResponseError(res) {
-  logger.debug(res)
-  let message = res.data.message
+  logger.debug(`Response details :\n${res}`)
+  const message = res.data.message
   const details = res.data.payload.details
+  const summary =
+    message + details
+      ? details instanceof Object
+        ? '\n' + Object.values(details).join('\n')
+        : details
+      : ''
   switch (res.status) {
     case 401:
-      LocalStorageManager.reset()
-      Toast.sendErrorMessage({
-        body: message ?? translate('service.default-message.response-status-401')
-      })
-      return router.push(RouteInfo.AUTH.LOGIN.path)
+      return Promise.resolve(
+        new ResponseData(
+          ResponseType.SUCCESS,
+          summary ?? 'service.default-message.response-status-401'
+        )
+      )
     case 403:
-      Toast.sendErrorMessage({})
-      return router.push(RouteInfo.AUTH.ACCESS_DENIED.path)
+      return Promise.resolve(
+        new ResponseData(
+          ResponseType.ACCESS_DENIED,
+          summary ?? 'service.default-message.response-status-403'
+        )
+      )
     case 404:
-      Toast.sendErrorMessage({
-        body: translate('service.default-message.response-status-404')
-      })
-      return router.push(RouteInfo.AUTH.NOT_FOUND.path)
+      return Promise.resolve(
+        new ResponseData(
+          ResponseType.NOT_FOUND,
+          summary ?? 'service.default-message.response-status-403'
+        )
+      )
     default:
-      if (details) {
-        message += details instanceof Object ? '\n' + Object.values(details).join('\n') : details
-      }
-      Toast.sendErrorMessage({
-        body: message
-      })
-      return Promise.resolve(new ResponseData(false, res.payload))
+      return Promise.resolve(new ResponseData(ResponseType.UNDEFINED))
   }
 }
 
 async function handleRequestError(error) {
   if (error.message === 'Network Error') {
-    Toast.sendErrorMessage({
-      body: translate('service.default-message.api-error-network')
-    })
+    return Promise.resolve(
+      new ResponseData(ResponseType.NETWORK_ERROR, 'service.default-message.api-error-network')
+    )
   } else {
-    Toast.sendErrorMessage({
-      body: translate('service.default-message.api-error-client')
-    })
+    return Promise.resolve(
+      new ResponseData(ResponseType.NETWORK_ERROR, 'service.default-message.api-error-client')
+    )
   }
-  return Promise.resolve(new ResponseData(false))
 }
 
-const ResponseData = class {
-  constructor(status, payload) {
-    this._status = status
-    this._payload = payload
+export const ResponseType = {
+  SUCCESS: Symbol(0),
+  NETWORK_ERROR: Symbol(1),
+  CLIENT_ERROR: Symbol(1),
+  UNAUTHORIZED: Symbol(2),
+  ACCESS_DENIED: Symbol(2),
+  NOT_FOUND: Symbol(2),
+  UNDEFINED: Symbol(2)
+}
+
+export class ResponseData {
+  #state
+  #message
+  #payload
+
+  constructor(state, message, payload) {
+    this.#state = state
+    this.#message = message
+    this.#payload = payload
   }
 
   get payload() {
-    return this._payload
+    return this.#payload
   }
 
-  get ok() {
-    return this._status
+  get message() {
+    return this.#message
+  }
+
+  get state() {
+    return this.#state
   }
 }
 
-export function request(settings = { auth: false }) {
+export default function (settings = { auth: false }) {
   if (settings.auth) {
     secure.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem(
       constants.TOKEN.ACCESS_TOKEN
@@ -110,5 +129,3 @@ export function request(settings = { auth: false }) {
     return insecure
   }
 }
-
-export { ResponseData }

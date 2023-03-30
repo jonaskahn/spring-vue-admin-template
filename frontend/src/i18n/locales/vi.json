@@ -40,7 +40,8 @@
       "response-status-401": "Vui lòng đăng nhập để tiếp tục sử dụng MSV",
       "response-status-403": "Bạn không có quyền truy cập tài nguyên hay trang này",
       "response-status-404": "Bạn đã truy cập tài nguyên không tồn tại",
-      "invalid-token": "Phiên làm việc của bạn đã hết hạn. Vui lòng đăng nhập lại"
+      "invalid-token": "Phiên làm việc của bạn đã hết hạn. Vui lòng đăng nhập lại",
+      "unknown-error": "Đã có sự cố xảy ra. Vui lòng thử lại sau."
     }
   },
   "page": {

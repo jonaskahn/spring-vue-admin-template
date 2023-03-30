@@ -4,5 +4,8 @@ export default {
     TOKEN_RENEW: '/auth/token/renew',
     TOKEN_INFO: '/auth/token/info',
     TOKEN_REVOKE: '/auth/token/revoke'
+  },
+  USER: {
+    VERIFY_EMAIL: '/user/public/verify'
   }
 }

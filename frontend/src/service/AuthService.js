@@ -1,27 +1,47 @@
-import { request } from '@/common/http'
-import api from '@/constants/api'
 import { LocalStorageManager } from '@/helper'
 import jwt_decode from 'jwt-decode'
+import BaseService from '@/service/BaseService'
+import api from '@/constants/api'
 
-export default class AuthService {
+export default class AuthService extends BaseService {
   async login(params) {
-    const res = await request().post(api.AUTH.TOKEN_REQUEST, params)
+    const res = await this.request(
+      {
+        url: api.AUTH.TOKEN_REQUEST,
+        method: 'post',
+        data: params
+      },
+      {
+        secure: false,
+        redirectOnerror: false,
+        showToast: true
+      }
+    )
     if (res.ok) {
-      this.#updateAccessTokenInfo(res)
+      this.#updateAccessTokenInfo(res.data)
     }
     return res.ok
   }
 
-  #updateAccessTokenInfo(res) {
-    const token = res.payload.accessToken
-    const expiration = res.payload.accessTokenExpiredAt
-    const authorities = jwt_decode(res.payload.accessToken)['x-authority']
+  #updateAccessTokenInfo(data) {
+    const token = data.accessToken
+    const expiration = data.accessTokenExpiredAt
+    const authorities = jwt_decode(data.accessToken)['x-authority']
     LocalStorageManager.updateTokenInfo(token, expiration, authorities)
     LocalStorageManager.updateSigninState()
   }
 
   async logout() {
-    await request({ auth: true }).delete(api.AUTH.TOKEN_REVOKE)
+    await this.request(
+      {
+        url: api.AUTH.TOKEN_REVOKE,
+        method: 'delete'
+      },
+      {
+        redirectOnerror: false,
+        showToast: false
+      }
+    )
     LocalStorageManager.reset()
     return Promise.resolve()
   }

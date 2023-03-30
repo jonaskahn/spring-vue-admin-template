@@ -4,12 +4,12 @@ import constants from '@/constants'
 import { isMobileDevice } from '@/helper/shared'
 import { translate } from '@/helper/locale'
 
-class Toast {
+export default class ToastHelper {
   static sendInfoMessage({ title, body = 'Replace me, please !!!' }) {
     app.config.globalProperties.$toast.add({
       severity: ToastSeverity.INFO,
-      summary: !title ? translate('global.notification.default-title.info') : title,
-      detail: body,
+      summary: translate(title ?? 'global.notification.default-title.info'),
+      detail: translate(body),
       life: constants.TOAST_TIMEOUT.INFO,
       group: isMobileDevice() ? 'mobile' : 'desktop'
     })
@@ -18,8 +18,8 @@ class Toast {
   static sendWarnMessage({ title, body = 'Replace me, please !!!' }) {
     app.config.globalProperties.$toast.add({
       severity: ToastSeverity.WARN,
-      summary: !title ? translate('global.notification.default-title.warn') : title,
-      detail: body,
+      summary: translate(title ?? 'global.notification.default-title.warn'),
+      detail: translate(body),
       life: constants.TOAST_TIMEOUT.WARN,
       group: isMobileDevice() ? 'mobile' : 'desktop'
     })
@@ -28,8 +28,8 @@ class Toast {
   static sendSuccessMessage({ title, body = 'Replace me, please !!!' }) {
     app.config.globalProperties.$toast.add({
       severity: ToastSeverity.SUCCESS,
-      summary: !title ? translate('global.notification.default-title.success') : title,
-      detail: body,
+      summary: translate(title ?? 'global.notification.default-title.success'),
+      detail: translate(body),
       life: constants.TOAST_TIMEOUT.SUCCESS,
       group: isMobileDevice() ? 'mobile' : 'desktop'
     })
@@ -38,12 +38,10 @@ class Toast {
   static sendErrorMessage({ title, body = 'Replace me, please !!!' }) {
     app.config.globalProperties.$toast.add({
       severity: ToastSeverity.ERROR,
-      summary: !title ? translate('global.notification.default-title.error') : title,
-      detail: body,
+      summary: translate(title ?? 'global.notification.default-title.error'),
+      detail: translate(body),
       life: constants.TOAST_TIMEOUT.ERROR,
       group: isMobileDevice() ? 'mobile' : 'desktop'
     })
   }
 }
-
-export default Toast

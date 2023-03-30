@@ -40,7 +40,8 @@
       "response-status-401": "Please sign in to continue using MSV",
       "response-status-403": "You don't have right to access this page",
       "response-status-404": "You accessed to a non exising resource",
-      "invalid-token": "Your session is expired. Please sign in again."
+      "invalid-token": "Your session is expired. Please sign in again.",
+      "unknown-error": "Something wrong happened. Please comeback and try later."
     }
   },
   "page": {

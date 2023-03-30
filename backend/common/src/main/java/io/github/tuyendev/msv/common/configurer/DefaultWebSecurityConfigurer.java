@@ -6,6 +6,7 @@ import io.github.tuyendev.msv.common.security.RestAuthenticationEntryPoint;
 import io.github.tuyendev.msv.common.security.jwt.JwtSecurityAdapter;
 import io.github.tuyendev.msv.common.security.jwt.JwtTokenProvider;
 import io.github.tuyendev.msv.common.security.oauth2.Oauth2JwtAuthenticationConverter;
+import one.util.streamex.StreamEx;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -13,9 +14,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -29,13 +32,6 @@ class DefaultWebSecurityConfigurer {
 	private static final String[] IGNORED_API = new String[] {
 			"/webjars/**", "/error/**",
 			"/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html",
-			"/auth/token",
-			"/auth/token/renew",
-			"/auth/token/info",
-			"/auth/password/forgot",
-			"/auth/password/forgot-complete",
-			"/auth/password/reset",
-			"/auth/password/reset-complete",
 			"/public/**",
 			"/**/public/**"
 	};
@@ -71,7 +67,7 @@ class DefaultWebSecurityConfigurer {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeHttpRequests(requests -> requests
-                .requestMatchers(IGNORED_API).permitAll()
+                .requestMatchers(StreamEx.of(IGNORED_API).map(AntPathRequestMatcher::new).toArray(AntPathRequestMatcher.class)).permitAll()
                 .requestMatchers("/actuator").hasAuthority(AuthorityType.ADMIN_VALUE)
                 .anyRequest().authenticated());
 

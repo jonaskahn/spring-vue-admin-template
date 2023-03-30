@@ -1,7 +1,6 @@
 import { createI18n } from 'vue-i18n'
 import en from '@/i18n/locales/en.json'
 import vi from '@/i18n/locales/vi.json'
-import constants from '@/constants'
 
 const i18n = createI18n({
   locale: import.meta.env.VITE_DEFAULT_LOCALE,
