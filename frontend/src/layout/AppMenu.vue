@@ -1,6 +1,5 @@
 <script setup>
 import { computed } from 'vue'
-
 import AppMenuItem from './AppMenuItem.vue'
 import Page from '@/constants/page'
 import { containsAny } from '@/utils/arrays'
@@ -112,30 +111,31 @@ const displayMenu = computed(() => {
 })
 
 const calculatePermissionVisibility = (node) => {
+  node.hasPermissionVisibility = hasAssignPermission(node) && hasAssignPermissionInChildren(node)
   if (node.items) {
-    node.hasPermissionVisibility = hasAnyPermissionInChildren(node)
     node.items.forEach((sub) => {
       calculatePermissionVisibility(sub)
     })
-  } else {
-    node.hasPermissionVisibility = hasAnyPermissionInChildren(node)
   }
 }
 
-const hasAnyPermissionInChildren = (menu) => {
-  if (menu && menu.items) {
+const hasAssignPermissionInChildren = (menu) => {
+  if (menu.items) {
     let hasPermission = false
     menu.items.forEach((item) => {
-      const permissions = item.permissions ?? []
       hasPermission =
-        (hasPermission ||
-          permissions.length === 0 ||
-          containsAny(permissions, LocalStorageManager.getTokenAuthorities())) &&
-        hasAnyPermissionInChildren(item)
+        (hasPermission || hasAssignPermission(item)) && hasAssignPermissionInChildren(item)
     })
     return hasPermission
   }
   return true
+}
+
+const hasAssignPermission = (menu) => {
+  const permissions = menu.permissions ?? []
+  return (
+    permissions.length === 0 || containsAny(permissions, LocalStorageManager.getTokenAuthorities())
+  )
 }
 </script>
 
