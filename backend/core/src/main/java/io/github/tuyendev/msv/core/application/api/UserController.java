@@ -42,7 +42,6 @@ public class UserController {
 
 	@PostMapping(path = "/public/verify")
 	@Operation(summary = "Create user, only for admin role")
-	@PreAuthorize("hasAuthority('" + AuthorityType.ADMIN_VALUE + "')")
 	public Response verifyUserEmail(@Valid @RequestBody UserVerifyRequestDto request) {
 		userService.verifyEmail(request.getCode());
 		return Response.ok();
