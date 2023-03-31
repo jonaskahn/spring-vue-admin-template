@@ -55,8 +55,6 @@ import static io.github.tuyendev.msv.common.utils.Translator.eval;
 @JsonPropertyOrder({"status", "timestamp", "payload"})
 public class Response<T> implements Serializable {
 
-	private static final String EMPTY = "";
-
 	private int status;
 
 	private long timestamp;
