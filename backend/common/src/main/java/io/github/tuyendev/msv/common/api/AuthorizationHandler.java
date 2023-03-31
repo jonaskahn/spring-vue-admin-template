@@ -51,7 +51,7 @@ public class AuthorizationHandler {
 
 	@DeleteMapping(name = "Show token info", path = "/token/revoke")
 	@Operation(summary = "Show the token information")
-	public Response<TokenInfoDto> revoke(@RequestAttribute(Authorization.BEARER_TOKEN_VALUE) String jwt) {
+	public Response<String> revoke(@RequestAttribute(Authorization.BEARER_TOKEN_VALUE) String jwt) {
 		jwtTokenProvider.revokeToken(jwt);
 		return Response.ok("app.auth.message.revoked");
 	}

@@ -17,7 +17,6 @@ onBeforeMount(async () => {
     ok: res.state,
     val: res.payload
   }
-  console.log(message)
 })
 </script>
 
@@ -33,6 +32,7 @@ onBeforeMount(async () => {
       >
         <div class="grid flex flex-column align-items-center">
           <div
+            :class="[message.ok ? 'bg-green-500' : 'bg-red-500']"
             class="flex justify-content-center align-items-center bg-green-500 border-circle"
             style="width: 3.2rem; height: 3.2rem"
           >
@@ -42,9 +42,7 @@ onBeforeMount(async () => {
             {{ $t('page.verify-account.title') }}
           </h1>
           <span
-            :class="[
-              message.ok ? 'text-green-500 text-500' : 'text-yellow-500 text-600 font-bold '
-            ]"
+            :class="[message.ok ? 'text-green-500 text-500' : 'text-red-500 text-600 font-bold ']"
             class="font-italic text-xl mb-5"
           >
             {{ message.val }}</span

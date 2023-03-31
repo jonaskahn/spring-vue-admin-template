@@ -3,11 +3,10 @@ package io.github.tuyendev.msv.common.constant;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.github.tuyendev.msv.common.CommonMessageSource;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import org.springframework.context.support.MessageSourceAccessor;
+import static io.github.tuyendev.msv.common.utils.Translator.eval;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Authorization {
@@ -31,8 +30,6 @@ public final class Authorization {
 				REFRESH.name, REFRESH
 		);
 
-		private final MessageSourceAccessor messageSource = CommonMessageSource.getAccessor();
-
 		String name;
 
 		String desc;
@@ -52,7 +49,7 @@ public final class Authorization {
 		}
 
 		public String getDesc() {
-			return messageSource.getMessage(this.desc);
+			return eval(this.desc);
 		}
 	}
 

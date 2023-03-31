@@ -2,6 +2,7 @@ import http, { ResponseType } from '@/common/http'
 import ToastHelper from '@/helper/toast'
 import router from '@/router'
 import Page from '@/constants/page'
+import logger from '@/common/logger'
 
 export default class BaseService {
   static #showMessage(res) {
@@ -54,6 +55,7 @@ export default class BaseService {
       method: spec.method,
       data: spec.data
     })
+    logger.debug(res)
     if (option.showToast ?? false) {
       BaseService.#showMessage(res)
     }

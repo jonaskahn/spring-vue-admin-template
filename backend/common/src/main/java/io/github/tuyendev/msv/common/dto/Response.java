@@ -10,7 +10,6 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import io.github.tuyendev.msv.common.CommonMessageSource;
 import io.github.tuyendev.msv.common.exception.LogicException;
 import io.github.tuyendev.msv.common.exception.jwt.InvalidJwtTokenException;
 import jakarta.servlet.ServletException;
@@ -23,7 +22,6 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.BeansException;
-import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConversionException;
@@ -45,6 +43,8 @@ import org.springframework.web.context.request.async.AsyncRequestTimeoutExceptio
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import static io.github.tuyendev.msv.common.utils.Translator.eval;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -56,8 +56,6 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 public class Response<T> implements Serializable {
 
 	private static final String EMPTY = "";
-
-	protected static MessageSourceAccessor messageSource = CommonMessageSource.getAccessor();
 
 	private int status;
 
@@ -79,19 +77,6 @@ public class Response<T> implements Serializable {
 		return Instant.now().getEpochSecond();
 	}
 
-	private static String eval(String key) {
-		try {
-			return messageSource.getMessage(key);
-		}
-		catch (Exception e) {
-			return key;
-		}
-	}
-
-	private static String eval(String key, Object... args) {
-		return messageSource.getMessage(key, args);
-	}
-
 	public static <T> Response ok(T payload) {
 		return Response.builder()
 				.status(HttpStatus.OK.value())
@@ -105,6 +90,7 @@ public class Response<T> implements Serializable {
 		return Response.builder()
 				.status(HttpStatus.OK.value())
 				.message(eval(message))
+				.payload(eval(message))
 				.timestamp(now())
 				.build();
 	}

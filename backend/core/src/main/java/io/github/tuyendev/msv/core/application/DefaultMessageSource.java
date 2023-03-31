@@ -1,15 +1,13 @@
-package io.github.tuyendev.msv.common;
+package io.github.tuyendev.msv.core.application;
 
 import io.github.tuyendev.msv.common.annotation.MessageResourceClaim;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class CommonMessageSource implements MessageResourceClaim {
-
-
+public class DefaultMessageSource implements MessageResourceClaim {
 	@Override
 	public String[] messagesSources() {
-		return new String[] {"classpath:common-messages"};
+		return new String[]{"classpath:messages"};
 	}
 }

@@ -42,9 +42,9 @@ public class UserController {
 
 	@PostMapping(path = "/public/verify")
 	@Operation(summary = "Create user, only for admin role")
-	public Response verifyUserEmail(@Valid @RequestBody UserVerifyRequestDto request) {
+	public Response<String> verifyUserEmail(@Valid @RequestBody UserVerifyRequestDto request) {
 		userService.verifyEmail(request.getCode());
-		return Response.ok();
+		return Response.ok("app.user.verify-account.message.success");
 	}
 
 }

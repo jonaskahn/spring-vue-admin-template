@@ -1,15 +1,12 @@
 package io.github.tuyendev.msv.common.exception;
 
-import io.github.tuyendev.msv.common.CommonMessageSource;
-
-import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import static io.github.tuyendev.msv.common.utils.Translator.eval;
 
 public class UserNotExistedException extends UsernameNotFoundException {
 
-	private static final MessageSourceAccessor messageSource = CommonMessageSource.getAccessor();
-
 	public UserNotExistedException() {
-		super(messageSource.getMessage("app.user.exception.not-found"));
+		super(eval("app.user.exception.not-found"));
 	}
 }

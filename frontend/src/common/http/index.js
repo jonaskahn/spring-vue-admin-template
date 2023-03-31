@@ -1,7 +1,7 @@
 import axios from 'axios'
 import logger from '@/common/logger'
 import constants from '@/constants'
-import { getCurrentLocale } from '@/helper'
+import { getCurrentLocale, translate } from '@/helper'
 
 const insecure = createInstance({ 'Content-Type': 'application/json;charset=utf-8' })
 
@@ -45,33 +45,33 @@ async function handleResponseError(res) {
       return Promise.resolve(
         new ResponseData(
           ResponseType.BAD_REQUEST,
-          summary ?? 'service.default-message.response-status-400'
+          summary ?? translate('service.default-message.response-status-400')
         )
       )
     case 401:
       return Promise.resolve(
         new ResponseData(
           ResponseType.UNAUTHORIZED,
-          summary ?? 'service.default-message.response-status-401'
+          summary ?? translate('service.default-message.response-status-401')
         )
       )
     case 403:
       return Promise.resolve(
         new ResponseData(
           ResponseType.ACCESS_DENIED,
-          summary ?? 'service.default-message.response-status-403'
+          summary ?? translate('service.default-message.response-status-403')
         )
       )
     case 404:
       return Promise.resolve(
         new ResponseData(
           ResponseType.NOT_FOUND,
-          summary ?? 'service.default-message.response-status-403'
+          summary ?? translate('service.default-message.response-status-403')
         )
       )
     default:
       return Promise.resolve(
-        new ResponseData(ResponseType.UNDEFINED, 'service.default-message.unknown-error')
+        new ResponseData(ResponseType.UNDEFINED, translate('service.default-message.unknown-error'))
       )
   }
 }
@@ -79,11 +79,17 @@ async function handleResponseError(res) {
 async function handleRequestError(error) {
   if (error.message === 'Network Error') {
     return Promise.resolve(
-      new ResponseData(ResponseType.NETWORK_ERROR, 'service.default-message.api-error-network')
+      new ResponseData(
+        ResponseType.NETWORK_ERROR,
+        translate('service.default-message.api-error-network')
+      )
     )
   } else {
     return Promise.resolve(
-      new ResponseData(ResponseType.NETWORK_ERROR, 'service.default-message.api-error-client')
+      new ResponseData(
+        ResponseType.NETWORK_ERROR,
+        translate('service.default-message.api-error-client')
+      )
     )
   }
 }
