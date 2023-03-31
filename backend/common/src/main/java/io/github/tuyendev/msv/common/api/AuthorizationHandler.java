@@ -53,6 +53,6 @@ public class AuthorizationHandler {
 	@Operation(summary = "Show the token information")
 	public Response<TokenInfoDto> revoke(@RequestAttribute(Authorization.BEARER_TOKEN_VALUE) String jwt) {
 		jwtTokenProvider.revokeToken(jwt);
-		return Response.ok();
+		return Response.ok("app.auth.message.revoked");
 	}
 }
