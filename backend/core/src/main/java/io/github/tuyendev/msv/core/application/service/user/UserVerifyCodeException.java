@@ -9,19 +9,19 @@ public final class UserVerifyCodeException {
 
 	public static class Creation extends LogicException {
 		protected Creation() {
-			super("app.user.exception.verify-code.cannot-create");
+			super("app.user.verify-account.exception.verify-code.fail-make-code");
 		}
 	}
 
 	public static class Verified extends LogicException {
 		protected Verified() {
-			super("app.user.exception.verify-code.verified");
+			super("app.user.verify-account.exception.verify-code.verified");
 		}
 	}
 
 	public static class Invalid extends LogicException {
 		protected Invalid() {
-			super("app.user.exception.verify-code.invalid");
+			super("app.user.verify-account.exception.verify-code.invalid");
 		}
 	}
 

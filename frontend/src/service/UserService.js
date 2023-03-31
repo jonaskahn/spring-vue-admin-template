@@ -11,14 +11,12 @@ export default class UserService extends BaseService {
         data: params
       },
       {
-        secure: false,
-        redirectOnerror: false,
-        showToast: false
+        secure: false
       }
     )
-    if (res.ok) {
+    if (res.state) {
       LocalStorageManager.reset()
     }
-    return res.payload
+    return res
   }
 }

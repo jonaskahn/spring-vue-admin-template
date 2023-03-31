@@ -1,6 +1,6 @@
 export default {
   AUTH: {
-    TOKEN_REQUEST: 'token/public/new',
+    TOKEN_REQUEST: '/auth/token/public/request',
     TOKEN_RENEW: '/auth/token/renew',
     TOKEN_INFO: '/auth/token/info',
     TOKEN_REVOKE: '/auth/token/revoke'

@@ -28,7 +28,7 @@ public class AuthorizationHandler {
 
 	private final JwtTokenProvider jwtTokenProvider;
 
-	@PostMapping(name = "Authorization entry point", path = "/token/public/new")
+	@PostMapping(name = "Authorization entry point", path = "/token/public/request")
 	@Operation(summary = "Login API, generate token if success")
 	public Response<JwtAccessToken> authorize(@Valid @RequestBody TokenRequestDto request) {
 		JwtAccessToken token = jwtTokenProvider.generateToken(request.getUsername(), request.getPassword(), request.isRememberMe());

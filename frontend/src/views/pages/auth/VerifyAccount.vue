@@ -1,51 +1,67 @@
 <script setup>
-import Page from '@/constants/page'
 import UserService from '@/service/UserService'
 import { useRoute } from 'vue-router'
-import { onBeforeMount, reactive } from 'vue'
+import { onBeforeMount, ref } from 'vue'
+import Page from '@/constants/page'
 
 const userService = new UserService()
-let message = reactive(null)
+let message = ref({
+  ok: false,
+  val: null
+})
 onBeforeMount(async () => {
-  message = await userService.verifyEmail({
+  const res = await userService.verifyEmail({
     code: useRoute().params.code
   })
+  message.value = {
+    ok: res.state,
+    val: res.payload
+  }
+  console.log(message)
 })
 </script>
 
 <template>
   <div
-    class="surface-ground flex align-items-center justify-content-center login-box overflow-hidden"
+    class="surface-ground flex align-items-center justify-content-center card-box min-h-screen min-w-screen overflow-hidden"
   >
-    <div class="flex flex-column align-items-center justify-content-center m-4 md:m-8">
-      <div class="flex">
-        <img alt="app-logo" class="mb-5 sm:w-10rem w-8rem flex-shrink-0" src="@/assets/logo.png" />
-      </div>
-      <div class="surface-card w-full px-4 py-4 md:px-6" style="border-radius: 40px">
-        <div class="mb-5 flex flex-row">
-          <div class="flex-1 flex align-items-center justify-content-start">
-            <Button
-              :title="$t('page.reset-password.label.btn-back')"
-              icon="pi pi-home"
-              iconPos="left"
-              outlined
-              raised
-              rounded
-              type="button"
-              @click.prevent="$router.push({ name: Page.APP.DASH_BOARD.name })"
-            />
-          </div>
-
+    <div class="flex flex-column align-items-center justify-content-center">
+      <img alt="Sakai logo" class="mb-5 w-6rem flex-shrink-0" src="@/assets/logo.png" />
+      <div
+        class="w-full surface-card py-8 px-5 sm:px-8 flex flex-column align-items-center"
+        style="border-radius: 53px"
+      >
+        <div class="grid flex flex-column align-items-center">
           <div
-            class="flex-1 flex align-items-center justify-content-end text-center text-900 text-2xl"
+            class="flex justify-content-center align-items-center bg-green-500 border-circle"
+            style="width: 3.2rem; height: 3.2rem"
           >
-            <span class="text-left hidden md:inline">{{ $t('Xac minh tai khoan') }}</span>
+            <i class="text-50 pi pi-fw pi-hashtag text-2xl"></i>
           </div>
-        </div>
-        <div v-focustrap class="grid">
-          <Divider />
-          <div class="text-center">
-            <span class="text-900 font-italic">TTTTTTTTTTTTTTTTTTTTTTTT{{ message }}</span>
+          <h1 class="text-900 font-bold text-4xl lg:text-5xl mb-4">
+            {{ $t('page.verify-account.title') }}
+          </h1>
+          <span
+            :class="[
+              message.ok ? 'text-green-500 text-500' : 'text-yellow-500 text-600 font-bold '
+            ]"
+            class="font-italic text-xl mb-5"
+          >
+            {{ message.val }}</span
+          >
+
+          <div class="col-12 text-center">
+            <Button
+              :label="$t('page.verify-account.label.link-back-to-dashboard')"
+              autofocus
+              icon="pi pi-fw pi-home "
+              raised
+              @click="
+                $router.push({
+                  name: Page.APP.DASH_BOARD.name
+                })
+              "
+            />
           </div>
         </div>
       </div>
@@ -54,7 +70,7 @@ onBeforeMount(async () => {
 </template>
 
 <style scoped>
-.login-box {
+.card-box {
   min-height: 80vh !important;
 }
 </style>

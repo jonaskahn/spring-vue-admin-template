@@ -4,41 +4,34 @@ import router from '@/router'
 import Page from '@/constants/page'
 
 export default class BaseService {
-  static showMessage(res) {
+  static #showMessage(res) {
     switch (res.state) {
       case ResponseType.SUCCESS:
-        this.#showSuccessMessage(res.message)
+        this.showSuccessMessage(res.message)
         break
       case ResponseType.NOT_FOUND:
-        this.#showErrorMessage(res.message)
-        break
+      case ResponseType.BAD_REQUEST:
       case ResponseType.UNAUTHORIZED:
-        this.#showErrorMessage(res.message)
-        break
       case ResponseType.ACCESS_DENIED:
-        this.#showErrorMessage(res.message)
-        break
       case ResponseType.CLIENT_ERROR:
-        this.#showErrorMessage(res.message)
-        break
       case ResponseType.NETWORK_ERROR:
-        this.#showErrorMessage(res.message)
+        this.showErrorMessage(res.message)
         break
       case ResponseType.UNDEFINED:
-        this.#showErrorMessage('service.default-message.unknown-error')
+        this.showErrorMessage('service.default-message.unknown-error')
         break
       default:
         break
     }
   }
 
-  static #showErrorMessage(message) {
+  static showErrorMessage(message) {
     ToastHelper.sendErrorMessage({
       body: message
     })
   }
 
-  static #showSuccessMessage(message) {
+  static showSuccessMessage(message) {
     ToastHelper.sendSuccessMessage({
       body: message
     })
@@ -52,8 +45,8 @@ export default class BaseService {
     },
     option = {
       secure: true,
-      showToast: true,
-      redirectOnerror: true
+      showToast: false,
+      redirectOnerror: false
     }
   ) {
     const res = await http({ auth: option.secure ?? true })({
@@ -61,10 +54,10 @@ export default class BaseService {
       method: spec.method,
       data: spec.data
     })
-    if (option.showToast ?? true) {
-      BaseService.showMessage(res)
+    if (option.showToast ?? false) {
+      BaseService.#showMessage(res)
     }
-    if ((option.redirectOnerror ?? true) && res.state !== ResponseType.SUCCESS) {
+    if ((option.redirectOnerror ?? false) && res.state !== ResponseType.SUCCESS) {
       switch (res.state) {
         case ResponseType.UNAUTHORIZED:
           return router.push({
@@ -75,19 +68,19 @@ export default class BaseService {
             name: Page.ACCESS.DENIED.name
           })
         default:
-          return Promise.reject()
+          break
       }
     }
     switch (res.state) {
       case ResponseType.SUCCESS:
         return Promise.resolve({
-          ok: true,
-          data: res.payload
+          state: true,
+          payload: res.payload
         })
       default:
-        return Promise.reject({
-          ok: false,
-          data: res.payload
+        return Promise.resolve({
+          state: false,
+          payload: res.message
         })
     }
   }

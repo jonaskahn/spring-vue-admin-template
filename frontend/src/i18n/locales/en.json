@@ -37,6 +37,7 @@
       "api-error-network": "Can not connect to server",
       "api-error-client": "Your web browser sent an invalid request",
       "api-error-unknown": "Your web browser can not make a request",
+      "response-status-400": "Your request could not handle by server",
       "response-status-401": "Please sign in to continue using MSV",
       "response-status-403": "You don't have right to access this page",
       "response-status-404": "You accessed to a non exising resource",
@@ -70,6 +71,12 @@
         "btn-reset-password": "I forgot my password",
         "btn-expired-accept-ok": "Ok",
         "btn-expired-accept-off": "Don't show again"
+      }
+    },
+    "verify-account": {
+      "title": "Verifying account",
+      "label": {
+        "link-back-to-dashboard": "Continue using MSV"
       }
     },
     "reset-password": {

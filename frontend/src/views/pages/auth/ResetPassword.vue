@@ -26,7 +26,7 @@ const onSubmitResetPassword = () => {
 
 <template>
   <div
-    class="surface-ground flex align-items-center justify-content-center login-box min-w-min overflow-hidden"
+    class="surface-ground flex align-items-center justify-content-center card-box min-w-min overflow-hidden"
   >
     <div class="flex flex-column align-items-center justify-content-center m-4 md:m-8">
       <div class="flex">
@@ -100,7 +100,7 @@ const onSubmitResetPassword = () => {
 </template>
 
 <style scoped>
-.login-box {
+.card-box {
   min-height: 80vh !important;
 }
 </style>

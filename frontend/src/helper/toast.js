@@ -8,7 +8,7 @@ export default class ToastHelper {
   static sendInfoMessage({ title, body = 'Replace me, please !!!' }) {
     app.config.globalProperties.$toast.add({
       severity: ToastSeverity.INFO,
-      summary: translate(title ?? 'global.notification.default-title.info'),
+      summary: translate(title || 'global.notification.default-title.info'),
       detail: translate(body),
       life: constants.TOAST_TIMEOUT.INFO,
       group: isMobileDevice() ? 'mobile' : 'desktop'
@@ -18,7 +18,7 @@ export default class ToastHelper {
   static sendWarnMessage({ title, body = 'Replace me, please !!!' }) {
     app.config.globalProperties.$toast.add({
       severity: ToastSeverity.WARN,
-      summary: translate(title ?? 'global.notification.default-title.warn'),
+      summary: translate(title || 'global.notification.default-title.warn'),
       detail: translate(body),
       life: constants.TOAST_TIMEOUT.WARN,
       group: isMobileDevice() ? 'mobile' : 'desktop'
@@ -28,7 +28,7 @@ export default class ToastHelper {
   static sendSuccessMessage({ title, body = 'Replace me, please !!!' }) {
     app.config.globalProperties.$toast.add({
       severity: ToastSeverity.SUCCESS,
-      summary: translate(title ?? 'global.notification.default-title.success'),
+      summary: translate(title || 'global.notification.default-title.success'),
       detail: translate(body),
       life: constants.TOAST_TIMEOUT.SUCCESS,
       group: isMobileDevice() ? 'mobile' : 'desktop'
@@ -38,7 +38,7 @@ export default class ToastHelper {
   static sendErrorMessage({ title, body = 'Replace me, please !!!' }) {
     app.config.globalProperties.$toast.add({
       severity: ToastSeverity.ERROR,
-      summary: translate(title ?? 'global.notification.default-title.error'),
+      summary: translate(title || 'global.notification.default-title.error'),
       detail: translate(body),
       life: constants.TOAST_TIMEOUT.ERROR,
       group: isMobileDevice() ? 'mobile' : 'desktop'

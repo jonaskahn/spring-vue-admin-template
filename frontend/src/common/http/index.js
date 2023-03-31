@@ -35,20 +35,23 @@ function createInstance(headers = {}) {
 }
 
 async function handleResponseError(res) {
-  logger.debug(`Response details :\n${res}`)
+  logger.debug(res)
   const message = res.data.message
-  const details = res.data.payload.details
+  const details = res.data.payload.details ?? ''
   const summary =
-    message + details
-      ? details instanceof Object
-        ? '\n' + Object.values(details).join('\n')
-        : details
-      : ''
+    message + (details instanceof Object ? '\n' + Object.values(details).join('\n') : details)
   switch (res.status) {
+    case 400:
+      return Promise.resolve(
+        new ResponseData(
+          ResponseType.BAD_REQUEST,
+          summary ?? 'service.default-message.response-status-400'
+        )
+      )
     case 401:
       return Promise.resolve(
         new ResponseData(
-          ResponseType.SUCCESS,
+          ResponseType.UNAUTHORIZED,
           summary ?? 'service.default-message.response-status-401'
         )
       )
@@ -67,7 +70,9 @@ async function handleResponseError(res) {
         )
       )
     default:
-      return Promise.resolve(new ResponseData(ResponseType.UNDEFINED))
+      return Promise.resolve(
+        new ResponseData(ResponseType.UNDEFINED, 'service.default-message.unknown-error')
+      )
   }
 }
 
@@ -90,6 +95,7 @@ export const ResponseType = {
   UNAUTHORIZED: Symbol(2),
   ACCESS_DENIED: Symbol(2),
   NOT_FOUND: Symbol(2),
+  BAD_REQUEST: Symbol(2),
   UNDEFINED: Symbol(2)
 }
 

@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
 		EmailContentDto email = EmailContentDto.builder()
 				.from(defaultMailSender)
 				.to(user.getEmail())
-				.subject(eval("app.user.message.verify-account"))
+				.subject(eval("app.user.verify-account.message.mail-title"))
 				.template(DataProcessor.getTemplateByLocale(MailTemplate.CONFIRM_ACCOUNT))
 				.props(Map.of(
 						"name", user.getGivenName(),
@@ -148,7 +148,7 @@ public class UserServiceImpl implements UserService {
 			byte[] rawData = DataProcessor.decrypt(Base64.getDecoder().decode(code), appKey);
 			return DefaultInstance.OBJECT_MAPPER.readValue(rawData, Long.class);
 		}
-		catch (GeneralSecurityException | IOException e) {
+		catch (Exception e) {
 			log.error("Cannot decode info from verify code", e);
 			throw new UserVerifyCodeException.Invalid();
 		}

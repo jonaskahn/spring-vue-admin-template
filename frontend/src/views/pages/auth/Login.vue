@@ -98,7 +98,7 @@ const fillReservedUserAccount = (type) => {
 
 <template>
   <div
-    class="surface-ground flex align-items-center justify-content-center login-box min-w-min overflow-hidden"
+    class="surface-ground flex align-items-center justify-content-center card-box min-w-min overflow-hidden"
   >
     <Dialog
       v-model:visible="expiredDialogVisible"
@@ -286,7 +286,7 @@ const fillReservedUserAccount = (type) => {
 </template>
 
 <style scoped>
-.login-box {
+.card-box {
   min-height: 80vh !important;
 }
 

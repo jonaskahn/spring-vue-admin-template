@@ -13,14 +13,13 @@ export default class AuthService extends BaseService {
       },
       {
         secure: false,
-        redirectOnerror: false,
         showToast: true
       }
     )
-    if (res.ok) {
-      this.#updateAccessTokenInfo(res.data)
+    if (res.state) {
+      this.#updateAccessTokenInfo(res.payload)
     }
-    return res.ok
+    return res.state
   }
 
   #updateAccessTokenInfo(data) {
@@ -32,16 +31,10 @@ export default class AuthService extends BaseService {
   }
 
   async logout() {
-    await this.request(
-      {
-        url: api.AUTH.TOKEN_REVOKE,
-        method: 'delete'
-      },
-      {
-        redirectOnerror: false,
-        showToast: false
-      }
-    )
+    await this.request({
+      url: api.AUTH.TOKEN_REVOKE,
+      method: 'delete'
+    })
     LocalStorageManager.reset()
     return Promise.resolve()
   }

@@ -37,6 +37,7 @@
       "api-error-network": "Không thể kết nối tới máy chủ.",
       "api-error-client": "Đã có lỗi xảy ra với trình duyệt web của bạn.",
       "api-error-unknown": "Đã xảy ra lỗi chưa xác định",
+      "response-status-400": "Máy chủ không thể xử lý yêu cầu của bạn",
       "response-status-401": "Vui lòng đăng nhập để tiếp tục sử dụng MSV",
       "response-status-403": "Bạn không có quyền truy cập tài nguyên hay trang này",
       "response-status-404": "Bạn đã truy cập tài nguyên không tồn tại",
@@ -70,6 +71,12 @@
         "btn-reset-password": "Tôi không nhớ mật khẩu",
         "btn-expired-accept-ok": "Đã hiểu",
         "btn-expired-accept-off": "Không nhắc lại"
+      }
+    },
+    "verify-account": {
+      "title": "Xác thực tài khoản",
+      "label": {
+        "link-back-to-dashboard": "Truy cập vào MSV"
       }
     },
     "reset-password": {
