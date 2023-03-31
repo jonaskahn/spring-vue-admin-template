@@ -3,7 +3,7 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useLayout } from '@/layout/composables/layout'
 import { useRouter } from 'vue-router'
 import AuthService from '@/service/AuthService'
-import RouteInfo from '@/constants/page'
+import Page from '@/constants/page'
 import { useConfirm } from 'primevue/useconfirm'
 import { isMobileDevice, translate } from '@/helper'
 
@@ -41,7 +41,7 @@ const onLogoutClick = async () => {
     defaultFocus: 'reject',
     accept: async () => {
       await authService.logout()
-      await router.push(RouteInfo.AUTH.LOGIN.path)
+      await router.push(Page.AUTH.LOGIN.path)
     },
     reject: () => {}
   })

@@ -1,6 +1,10 @@
-import { PageAuthority } from '@/constants/page/authority'
+const Authority = {
+  USER: 'user',
+  EDITOR: 'editor',
+  ADMIN: 'admin'
+}
 
-export default {
+const Page = {
   AUTH: {
     LOGIN: {
       path: '/auth/login',
@@ -59,14 +63,16 @@ export default {
         path: '/permission/admin',
         name: 'permission-admin',
         title: 'global.menu-title.permission.admin',
-        permissions: [PageAuthority.admin()]
+        permissions: [Authority.ADMIN]
       },
       EDITOR: {
         path: '/permission/editor',
         name: 'permission-editor',
         title: 'global.menu-title.permission.editor',
-        permissions: [PageAuthority.editor(), PageAuthority.admin()]
+        permissions: [Authority.ADMIN, Authority.EDITOR]
       }
     }
   }
 }
+
+export default Page

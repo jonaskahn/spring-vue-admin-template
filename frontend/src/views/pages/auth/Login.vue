@@ -1,5 +1,5 @@
 <script setup>
-import { inject, onMounted, reactive, ref } from 'vue'
+import { computed, inject, onMounted, reactive, ref } from 'vue'
 import AuthService from '@/service/AuthService'
 import { useRouter } from 'vue-router'
 import LangPlate from '@/layout/LangPlate.vue'
@@ -18,7 +18,7 @@ const validation = reactive({
   username: null,
   password: null
 })
-const showDefaultUserBox = reactive(import.meta.env.VITE_SHOW_DEFAULT_USER === 'true')
+const showDefaultUserBox = computed(() => import.meta.env.VITE_SHOW_DEFAULT_USER === 'true')
 const defaultUserBoxRef = ref(null)
 const expiredDialogVisible = ref(false)
 

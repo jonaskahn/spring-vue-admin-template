@@ -5,7 +5,7 @@ import Page from '@/constants/page'
 import { containsAny } from '@/utils/arrays'
 import { LocalStorageManager } from '@/helper'
 
-const model = [
+const MenuModel = [
   {
     label: 'Home',
     items: [
@@ -106,8 +106,8 @@ const model = [
 ]
 
 const displayMenu = computed(() => {
-  model.forEach((menu) => calculatePermissionVisibility(menu))
-  return model
+  MenuModel.forEach((menu) => calculatePermissionVisibility(menu))
+  return MenuModel
 })
 
 const calculatePermissionVisibility = (node) => {
