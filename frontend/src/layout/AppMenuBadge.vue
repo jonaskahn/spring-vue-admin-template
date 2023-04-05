@@ -1,9 +1,9 @@
 <script setup>
-import { computed } from 'vue'
+import { computed } from "vue"
 
-const props = defineProps(['badge'])
+const props = defineProps(["badge"])
 let shorterVal = computed(() => {
-  return props.badge.value.length > 12 ? props.badge.value.slice(0, 10) + ' ...' : props.badge.value
+  return props.badge.value.length > 12 ? props.badge.value.slice(0, 10) + " ..." : props.badge.value
 })
 </script>
 

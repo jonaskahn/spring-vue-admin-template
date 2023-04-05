@@ -1,8 +1,8 @@
 <script setup>
-import UserService from '@/service/UserService'
-import { useRoute } from 'vue-router'
-import { onBeforeMount, ref } from 'vue'
-import Page from '@/constants/page'
+import UserService from "@/service/UserService"
+import { useRoute } from "vue-router"
+import { onBeforeMount, ref } from "vue"
+import Page from "@/constants/page"
 
 const userService = new UserService()
 let message = ref({
@@ -36,10 +36,13 @@ onBeforeMount(async () => {
             class="flex justify-content-center align-items-center bg-green-500 border-circle"
             style="width: 3.2rem; height: 3.2rem"
           >
-            <i class="text-50 pi pi-fw pi-hashtag text-2xl"></i>
+            <i
+              :class="[message.ok ? 'pi-check' : 'pi-times']"
+              class="text-50 pi pi-fw text-2xl"
+            ></i>
           </div>
           <h1 class="text-900 font-bold text-4xl lg:text-5xl mb-4">
-            {{ $t('page.verify-account.title') }}
+            {{ $t("page.verify-account.title") }}
           </h1>
           <span
             :class="[message.ok ? 'text-green-500 text-500' : 'text-red-500 text-600 font-bold ']"

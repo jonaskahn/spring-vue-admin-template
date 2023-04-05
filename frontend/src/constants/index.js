@@ -1,8 +1,8 @@
 export default {
   TOKEN: {
-    ACCESS_TOKEN: 'TOKEN_ACCESS_TOKEN',
-    ACCESS_TOKEN_EXPIRED: 'TOKEN_ACCESS_TOKEN_EXPIRED',
-    AUTHORITIES: 'TOKEN_AUTHORITIES'
+    ACCESS_TOKEN: "TOKEN_ACCESS_TOKEN",
+    ACCESS_TOKEN_EXPIRED: "TOKEN_ACCESS_TOKEN_EXPIRED",
+    AUTHORITIES: "TOKEN_AUTHORITIES"
   },
   TOAST_TIMEOUT: {
     ERROR: 3000,
@@ -11,16 +11,16 @@ export default {
     SUCCESS: 1500
   },
   STORAGE: {
-    CURRENT_LOCALE: 'USER_LOCALE',
-    SIGNIN_STATE: 'USER_SIGNIN_STATE'
+    CURRENT_LOCALE: "USER_LOCALE",
+    SIGNIN_STATE: "USER_SIGNIN_STATE"
   },
   SETTINGS: {
     LOADER: {
-      loader: 'bars',
+      loader: "bars",
       opacity: 0.75,
-      color: '#4f46e5',
-      width: '5rem',
-      height: '5rem'
+      color: "#4f46e5",
+      width: "5rem",
+      height: "5rem"
     }
   }
 }

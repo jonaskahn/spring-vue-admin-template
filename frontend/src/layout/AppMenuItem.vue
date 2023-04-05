@@ -1,10 +1,10 @@
 <script setup>
-import { onBeforeMount, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
-import { useLayout } from '@/layout/composables/layout'
-import AppMenuBadge from '@/layout/AppMenuBadge.vue'
-import { LocalStorageManager } from '@/helper'
-import { containsAny } from '@/utils/arrays'
+import { onBeforeMount, ref, watch } from "vue"
+import { useRoute } from "vue-router"
+import { useLayout } from "@/layout/composables/layout"
+import AppMenuBadge from "@/layout/AppMenuBadge.vue"
+import { LocalStorageManager } from "@/helper"
+import { containsAny } from "@/utils/arrays"
 
 const route = useRoute()
 
@@ -34,19 +34,19 @@ const itemKey = ref(null)
 
 onBeforeMount(() => {
   itemKey.value = props.parentItemKey
-    ? props.parentItemKey + '-' + props.index
+    ? props.parentItemKey + "-" + props.index
     : String(props.index)
 
   const activeItem = layoutState.activeMenuItem
 
   isActiveMenu.value =
-    activeItem === itemKey.value || activeItem ? activeItem.startsWith(itemKey.value + '-') : false
+    activeItem === itemKey.value || activeItem ? activeItem.startsWith(itemKey.value + "-") : false
 })
 
 watch(
   () => layoutConfig.activeMenuItem.value,
   (newVal) => {
-    isActiveMenu.value = newVal === itemKey.value || newVal.startsWith(itemKey.value + '-')
+    isActiveMenu.value = newVal === itemKey.value || newVal.startsWith(itemKey.value + "-")
   }
 )
 const itemClick = (event, item) => {

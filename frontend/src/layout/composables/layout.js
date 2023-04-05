@@ -1,13 +1,13 @@
-import { computed, reactive, toRefs } from 'vue'
+import { computed, reactive, toRefs } from "vue"
 
 const contextPath = import.meta.env.BASE_URL
 
 const layoutConfig = reactive({
   ripple: false,
   darkTheme: false,
-  inputStyle: 'outlined',
-  menuMode: 'static',
-  theme: 'lara-light-indigo',
+  inputStyle: "outlined",
+  menuMode: "static",
+  theme: "lara-light-indigo",
   scale: 14,
   activeMenuItem: null
 })
@@ -36,7 +36,7 @@ export function useLayout() {
   }
 
   const onMenuToggle = () => {
-    if (layoutConfig.menuMode === 'overlay') {
+    if (layoutConfig.menuMode === "overlay") {
       layoutState.overlayMenuActive = !layoutState.overlayMenuActive
     }
 

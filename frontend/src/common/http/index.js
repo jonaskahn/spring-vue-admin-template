@@ -1,11 +1,11 @@
-import axios from 'axios'
-import logger from '@/common/logger'
-import constants from '@/constants'
-import { getCurrentLocale, translate } from '@/helper'
+import axios from "axios"
+import logger from "@/common/logger"
+import constants from "@/constants"
+import { getCurrentLocale, translate } from "@/helper"
 
-const insecure = createInstance({ 'Content-Type': 'application/json;charset=utf-8' })
+const insecure = createInstance({ "Content-Type": "application/json;charset=utf-8" })
 
-const secure = createInstance({ 'Content-Type': 'application/json;charset=utf-8' })
+const secure = createInstance({ "Content-Type": "application/json;charset=utf-8" })
 
 function createInstance(headers = {}) {
   const instance = axios.create()
@@ -37,58 +37,58 @@ function createInstance(headers = {}) {
 async function handleResponseError(res) {
   logger.debug(res)
   const message = res.data.message
-  const details = res.data.payload.details ?? ''
+  const details = res.data.payload.details ?? ""
   const summary =
-    message + (details instanceof Object ? '\n' + Object.values(details).join('\n') : details)
+    message + (details instanceof Object ? "\n" + Object.values(details).join("\n") : details)
   switch (res.status) {
     case 400:
       return Promise.resolve(
         new ResponseData(
           ResponseType.BAD_REQUEST,
-          summary ?? translate('service.default-message.response-status-400')
+          summary ?? translate("service.default-message.response-status-400")
         )
       )
     case 401:
       return Promise.resolve(
         new ResponseData(
           ResponseType.UNAUTHORIZED,
-          summary ?? translate('service.default-message.response-status-401')
+          summary ?? translate("service.default-message.response-status-401")
         )
       )
     case 403:
       return Promise.resolve(
         new ResponseData(
           ResponseType.ACCESS_DENIED,
-          summary ?? translate('service.default-message.response-status-403')
+          summary ?? translate("service.default-message.response-status-403")
         )
       )
     case 404:
       return Promise.resolve(
         new ResponseData(
           ResponseType.NOT_FOUND,
-          summary ?? translate('service.default-message.response-status-403')
+          summary ?? translate("service.default-message.response-status-403")
         )
       )
     default:
       return Promise.resolve(
-        new ResponseData(ResponseType.UNDEFINED, translate('service.default-message.unknown-error'))
+        new ResponseData(ResponseType.UNDEFINED, translate("service.default-message.unknown-error"))
       )
   }
 }
 
 async function handleRequestError(error) {
-  if (error.message === 'Network Error') {
+  if (error.message === "Network Error") {
     return Promise.resolve(
       new ResponseData(
         ResponseType.NETWORK_ERROR,
-        translate('service.default-message.api-error-network')
+        translate("service.default-message.api-error-network")
       )
     )
   } else {
     return Promise.resolve(
       new ResponseData(
         ResponseType.NETWORK_ERROR,
-        translate('service.default-message.api-error-client')
+        translate("service.default-message.api-error-client")
       )
     )
   }
@@ -134,10 +134,10 @@ export default function (settings = { auth: false }) {
     secure.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem(
       constants.TOKEN.ACCESS_TOKEN
     )}`
-    secure.defaults.headers.common['Accept-Language'] = getCurrentLocale()
+    secure.defaults.headers.common["Accept-Language"] = getCurrentLocale()
     return secure
   } else {
-    insecure.defaults.headers.common['Accept-Language'] = getCurrentLocale()
+    insecure.defaults.headers.common["Accept-Language"] = getCurrentLocale()
     return insecure
   }
 }

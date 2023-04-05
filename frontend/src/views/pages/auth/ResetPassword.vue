@@ -1,19 +1,19 @@
 <script setup>
-import { inject, reactive, ref } from 'vue'
-import LangPlate from '@/layout/LangPlate.vue'
-import constants from '@/constants'
+import { inject, reactive, ref } from "vue"
+import LangPlate from "@/layout/LangPlate.vue"
+import constants from "@/constants"
 
 const username = reactive({
-  data: '',
+  data: "",
   validation: null
 })
 const usernameRef = ref(null)
-const $loading = inject('$loading')
+const $loading = inject("$loading")
 
 const onSubmitResetPassword = () => {
   username.validation = null
   if (!username.data) {
-    username.validation = 'page.login.message.validation.username-required'
+    username.validation = "page.login.message.validation.username-required"
     usernameRef.value.$el.focus()
   } else {
     const loader = $loading.show(constants.SETTINGS.LOADER)
@@ -51,7 +51,7 @@ const onSubmitResetPassword = () => {
             class="flex-2 flex align-items-center justify-content-center text-center text-900 text-2xl"
           >
             <span class="text-left hidden md:inline">{{
-              $t('page.reset-password.message.welcome')
+              $t("page.reset-password.message.welcome")
             }}</span>
           </div>
           <lang-plate class-layout="flex-1 flex align-items-center justify-content-end" />
@@ -62,7 +62,7 @@ const onSubmitResetPassword = () => {
             <div class="col-12">
               <div class="field">
                 <label class="text-lg" for="fg-username"
-                  >{{ $t('page.login.label.input-username') }}
+                  >{{ $t("page.login.label.input-username") }}
                   <span class="text-red-500">*</span></label
                 >
                 <span class="p-input-icon-left">

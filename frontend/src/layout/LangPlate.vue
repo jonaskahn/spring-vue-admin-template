@@ -2,11 +2,11 @@
 /**
  * This component wrote in Option API as intended
  */
-import { supportedLanguages } from '@/i18n'
-import { getCurrentLocale, switchLanguage } from '@/helper'
+import { supportedLanguages } from "@/i18n"
+import { getCurrentLocale, switchLanguage } from "@/helper"
 
 export default {
-  name: 'LangPlate',
+  name: "LangPlate",
   data() {
     return {
       selectedLocale: null,
@@ -18,7 +18,7 @@ export default {
       return supportedLanguages.find((lang) => lang.locale === this.selectedLocale).flag
     }
   },
-  props: ['classLayout'],
+  props: ["classLayout"],
   methods: {
     toggle(e) {
       this.$refs.menuLang.toggle(e)

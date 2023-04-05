@@ -1,6 +1,6 @@
 <script setup>
-import { getCurrentLocale, switchLanguage } from '@/helper'
-import { onBeforeMount } from 'vue'
+import { getCurrentLocale, switchLanguage } from "@/helper"
+import { onBeforeMount } from "vue"
 
 onBeforeMount(() => {
   switchLanguage(getCurrentLocale())

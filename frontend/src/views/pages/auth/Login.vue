@@ -1,30 +1,30 @@
 <script setup>
-import { computed, inject, onMounted, reactive, ref } from 'vue'
-import AuthService from '@/service/AuthService'
-import { useRouter } from 'vue-router'
-import LangPlate from '@/layout/LangPlate.vue'
-import constants from '@/constants'
-import { LocalStorageManager } from '@/helper'
-import Page from '@/constants/page'
+import { computed, inject, onMounted, reactive, ref } from "vue"
+import AuthService from "@/service/AuthService"
+import { useRouter } from "vue-router"
+import LangPlate from "@/layout/LangPlate.vue"
+import constants from "@/constants"
+import { LocalStorageManager } from "@/helper"
+import Page from "@/constants/page"
 
 const usernameRef = ref(null)
 const passwordRef = ref(null)
 const data = reactive({
-  username: '',
-  password: '',
+  username: "",
+  password: "",
   rememberMe: false
 })
 const validation = reactive({
   username: null,
   password: null
 })
-const showDefaultUserBox = computed(() => import.meta.env.VITE_SHOW_DEFAULT_USER === 'true')
+const showDefaultUserBox = computed(() => import.meta.env.VITE_SHOW_DEFAULT_USER === "true")
 const defaultUserBoxRef = ref(null)
 const expiredDialogVisible = ref(false)
 
 const authService = new AuthService()
 const router = useRouter()
-const $loading = inject('$loading')
+const $loading = inject("$loading")
 
 onMounted(() => {
   if (localStorage.getItem(constants.STORAGE.SIGNIN_STATE)) {
@@ -39,11 +39,11 @@ const permanentCloseExpiredSessionDialog = () => {
 
 const isInputInvalid = () => {
   if (!data.password) {
-    validation.password = 'page.login.message.validation.password-required'
+    validation.password = "page.login.message.validation.password-required"
     passwordRef.value.$el.focus()
   }
   if (!data.username) {
-    validation.username = 'page.login.message.validation.username-required'
+    validation.username = "page.login.message.validation.username-required"
     usernameRef.value.$el.focus()
   }
   return validation.username || validation.password
@@ -66,8 +66,8 @@ const doLogin = async () => {
           path: Page.APP.DASH_BOARD.path
         })
       } else {
-        validation.username = 'page.login.message.validation.username-incorrect'
-        validation.password = 'page.login.message.validation.password-incorrect'
+        validation.username = "page.login.message.validation.username-incorrect"
+        validation.password = "page.login.message.validation.password-incorrect"
         usernameRef.value.$el.focus()
       }
       loader.hide()
@@ -85,12 +85,12 @@ const openDefaultUserDialog = (event) => {
   defaultUserBoxRef.value.toggle(event)
 }
 const fillReservedUserAccount = (type) => {
-  if (type === 'admin') {
-    data.username = 'admin@localhost'
-    data.password = 'admin-password'
-  } else if (type === 'editor') {
-    data.username = 'editor@localhost'
-    data.password = 'editor-password'
+  if (type === "admin") {
+    data.username = "admin@localhost"
+    data.password = "admin-password"
+  } else if (type === "editor") {
+    data.username = "editor@localhost"
+    data.password = "editor-password"
   }
   doLogin()
 }
@@ -111,7 +111,7 @@ const fillReservedUserAccount = (type) => {
       @keyup.esc="expiredDialogVisible = false"
     >
       <p class="m-0">
-        {{ $t('page.login.message.expired-dialog.message') }}
+        {{ $t("page.login.message.expired-dialog.message") }}
       </p>
       <template #footer>
         <Button
@@ -140,9 +140,9 @@ const fillReservedUserAccount = (type) => {
           <div
             class="flex-1 flex align-items-center justify-content-start text-center text-900 text-2xl"
           >
-            <span class="text-left hidden md:inline">{{ $t('page.login.message.welcome') }}</span>
+            <span class="text-left hidden md:inline">{{ $t("page.login.message.welcome") }}</span>
             <span class="text-left inline md:hidden">{{
-              $t('page.login.message.welcome-short')
+              $t("page.login.message.welcome-short")
             }}</span>
           </div>
           <lang-plate class-layout="flex-1 flex align-items-center justify-content-end" />
@@ -153,7 +153,7 @@ const fillReservedUserAccount = (type) => {
             <div class="col-12">
               <div class="field">
                 <label class="text-lg" for="username"
-                  >{{ $t('page.login.label.input-username') }}
+                  >{{ $t("page.login.label.input-username") }}
                   <span class="text-red-500">*</span></label
                 >
                 <span class="p-input-icon-left">
@@ -176,7 +176,7 @@ const fillReservedUserAccount = (type) => {
             <div class="col-12">
               <div class="field">
                 <label class="text-lg" for="password"
-                  >{{ $t('page.login.label.input-password') }}
+                  >{{ $t("page.login.label.input-password") }}
                   <span class="text-red-500">*</span></label
                 >
                 <span class="p-input-icon-left">
@@ -206,7 +206,7 @@ const fillReservedUserAccount = (type) => {
                   class="remember-me text-lg my-0 py-0"
                   for="remember-me"
                   @click="data.rememberMe = !data.rememberMe"
-                  >{{ $t('page.login.label.input-remember-me') }}</label
+                  >{{ $t("page.login.label.input-remember-me") }}</label
                 >
               </div>
             </div>

@@ -1,11 +1,11 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import { useLayout } from '@/layout/composables/layout'
-import { useRouter } from 'vue-router'
-import AuthService from '@/service/AuthService'
-import Page from '@/constants/page'
-import { useConfirm } from 'primevue/useconfirm'
-import { isMobileDevice, translate } from '@/helper'
+import { computed, onBeforeUnmount, onMounted, ref } from "vue"
+import { useLayout } from "@/layout/composables/layout"
+import { useRouter } from "vue-router"
+import AuthService from "@/service/AuthService"
+import Page from "@/constants/page"
+import { useConfirm } from "primevue/useconfirm"
+import { isMobileDevice, translate } from "@/helper"
 
 const { onMenuToggle } = useLayout()
 
@@ -29,16 +29,16 @@ const onTopBarMenuButton = () => {
 }
 const onLogoutClick = async () => {
   confirm.require({
-    message: translate('global.confirmation.logout.message'),
-    header: translate('global.confirmation.default-title'),
-    icon: 'pi pi-exclamation-triangle',
-    group: 'confirmLogout',
-    position: isMobileDevice() ? 'center' : 'topright',
-    rejectLabel: translate('global.confirmation.logout.label.reject'),
-    rejectClass: 'p-button-primary',
-    acceptLabel: translate('global.confirmation.logout.label.accept'),
-    acceptClass: 'p-button-warning p-button-text',
-    defaultFocus: 'reject',
+    message: translate("global.confirmation.logout.message"),
+    header: translate("global.confirmation.default-title"),
+    icon: "pi pi-exclamation-triangle",
+    group: "confirmLogout",
+    position: isMobileDevice() ? "center" : "topright",
+    rejectLabel: translate("global.confirmation.logout.label.reject"),
+    rejectClass: "p-button-primary",
+    acceptLabel: translate("global.confirmation.logout.label.accept"),
+    acceptClass: "p-button-warning p-button-text",
+    defaultFocus: "reject",
     accept: async () => {
       await authService.logout()
       await router.push(Page.AUTH.LOGIN.path)
@@ -49,7 +49,7 @@ const onLogoutClick = async () => {
 
 const topbarMenuClasses = computed(() => {
   return {
-    'layout-topbar-menu-mobile-active': topbarMenuActive.value
+    "layout-topbar-menu-mobile-active": topbarMenuActive.value
   }
 })
 
@@ -60,20 +60,20 @@ const bindOutsideClickListener = () => {
         topbarMenuActive.value = false
       }
     }
-    document.addEventListener('click', outsideClickListener.value)
+    document.addEventListener("click", outsideClickListener.value)
   }
 }
 const unbindOutsideClickListener = () => {
   if (outsideClickListener.value) {
-    document.removeEventListener('click', outsideClickListener)
+    document.removeEventListener("click", outsideClickListener)
     outsideClickListener.value = null
   }
 }
 const isOutsideClicked = (event) => {
   if (!topbarMenuActive.value) return
 
-  const sidebarEl = document.querySelector('.layout-topbar-menu')
-  const topbarEl = document.querySelector('.layout-topbar-menu-button')
+  const sidebarEl = document.querySelector(".layout-topbar-menu")
+  const topbarEl = document.querySelector(".layout-topbar-menu-button")
 
   return !(
     sidebarEl.isSameNode(event.target) ||

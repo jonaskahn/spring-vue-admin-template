@@ -1,8 +1,8 @@
-import http, { ResponseType } from '@/common/http'
-import ToastHelper from '@/helper/toast'
-import router from '@/router'
-import Page from '@/constants/page'
-import logger from '@/common/logger'
+import http, { ResponseType } from "@/common/http"
+import ToastHelper from "@/helper/toast"
+import router from "@/router"
+import Page from "@/constants/page"
+import logger from "@/common/logger"
 
 export default class BaseService {
   static #showMessage(res) {
@@ -19,7 +19,7 @@ export default class BaseService {
         this.showErrorMessage(res.message)
         break
       case ResponseType.UNDEFINED:
-        this.showErrorMessage('service.default-message.unknown-error')
+        this.showErrorMessage("service.default-message.unknown-error")
         break
       default:
         break
@@ -40,8 +40,8 @@ export default class BaseService {
 
   async request(
     spec = {
-      url: '',
-      method: 'post',
+      url: "",
+      method: "post",
       data: {}
     },
     option = {

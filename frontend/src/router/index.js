@@ -1,10 +1,10 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import AppLayout from '@/layout/AppLayout.vue'
-import Page from '@/constants/page'
-import constants from '@/constants'
-import { LocalStorageManager, translate } from '@/helper'
-import { nextTick } from 'vue'
-import { containsAny } from '@/utils/arrays'
+import { createRouter, createWebHashHistory } from "vue-router"
+import AppLayout from "@/layout/AppLayout.vue"
+import Page from "@/constants/page"
+import constants from "@/constants"
+import { LocalStorageManager, translate } from "@/helper"
+import { nextTick } from "vue"
+import { containsAny } from "@/utils/arrays"
 
 const whiteListUrl = [
   Page.ACCESS.DENIED.name,
@@ -18,7 +18,7 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes: [
     {
-      path: '/',
+      path: "/",
       component: AppLayout,
       children: [
         {
@@ -28,7 +28,7 @@ const router = createRouter({
             title: Page.APP.DASH_BOARD.title,
             permissions: Page.APP.DASH_BOARD.permissions
           },
-          component: () => import('@/views/Dashboard.vue')
+          component: () => import("@/views/Dashboard.vue")
         },
         {
           path: Page.APP.PERMISSION.ADMIN.path,
@@ -37,7 +37,7 @@ const router = createRouter({
             title: Page.APP.PERMISSION.ADMIN.title,
             permissions: Page.APP.PERMISSION.ADMIN.permissions
           },
-          component: () => import('@/views/permission/Admin.vue')
+          component: () => import("@/views/permission/Admin.vue")
         },
         {
           path: Page.APP.PERMISSION.EDITOR.path,
@@ -46,7 +46,7 @@ const router = createRouter({
             title: Page.APP.PERMISSION.EDITOR.title,
             permissions: Page.APP.PERMISSION.EDITOR.permissions
           },
-          component: () => import('@/views/permission/Editor.vue')
+          component: () => import("@/views/permission/Editor.vue")
         }
       ]
     },
@@ -57,7 +57,7 @@ const router = createRouter({
         title: Page.AUTH.LOGIN.title,
         permissions: Page.AUTH.LOGIN.permissions
       },
-      component: () => import('@/views/pages/auth/Login.vue')
+      component: () => import("@/views/pages/auth/Login.vue")
     },
     {
       path: Page.AUTH.RESET_PASSWORD.path,
@@ -66,7 +66,7 @@ const router = createRouter({
         title: Page.AUTH.RESET_PASSWORD.title,
         permissions: Page.AUTH.RESET_PASSWORD.permissions
       },
-      component: () => import('@/views/pages/auth/ResetPassword.vue')
+      component: () => import("@/views/pages/auth/ResetPassword.vue")
     },
     {
       path: Page.AUTH.VERIFY.path,
@@ -75,7 +75,7 @@ const router = createRouter({
         title: Page.AUTH.VERIFY.title,
         permissions: Page.AUTH.VERIFY.permissions
       },
-      component: () => import('@/views/pages/auth/VerifyAccount.vue')
+      component: () => import("@/views/pages/auth/VerifyAccount.vue")
     },
     {
       path: Page.ACCESS.NOT_FOUND.path,
@@ -84,12 +84,12 @@ const router = createRouter({
         title: Page.ACCESS.NOT_FOUND.title,
         permissions: Page.ACCESS.NOT_FOUND.permissions
       },
-      component: () => import('@/views/pages/NotFound.vue')
+      component: () => import("@/views/pages/NotFound.vue")
     },
     {
       path: Page.ACCESS.DENIED.path,
       name: Page.ACCESS.DENIED.name,
-      component: () => import('@/views/pages/Access.vue')
+      component: () => import("@/views/pages/Access.vue")
     },
     {
       path: Page.ACCESS.ERROR.path,
@@ -98,7 +98,7 @@ const router = createRouter({
         title: Page.ACCESS.ERROR.title,
         permissions: Page.ACCESS.ERROR.permissions
       },
-      component: () => import('@/views/pages/Error.vue')
+      component: () => import("@/views/pages/Error.vue")
     }
   ]
 })
@@ -160,8 +160,8 @@ function hasPermission(permissions) {
 
 router.afterEach(async (to) => {
   await nextTick(() => {
-    const pageTitle = translate(to.meta.title ?? to.name.toUpperCase() + '')
-    document.title = translate('global.menu-title.default') + ' - ' + pageTitle
+    const pageTitle = translate(to.meta.title ?? to.name.toUpperCase() + "")
+    document.title = translate("global.menu-title.default") + " - " + pageTitle
   })
 })
 

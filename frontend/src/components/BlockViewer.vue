@@ -1,5 +1,5 @@
 <script>
-import CodeHighlight from './CodeHighlight.vue'
+import CodeHighlight from "./CodeHighlight.vue"
 
 export default {
   props: {
@@ -170,7 +170,7 @@ export default {
   overflow: hidden;
 }
 
-pre[class*='language-'] {
+pre[class*="language-"] {
   margin: 0 !important;
 
   &:before,

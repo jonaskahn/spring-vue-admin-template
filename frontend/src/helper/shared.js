@@ -1,6 +1,6 @@
-import { app } from '@/main'
-import constants from '@/constants'
-import { getCurrentLocale, switchLanguage } from '@/helper/locale'
+import { app } from "@/main"
+import constants from "@/constants"
+import { getCurrentLocale, switchLanguage } from "@/helper/locale"
 
 export function isMobileDevice() {
   return app.config.globalProperties.$isMobile()
@@ -14,7 +14,7 @@ export class LocalStorageManager {
   }
 
   static updateSigninState() {
-    localStorage.setItem(constants.STORAGE.SIGNIN_STATE, 'INVOKED')
+    localStorage.setItem(constants.STORAGE.SIGNIN_STATE, "INVOKED")
   }
 
   static clearSigninState() {
@@ -29,6 +29,6 @@ export class LocalStorageManager {
 
   static getTokenAuthorities() {
     const rawData = localStorage.getItem(constants.TOKEN.AUTHORITIES)
-    return rawData ? rawData.split(',') : []
+    return rawData ? rawData.split(",") : []
   }
 }

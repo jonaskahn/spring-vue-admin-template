@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'editor-sample'
+  name: "editor-sample"
 }
 </script>
 

@@ -1,14 +1,14 @@
-import { LocalStorageManager } from '@/helper'
-import jwt_decode from 'jwt-decode'
-import BaseService from '@/service/BaseService'
-import api from '@/constants/api'
+import { LocalStorageManager } from "@/helper"
+import jwt_decode from "jwt-decode"
+import BaseService from "@/service/BaseService"
+import api from "@/constants/api"
 
 export default class AuthService extends BaseService {
   async login(params) {
     const res = await this.request(
       {
         url: api.AUTH.TOKEN_REQUEST,
-        method: 'post',
+        method: "post",
         data: params
       },
       {
@@ -25,7 +25,7 @@ export default class AuthService extends BaseService {
   #updateAccessTokenInfo(data) {
     const token = data.accessToken
     const expiration = data.accessTokenExpiredAt
-    const authorities = jwt_decode(data.accessToken)['x-authority']
+    const authorities = jwt_decode(data.accessToken)["x-authority"]
     LocalStorageManager.updateTokenInfo(token, expiration, authorities)
     LocalStorageManager.updateSigninState()
   }
@@ -33,7 +33,7 @@ export default class AuthService extends BaseService {
   async logout() {
     await this.request({
       url: api.AUTH.TOKEN_REVOKE,
-      method: 'delete'
+      method: "delete"
     })
     LocalStorageManager.reset()
     return Promise.resolve()
